@@ -4,6 +4,7 @@ import { MobileMenu } from "./MobileMenu";
 import logo from "../../assets/images/logo.png";
 import DPButton from "../../component/DPButton";
 import { Link } from "react-scroll";
+import { useNavigate } from "react-router-dom";
 export default function Header({
   scroll,
   isMobileMenu,
@@ -12,6 +13,8 @@ export default function Header({
   handlePopup,
   handleSidebar,
 }) {
+  const navigate = useNavigate();
+
   return (
     <>
       {/* <header className="main-header header-style-three"> */}
@@ -48,7 +51,11 @@ export default function Header({
                   </div>
                 </nav>
                 <div className="menu-right-content ml_70">
-                  <Link to="contact-us" smooth={true} duration={500}>
+                  <Link
+                    onClick={() => navigate("/auth/login")}
+                    smooth={true}
+                    duration={500}
+                  >
                     <DPButton title="Login" />{" "}
                   </Link>
                 </div>
@@ -78,7 +85,11 @@ export default function Header({
                   </div>
                 </nav>
                 <div className="menu-right-content ml_70">
-                  <Link to="contact-us" smooth={true} duration={100}>
+                  <Link
+                    onClick={() => navigate("/auth/login")}
+                    smooth={true}
+                    duration={100}
+                  >
                     <DPButton title="Login" />{" "}
                   </Link>
                 </div>
