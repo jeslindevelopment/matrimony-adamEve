@@ -10,6 +10,7 @@ const { convertPhone } = require('../../helpers/index')
 const qs = require('qs')
 const axios = require('axios');
 const mongoose = require('mongoose');
+const EmailModule = require('./emailController');
 
 module.exports = {
     validate: () => {
@@ -19,30 +20,6 @@ module.exports = {
             check('password', 'State name is required').not().isEmpty(),
             check('phone', 'Phone is required').not().isEmpty()
         ]
-    },
-    config: async (req, res) => {
-        let respObj = {};
-        let drespobj;
-        if (req.body.key) {
-            if (typeof req.body.key == 'string') {
-                respObj = { [req.body.key]: config[req.body.key] }
-            } else {
-                req.body.key.forEach(e => {
-                    respObj[e] = config[e]
-                })
-            }
-            if (req.body.key.includes("midtrans")) {
-                delete respObj.midtrans.SERVER_KEY
-                delete respObj.midtrans.isProduction
-            }
-            drespobj = CryptoJS.AES.encrypt(JSON.stringify(respObj), "formulir2021").toString();
-        } else {
-            drespobj = CryptoJS.AES.encrypt(JSON.stringify(config), "formulir2021").toString();
-        }
-        return res.json({
-            success: true,
-            data: drespobj
-        })
     },
     logout: async (req, res) => {
         let userId = res.locals.auth.parentId ? res.locals.auth.parentId : res.locals.auth.id
@@ -390,15 +367,56 @@ module.exports = {
         try {
             var password = bcrypt.hashSync(req.body.password, 10)
             var params = {
+                password,
+                firstname: req.body.firstname,
+                surname: req.body.surname,
+                dob: req.body.dob,
+                gender: req.body.gender,
+                maritalStatus: req.body.maritalStatus,
+                unmarriedReason: req.body.unmarriedReason,
                 phone: req.body.phone,
-                name: req.body.name,
-                email: req.body.email,
-                emails: [req.body.email],
-                password: password,
-                monthly_volume: req.body.monthly_volume,
-                is_active: true,
-                username: req.body.username,
-                isFormulirUser: true
+                otp: req.body.otp,
+                status: req.body.status,
+                denomination: req.body.denomination,
+                city: req.body.city,
+                state: req.body.state,
+                country: req.body.country,
+                pincode: req.body.pincode,
+                height: req.body.height,
+                weight: req.body.weight,
+                bodyType: req.body.bodyType,
+                complexion: req.body.complexion,
+                eatingHabits: req.body.eatingHabits,
+                drink: req.body.drink,
+                smoke: req.body.smoke,
+                education: req.body.education,
+                specialization: req.body.specialization,
+                bloodGroup: req.body.bloodGroup,
+                jobLocation: req.body.jobLocation,
+                annualIncome: req.body.annualIncome,
+                designation: req.body.designation,
+                motherTongue: req.body.motherTongue,
+                language: req.body.language,
+                disability: req.body.disability,
+                preferredProfilesState: req.body.preferredProfilesState,
+
+                fatherName: req.body.fatherName,
+                fatherOccupation: req.body.fatherOccupation,
+                motherName: req.body.motherName,
+                motherOccupation: req.body.motherOccupation,
+                numberOfBrother: req.body.numberOfBrother,
+                numberOfSister: req.body.numberOfSister,
+                parentContact: req.body.parentContact,
+
+                churchName: req.body.churchName,
+                churchPriest: req.body.churchPriest,
+                pastorsContact: req.body.pastorsContact,
+                churchAddress: req.body.churchAddress,
+                yearOfBaptism: req.body.yearOfBaptism,
+                ministry: req.body.ministry,
+
+                selfDescription: req.body.selfDescription,
+                partnersExpectations: req.body.partnersExpectations
             }
             const errors = validationResult(req).array({ onlyFirstError: true })
             if (errors.length != 0) {
@@ -407,34 +425,21 @@ module.exports = {
                     errors
                 })
             }
-            User.get({ email: new RegExp(["^", req.body.email, "$"].join(""), "i") }).then(res_valid => {
+            User.get({ phone: req.body.phone }).then(res_valid => {
                 if (res_valid.length != 0) {
                     return res.status(400).json({
                         success: false,
                         errors: [{
-                            "msg": "Email is already exist",
-                            "param": "email"
+                            "msg": "Number already exist",
+                            "param": "Number"
                         }]
                     })
                 }
             })
-            User.get({ username: req.body.username }).then(res_valid => {
-                if (res_valid.length != 0) {
-                    return res.status(400).json({
-                        success: false,
-                        errors: [{
-                            "msg": "Username is already exist",
-                            "param": "username"
-                        }]
-                    })
-                }
-            })
-            // let username = await UserController.getUserName(params.name, 0)
-            // params.username = username
             User.add(params).then(async (result) => {
                 var token = jwt.sign({
                     userId: result._id,
-                    email: result.email,
+                    phone: result.phone,
                     role: result.role
                 }, config.jwtKey)
 
