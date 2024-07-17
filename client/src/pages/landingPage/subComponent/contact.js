@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import DPButton from "../../../component/DPButton";
+import AEButton from "../../../component/AEButton";
 // import toast from "react-hot-toast";
 // import axios from "axios";
 
@@ -219,7 +219,7 @@ const Contact = () => {
                       ></textarea>
                     </div>
                     <div className="col-lg-12 col-md-12 col-sm-12 form-group message-btn centred">
-                      <DPButton title="Send Message" isLoader={isLoader} />{" "}
+                      <AEButton title="Send Message" isLoader={isLoader} />{" "}
                     </div>
                   </div>
                 </form>

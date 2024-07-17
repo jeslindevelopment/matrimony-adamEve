@@ -2,9 +2,9 @@ import React from "react";
 import Menu from "./Menu";
 import { MobileMenu } from "./MobileMenu";
 import logo from "../../assets/images/logo.png";
-import DPButton from "../../component/DPButton";
 import { Link } from "react-scroll";
 import { useNavigate } from "react-router-dom";
+import AEButton from "../../component/AEButton";
 export default function Header({
   scroll,
   isMobileMenu,
@@ -56,7 +56,7 @@ export default function Header({
                     smooth={true}
                     duration={500}
                   >
-                    <DPButton title="Login" />{" "}
+                    <AEButton title="Login" />{" "}
                   </Link>
                 </div>
               </div>
@@ -90,7 +90,7 @@ export default function Header({
                     smooth={true}
                     duration={100}
                   >
-                    <DPButton title="Login" />{" "}
+                    <AEButton title="Login" />{" "}
                   </Link>
                 </div>
               </div>

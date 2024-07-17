@@ -10,9 +10,12 @@ export default function AuthLayout() {
         style={{
           //   background: "#b99a45",
           backgroundImage:
-            "url(https://www.southernliving.com/thmb/_DTHAquZBLEHKLIgPi_C3fFIhNo=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/GettyImages-929904308-aeeb687413714dacace50062cece530a.jpg)",
+            "url(https://www.betterup.com/hs-fs/hubfs/husband-and-wife-newly-weds-taking-hands.jpg?width=800&height=551&name=husband-and-wife-newly-weds-taking-hands.jpg)",
           backgroundSize: "cover",
           minHeight: "100vh",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
         }}
       >
         <section class="ftco-section">

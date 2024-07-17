@@ -1,14 +1,15 @@
 import React from "react";
 import { FaSpinner } from "react-icons/fa";
 
-export default function DPButton(props) {
-  const { title, isLoader } = props;
+export default function AEButton(props) {
+  const { title, isLoader, fullWidth } = props;
   return (
     <button
-      className="theme-btn btn-one"
+      className="theme-btn btn-one block"
       style={{
         fontSize: 15,
         fontWeight: 400,
+        width: fullWidth ? "100%" : "",
         borderRadius: 20,
         padding: "10px 25px 10px 25px",
       }}

@@ -1,7 +1,9 @@
 import { Link } from "react-scroll";
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 export const MobileMenu = ({ isSidebar, handleMobileMenu, handleSidebar }) => {
+  const navigate = useNavigate();
   return (
     <>
       <div className="mobile-menu">
@@ -23,6 +25,15 @@ export const MobileMenu = ({ isSidebar, handleMobileMenu, handleSidebar }) => {
               id="navbarSupportedContent"
             >
               <ul className="navigation clearfix">
+                <li>
+                  <Link
+                    smooth={true}
+                    duration={500}
+                    onClick={() => navigate("/auth/login")}
+                  >
+                    Login
+                  </Link>
+                </li>
                 <li>
                   <Link to="/" smooth={true} duration={500}>
                     <button
@@ -98,11 +109,11 @@ export const MobileMenu = ({ isSidebar, handleMobileMenu, handleSidebar }) => {
               </li>
               <li>
                 <Link href="mailto:developerspoint72@gmail.com">
-                  developerspoint72@gmail.com
+                  xyz@gmail.com
                 </Link>
               </li>
               <li>
-                <Link to="tel:8821988211">+(91) 88219-88211</Link>
+                <Link to="tel:8821988211">+(91) 11111111111</Link>
               </li>
             </ul>
           </div>
@@ -112,7 +123,7 @@ export const MobileMenu = ({ isSidebar, handleMobileMenu, handleSidebar }) => {
             <ul className="clearfix">
               <li>
                 <a
-                  href="https://www.facebook.com/profile.php?id=61558413507776"
+                  // href="https://www.facebook.com/profile.php?id=61558413507776"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
@@ -121,7 +132,7 @@ export const MobileMenu = ({ isSidebar, handleMobileMenu, handleSidebar }) => {
               </li>
               <li>
                 <a
-                  href="https://www.instagram.com/developers_point_barwani/"
+                  // href="https://www.instagram.com/developers_point_barwani/"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
@@ -130,7 +141,7 @@ export const MobileMenu = ({ isSidebar, handleMobileMenu, handleSidebar }) => {
               </li>
               <li>
                 <a
-                  href="https://www.linkedin.com/company/developer-spoint/"
+                  // href="https://www.linkedin.com/company/developer-spoint/"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
