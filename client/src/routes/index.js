@@ -5,6 +5,8 @@ import AuthLayout from "../layout/authLayout";
 import Login from "../pages/auth/login";
 import ForgotPass from "../pages/auth/forgot";
 import Register from "../pages/auth/register";
+import LandingPageLayout from "../layout/landingPage/landingPageLayout";
+import ProfileSetting from "../pages/profileSetting";
 // import Login from "../pages/auth/login";
 // import secureLocalStorage from "react-secure-storage";
 export default function Router() {
@@ -15,8 +17,13 @@ export default function Router() {
   const routes = useRoutes([
     {
       path: "/",
-      element: <LandingPage />,
-      // children: [{ element: <Navigate to="/dashboard/app" />, index: true }],
+      element: <LandingPageLayout />,
+
+      children: [
+        { path: "/", element: <LandingPage /> },
+        { path: "/profile-setting", element: <ProfileSetting /> },
+
+      ],
     },
     {
       path: "/auth",
@@ -26,7 +33,6 @@ export default function Router() {
         { path: "forgotPassword", element: <ForgotPass /> },
         { path: "register", element: <Register /> },
 
-        
         // {
         //   path: "privacyPolicy",
         //   element: <PrivacyPolicy />,

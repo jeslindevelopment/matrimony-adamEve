@@ -2,11 +2,13 @@ import React from "react";
 import { FaSpinner } from "react-icons/fa";
 
 export default function AEButton(props) {
-  const { title, isLoader, fullWidth } = props;
+  const { title, isLoader, fullWidth, onClick,style } = props;
   return (
     <button
       className="theme-btn btn-one block"
+      onClick={onClick}
       style={{
+        ...style,
         fontSize: 15,
         fontWeight: 400,
         width: fullWidth ? "100%" : "",

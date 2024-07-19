@@ -8,8 +8,8 @@ export default function AESelect({ placeholder, options,value }) {
       </option>
       {options?.map((item, i) => {
         return (
-          <option selected={item?.id == value} value={item?.id}>
-            {item?.label}
+          <option selected={item == value} value={item} key={i}>
+            {item}
           </option>
         );
       })}

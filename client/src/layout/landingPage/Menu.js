@@ -33,6 +33,7 @@ export default function Menu() {
             Why Us
           </Link>
         </li>
+        
         <li>
           <Link
             to="about"
@@ -63,6 +64,7 @@ export default function Menu() {
             Contact Us
           </Link>
         </li>
+       
       </ul>
     </>
   );

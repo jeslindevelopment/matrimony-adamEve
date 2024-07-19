@@ -1,14 +1,21 @@
-import React from "react";
+import React, { useState } from "react";
 import AEButton from "../../../component/AEButton";
 import { Link } from "react-router-dom";
 import { color } from "../../../assets/css/color/color";
 import AEInput from "../../../component/AEInput";
 import AESelect from "../../../component/AESelect";
-import { DENOMINATION_TYPES, GENDER_TYPE, MARITAL_STATUS } from "../../../constant";
+import {
+  DENOMINATION_TYPES,
+  GENDER_TYPE,
+  MARITAL_STATUS,
+} from "../../../constant";
+import Plans from "../plan";
 
 export default function Register() {
+  const [showPlan, setShowPlan] = useState(false);
   return (
     <>
+    {!showPlan ? 
       <div className=" col-md-12 col-lg-12 d-flex justify-content-center">
         <div className="wrap login-wrap p-4">
           <div className="d-flex pt-4">
@@ -28,13 +35,25 @@ export default function Register() {
                 <AEInput type="date" />
               </div>
               <div className="col-sm-12">
-                <AESelect placeholder="Gender" options={GENDER_TYPE} value={''} />
+                <AESelect
+                  placeholder="Gender"
+                  options={GENDER_TYPE}
+                  value={""}
+                />
               </div>
               <div className="col-sm-12 mt-3">
-                <AESelect placeholder="Marital Status" options={MARITAL_STATUS} value={''} />
+                <AESelect
+                  placeholder="Marital Status"
+                  options={MARITAL_STATUS}
+                  value={""}
+                />
               </div>
               <div className="col-sm-12 mt-3">
-                <AESelect placeholder="Denomination" options={DENOMINATION_TYPES} value={''} />
+                <AESelect
+                  placeholder="Denomination"
+                  options={DENOMINATION_TYPES}
+                  value={""}
+                />
               </div>
               <div className="col-lg-12 mt-3">
                 <AEInput placeholder="Phone Number" maxLength={10} />
@@ -47,6 +66,7 @@ export default function Register() {
                 <AEButton
                   fullWidth
                   title="Submit "
+                  onClick={()=>setShowPlan(true)}
                   //  isLoader={isLoader}
                 />
               </div>
@@ -60,7 +80,8 @@ export default function Register() {
             </Link>
           </p>
         </div>
-      </div>
+      </div>:
+      <Plans />}
     </>
   );
 }
