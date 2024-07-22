@@ -13,13 +13,14 @@ export default function AuthLayout() {
             "url(https://www.betterup.com/hs-fs/hubfs/husband-and-wife-newly-weds-taking-hands.jpg?width=800&height=551&name=husband-and-wife-newly-weds-taking-hands.jpg)",
           backgroundSize: "cover",
           minHeight: "100vh",
+          maxHeight:'auto',
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
         }}
       >
-        <section class="ftco-section">
-          <div class="container">
+        <section class="">
+          <div class=" auto-container">
             <div class="row justify-content-center">
               <div class="col-md-6 text-center mb-5">
                 <h2 class="heading-section">
@@ -27,7 +28,7 @@ export default function AuthLayout() {
                 </h2>
               </div>
             </div>
-            <div class="row d-flex  justify-content-center">
+            <div class=" d-flex  justify-content-center">
               <Outlet />
             </div>
           </div>

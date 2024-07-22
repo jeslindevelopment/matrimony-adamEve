@@ -10,7 +10,7 @@ export default function AEButton(props) {
       style={{
         ...style,
         fontSize: 15,
-        fontWeight: 400,
+        fontWeight: 600,
         width: fullWidth ? "100%" : "",
         borderRadius: 20,
         padding: "10px 25px 10px 25px",

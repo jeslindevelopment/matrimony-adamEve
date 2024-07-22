@@ -1,73 +1,75 @@
-import React, { useEffect, useRef } from "react";
-import "./index.css";
+import { Step, Stepper } from "react-form-stepper";
+import { color } from "../../assets/css/color/color";
+import { useState } from "react";
+import { UserContext } from "../../component/userContext";
+import BasicInfo from "./subComponent/basicInfo";
+import PersonalInfo from "./subComponent/personalInfo";
+import FamilyInfo from "./subComponent/familyInfo";
+import ChurchInfo from "./subComponent/churchInfo";
+import Details from "./subComponent/details";
+
 const ProfileSetting = () => {
+  const [activeStep, setActiveStep] = useState(0);
+  const [formData, setFormData] = useState({});
+  const handleStepper = () => {
+    if (activeStep === 0) {
+      return <BasicInfo />;
+    }
+    if (activeStep === 1) {
+      return <PersonalInfo />;
+    }
+    if (activeStep === 2) {
+      return <FamilyInfo />;
+    }
+    if (activeStep === 3) {
+      return <ChurchInfo />;
+    }
+    if (activeStep === 4) {
+      return <Details />;
+    }
+  };
+  const handleNext = () => setActiveStep(activeStep + 1);
+  const handlePrevious = () => setActiveStep(activeStep - 1);
+
   return (
-    <div class="row">
-      <div class="col-md-6 col-md-offset-3">
-        <form id="msform">
-          <ul id="progressbar">
-            <li class="active">Personal Details</li>
-            <li>Social Profiles</li>
-            <li>Account Setup</li>
-          </ul>
-          <fieldset>
-            <h2 class="fs-title">Personal Details</h2>
-            <h3 class="fs-subtitle">Tell us something more about you</h3>
-            <input type="text" name="fname" placeholder="First Name" />
-            <input type="text" name="lname" placeholder="Last Name" />
-            <input type="text" name="phone" placeholder="Phone" />
-            <input
-              type="button"
-              name="next"
-              class="next action-button"
-              value="Next"
-            />
-          </fieldset>
-          <fieldset>
-            <h2 class="fs-title">Social Profiles</h2>
-            <h3 class="fs-subtitle">Your presence on the social network</h3>
-            <input type="text" name="twitter" placeholder="Twitter" />
-            <input type="text" name="facebook" placeholder="Facebook" />
-            <input type="text" name="gplus" placeholder="Google Plus" />
-            <input
-              type="button"
-              name="previous"
-              class="previous action-button-previous"
-              value="Previous"
-            />
-            <input
-              type="button"
-              name="next"
-              class="next action-button"
-              value="Next"
-            />
-          </fieldset>
-          <fieldset>
-            <h2 class="fs-title">Create your account</h2>
-            <h3 class="fs-subtitle">Fill in your credentials</h3>
-            <input type="text" name="email" placeholder="Email" />
-            <input type="password" name="pass" placeholder="Password" />
-            <input
-              type="password"
-              name="cpass"
-              placeholder="Confirm Password"
-            />
-            <input
-              type="button"
-              name="previous"
-              class="previous action-button-previous"
-              value="Previous"
-            />
-            <input
-              type="submit"
-              name="submit"
-              class="submit action-button"
-              value="Submit"
-            />
-          </fieldset>
-        </form>
+    <section
+      className="py-4 "
+      style={{ background:  color.formBG, minHeight: "88vh" }}
+    >
+      <div
+        className="auto-container bg-white rounded-4"
+        // style={{ backgroundColor: color.modalBG }}
+      >
+        <Stepper
+          activeStep={activeStep}
+          connectorStateColors={true}
+          connectorStyleConfig={{
+            completedColor: color.hightLightColor,
+            activeColor: color.hightLightColor,
+            disabledColor: "#b99a4570",
+          }}
+          styleConfig={{
+            activeBgColor: color.hightLightColor,
+            completedBgColor: color.hightLightColor,
+            inactiveBgColor: "#b99a4570",
+            activeTextColor: "white",
+            completedTextColor: "white",
+            inactiveTextColor: "white",
+          }}
+        >
+          <Step label={<div className="fs-6 fw-bold">Basic Info</div>} />
+          <Step label={<div className="fs-6 fw-bold">Personal Info</div>} />
+          <Step label={<div className="fs-6 fw-bold">Family Info</div>} />
+          <Step label={<div className="fs-6 fw-bold">Church Info</div>} />
+          <Step label={<div className="fs-6 fw-bold">Details</div>} />
+        </Stepper>
+        <UserContext.Provider
+          value={{ setFormData, formData, handleNext, handlePrevious }}
+        >
+          <div className="p-lg-4">{handleStepper()}</div>
+        </UserContext.Provider>
       </div>
-    </div>
+    </section>
   );
 };
 

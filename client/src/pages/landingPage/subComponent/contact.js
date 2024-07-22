@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import AEButton from "../../../component/AEButton";
+import { color } from "../../../assets/css/color/color";
 // import toast from "react-hot-toast";
 // import axios from "axios";
 
@@ -85,7 +86,7 @@ const Contact = () => {
                 data-wow-delay="00ms"
                 data-wow-duration="1500ms"
               >
-                <div className="inner-box">
+                <div className="inner-box" style={{ background: color.formBG }}>
                   <div className="icon-box">
                     <i className="icon-2"></i>
                   </div>
@@ -100,7 +101,7 @@ const Contact = () => {
                 data-wow-delay="300ms"
                 data-wow-duration="1500ms"
               >
-                <div className="inner-box">
+                <div className="inner-box" style={{ background: color.formBG }}>
                   <div className="icon-box">
                     <i className="icon-43"></i>
                   </div>
@@ -121,7 +122,7 @@ const Contact = () => {
                 data-wow-delay="600ms"
                 data-wow-duration="1500ms"
               >
-                <div className="inner-box">
+                <div className="inner-box" style={{ background: color.formBG }}>
                   <div className="icon-box">
                     <i className="icon-44"></i>
                   </div>
@@ -155,7 +156,10 @@ const Contact = () => {
           </section>
         </div>
         <div className="col-lg-6 col-md-6 col-sm-12">
-          <section className="contact-section pt_50 pb-3  wow fadeInRightBig animated">
+          <section
+            className="contact-section pt_50 pb-3  wow fadeInRightBig animated"
+            style={{ background: color.formBG }}
+          >
             {/* <h3 style={{ textAlign: "center", marginBottom: "30px" }}> */}
             <div
               className="sec-title"

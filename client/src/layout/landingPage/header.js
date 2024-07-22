@@ -6,7 +6,6 @@ import { Link } from "react-scroll";
 import { useNavigate } from "react-router-dom";
 import AEButton from "../../component/AEButton";
 import ProfilePopover from "./profilePopover";
-import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import AEInput from "../../component/AEInput";
 import { color } from "../../assets/css/color/color";
@@ -68,7 +67,11 @@ export default function Header({
                   >
                     <AEButton title="Login" />{" "}
                   </Link>
-                  <ProfilePopover onChangePasswordClick={handleShow} onLogoutClick={()=>setShowLogoutDialog(true)} />
+                  &nbsp;&nbsp; &nbsp;
+                  <ProfilePopover
+                    onChangePasswordClick={handleShow}
+                    onLogoutClick={() => setShowLogoutDialog(true)}
+                  />
                 </div>
               </div>
             </div>
@@ -102,8 +105,12 @@ export default function Header({
                     duration={100}
                   >
                     <AEButton title="Login" />{" "}
-                  </Link>
-                  <ProfilePopover onChangePasswordClick={handleShow} onLogoutClick={()=>setShowLogoutDialog(true)} />
+                  </Link>                  &nbsp;&nbsp; &nbsp;
+
+                  <ProfilePopover
+                    onChangePasswordClick={handleShow}
+                    onLogoutClick={() => setShowLogoutDialog(true)}
+                  />
                 </div>
               </div>
             </div>

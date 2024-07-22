@@ -9,14 +9,11 @@ import {
   GENDER_TYPE,
   MARITAL_STATUS,
 } from "../../../constant";
-import Plans from "../plan";
 
 export default function Register() {
-  const [showPlan, setShowPlan] = useState(false);
   return (
     <>
-    {!showPlan ? 
-      <div className=" col-md-12 col-lg-12 d-flex justify-content-center">
+      <div className="col-12 d-flex justify-content-center">
         <div className="wrap login-wrap p-4">
           <div className="d-flex pt-4">
             <div className="w-100">
@@ -41,21 +38,21 @@ export default function Register() {
                   value={""}
                 />
               </div>
-              <div className="col-sm-12 mt-3">
+              <div className="col-sm-12  ">
                 <AESelect
                   placeholder="Marital Status"
                   options={MARITAL_STATUS}
                   value={""}
                 />
               </div>
-              <div className="col-sm-12 mt-3">
+              <div className="col-sm-12  ">
                 <AESelect
                   placeholder="Denomination"
                   options={DENOMINATION_TYPES}
                   value={""}
                 />
               </div>
-              <div className="col-lg-12 mt-3">
+              <div className="col-lg-12  ">
                 <AEInput placeholder="Phone Number" maxLength={10} />
               </div>
               <div className="col-lg-12">
@@ -66,7 +63,6 @@ export default function Register() {
                 <AEButton
                   fullWidth
                   title="Submit "
-                  onClick={()=>setShowPlan(true)}
                   //  isLoader={isLoader}
                 />
               </div>
@@ -80,8 +76,8 @@ export default function Register() {
             </Link>
           </p>
         </div>
-      </div>:
-      <Plans />}
+      </div>
+      :
     </>
   );
 }

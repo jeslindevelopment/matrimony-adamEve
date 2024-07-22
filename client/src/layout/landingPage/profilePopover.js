@@ -1,7 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-export default function ProfilePopover({ onChangePasswordClick,onLogoutClick }) {
+export default function ProfilePopover({
+  onChangePasswordClick,
+  onLogoutClick,
+}) {
   return (
     <nav className="main-menu clearfix">
       <div
@@ -11,11 +14,11 @@ export default function ProfilePopover({ onChangePasswordClick,onLogoutClick }) 
         <ul className="navigation clearfix">
           <li className="dropdown">
             <img
-              src="https://gratisography.com/wp-content/uploads/2024/01/gratisography-cyber-kitty-800x525.jpg"
+              src="https://wallpapers.com/images/hd/cool-profile-pictures-hoodie-cat-6dkl56hixhnq590g.jpg"
               alt=""
-              style={{ borderRadius: 500 }}
+              style={{ borderRadius: 50 }}
               height={60}
-              width={80}
+              width={60}
             />
             <ul>
               <li>

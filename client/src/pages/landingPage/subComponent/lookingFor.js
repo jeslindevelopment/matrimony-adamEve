@@ -1,4 +1,5 @@
 import React from "react";
+import { color } from "../../../assets/css/color/color";
 
 export default function LookingFor() {
   return (
@@ -56,7 +57,7 @@ export default function LookingFor() {
     //     </div>
     //   </div>
     // </section>
-    <section className="about-style-two pt_80 pb_30" style={{background:'#b99a4570'}}>
+    <section className="about-style-two pt_80 pb_30" style={{background:color.formBG}}>
      
       <div
         className="wow fadeInRightBig animated"

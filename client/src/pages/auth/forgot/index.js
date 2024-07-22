@@ -6,7 +6,7 @@ import AEInput from "../../../component/AEInput";
 
 export default function ForgotPass() {
   return (
-    <div className=" col-md-12 col-lg-10 d-flex justify-content-center">
+    <div className=" col-md-12 col-lg-10 d-flex justify-content-center" >
       <div className="wrap login-wrap p-4">
         <div className="d-flex pt-4">
           <div className="w-100">
