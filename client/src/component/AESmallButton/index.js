@@ -1,7 +1,7 @@
 import React from "react";
 import { FaSpinner } from "react-icons/fa";
 
-export default function AEButton(props) {
+export default function AESmallButton(props) {
   const { title, isLoader, fullWidth, onClick, style,height } = props;
   return (
     <button
@@ -9,12 +9,15 @@ export default function AEButton(props) {
       onClick={onClick}
       style={{
         ...style,
-        fontSize: 15,
-        fontWeight: 600,
+        fontSize: 12,
+        fontWeight: 400,
         width: fullWidth ? "100%" : "",
-        height: height ? height : "",
+        height: height ? height : "10px",
+        display:'flex',
+        justifyContent:'center',
+        alignItems:'center',
         borderRadius: 20,
-        padding: "10px 25px 10px 25px",
+        // padding: "10px 25px 10px 25px",
       }}
       disabled={isLoader}
     >

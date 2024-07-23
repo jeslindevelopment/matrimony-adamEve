@@ -7,6 +7,7 @@ import ForgotPass from "../pages/auth/forgot";
 import Register from "../pages/auth/register";
 import LandingPageLayout from "../layout/landingPage/landingPageLayout";
 import ProfileSetting from "../pages/profileSetting";
+import ProfileListing from "../pages/profileListing";
 // import Login from "../pages/auth/login";
 // import secureLocalStorage from "react-secure-storage";
 export default function Router() {
@@ -22,7 +23,7 @@ export default function Router() {
       children: [
         { path: "/", element: <LandingPage /> },
         { path: "/profile-setting", element: <ProfileSetting /> },
-
+        { path: "/profile-listings", element: <ProfileListing /> },
       ],
     },
     {
