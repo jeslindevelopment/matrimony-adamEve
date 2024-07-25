@@ -43,13 +43,13 @@ module.exports = {
         })
     },
     signin: (req, res) => {
-        if (req.body.email == '' || req.body.password == '') {
+        if (req.body.phone == '' || req.body.password == '') {
             return res.status(500).json({
                 success: false,
-                message: 'Email or Password is not correct. Please try again'
+                message: 'Phone No. or Password is not correct. Please try again'
             })
         }
-        User.get({ email: new RegExp(["^", req.body.email, "$"].join(""), "i") }, {
+        User.get({ phone: new RegExp(["^", req.body.phone, "$"].join(""), "i") }, {
             'name': 1,
             'parentId': 1,
             'username': 1,
@@ -91,15 +91,6 @@ module.exports = {
                 if (bcryptRes) {
                     User.get({ _id: result[0]._id, is_active: true }).then(async active_user => {
                         if (active_user.length > 0) {
-                            if (!result[0].parentId && (result[0].username == undefined || result[0].username == '') && (req.body.username == undefined || req.body.username == '')) {
-                                return res.status(200).json({
-                                    success: true,
-                                    message: 'username required',
-                                })
-
-                            }
-                            const expiresIn = req.body.rememberUser ? '1y' : '2d';
-
                             var token = jwt.sign({
                                 userId: result[0]._id,
                                 email: result[0].email,

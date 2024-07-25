@@ -1,4 +1,4 @@
-const { Schema } = require('mongoose');
+const { Schema, isObjectIdOrHexString } = require('mongoose');
 
 const users = new Schema({
     firstname: String,
@@ -7,6 +7,9 @@ const users = new Schema({
     gender: String,
     maritalStatus: String,
     unmarriedReason: String,
+    subscriptionID: { type: Schema.Types.ObjectId },
+    subscriptionPlan: { type: String },
+    subscriptionDate: { type: String },
     phone: { type: String, unique: true, required: true, dropDups: true },
     otp: String,
     status: String,
