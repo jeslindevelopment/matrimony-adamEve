@@ -2,10 +2,11 @@
 
 import { Link } from "react-scroll";
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function Menu() {
   // const router = useRouter()
-
+  const navigate = useNavigate();
   return (
     <>
       {/* <ul className="sub-menu">
@@ -16,8 +17,9 @@ export default function Menu() {
       <ul className="navigation clearfix">
         <li>
           <Link
-            to="/"
-            onClick={() => window.scrollTo(0, 0)}
+            to="banner"
+
+            onClick={() => navigate("/")}
             style={{ cursor: "pointer" }}
           >
             Home
@@ -26,6 +28,7 @@ export default function Menu() {
         <li>
           <Link
             to="whyUs"
+            onClick={() => navigate("/")}
             smooth={true}
             duration={100}
             style={{ cursor: "pointer" }}
@@ -33,9 +36,11 @@ export default function Menu() {
             Why Us
           </Link>
         </li>
+
         <li>
           <Link
             to="about"
+            onClick={() => navigate("/")}
             smooth={true}
             duration={100}
             style={{ cursor: "pointer" }}
@@ -47,6 +52,7 @@ export default function Menu() {
           <Link
             to="process"
             smooth={true}
+            onClick={() => navigate("/")}
             duration={100}
             style={{ cursor: "pointer" }}
           >
@@ -56,6 +62,7 @@ export default function Menu() {
         <li>
           <Link
             to="contact-us"
+            onClick={() => navigate("/")}
             smooth={true}
             duration={100}
             style={{ cursor: "pointer" }}

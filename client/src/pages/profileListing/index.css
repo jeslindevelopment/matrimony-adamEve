@@ -1,0 +1,68 @@
+.profilesContainer {
+  transform-style: preserve-3d;
+}
+
+.profilesContainer .box {
+  position: relative;
+  height: 250px;
+  margin: 20px;
+  transform-style: preserve-3d;
+  /* perspective: 1000px; */
+  cursor: pointer;
+}
+
+.profilesContainer .box .body {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: 0.9s ease;
+}
+
+.profilesContainer .box .body .imgprofilesContainer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+}
+
+.profilesContainer .box .body .imgprofilesContainer img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.profilesContainer .box .body .content {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #333;
+  backface-visibility: hidden;
+  transform-style: preserve-3d;
+  transform: rotateY(180deg);
+}
+
+.profilesContainer .box:hover .body {
+  transform: rotateY(180deg);
+}
+
+.profilesContainer .box .body .content div {
+  transform-style: preserve-3d;
+  padding:20px;
+  height: 100%;
+  background: linear-gradient(45deg, #b99a45, #b99a4570);
+  transform: translateZ(100px);
+}
+
+.profilesContainer .box .body .content div h3 {
+  letter-spacing: 1px;
+}

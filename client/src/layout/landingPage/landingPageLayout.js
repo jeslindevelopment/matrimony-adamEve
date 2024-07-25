@@ -3,6 +3,7 @@ import BackToTop from "../../component/BackToTop";
 import DataBg from "../../component/DataBg";
 import Header from "./header";
 import Sidebar from "./Sidebar";
+import { Outlet } from "react-router-dom";
 
 export default function LandingPageLayout({ Children, wrapperCls }) {
   const [scroll, setScroll] = useState(0);
@@ -54,7 +55,7 @@ export default function LandingPageLayout({ Children, wrapperCls }) {
         />
 
         <Sidebar isSidebar={isSidebar} handleSidebar={handleSidebar} />
-        {Children}
+        <Outlet />
         {/* {!footerStyle && <Footer1 />}
         {footerStyle == 1 ? <Footer1 /> : null} */}
       </div>

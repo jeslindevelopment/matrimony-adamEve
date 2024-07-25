@@ -13,18 +13,12 @@ export default function LandingPage() {
   }, []);
   return (
     <>
-      <LandingPageLayout
-        Children={
-          <>
-            <Banner />
-            <LookingFor/>
-            <WhyUs />
-            <Process/>
-            <AboutUs />
-            <Contact />
-          </>
-        }
-      />
+      <Banner />
+      <LookingFor />
+      <WhyUs />
+      <Process />
+      <AboutUs />
+      <Contact />
     </>
   );
 }

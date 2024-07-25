@@ -30,7 +30,7 @@ const swiperOptions = {
 export default function Banner() {
   return (
     <>
-      <section className="banner-section p_relative">
+      <section id="banner" className="banner-section p_relative">
         <Swiper {...swiperOptions} className="banner-carousel">
           <SwiperSlide className="slide-item p_relative">
             <div
