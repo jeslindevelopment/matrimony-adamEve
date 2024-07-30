@@ -3,17 +3,22 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-import "./assets/css/bootstrap.css"
-import "./assets/css/style.css"
-import "./assets/css/color.css"
-import 'swiper/css'
+import "./assets/css/bootstrap.css";
+import "./assets/css/style.css";
+import "./assets/css/color.css";
+import "swiper/css";
 // import "swiper/css/navigation"
-import "swiper/css/pagination"
-import 'swiper/css/free-mode';
+import "swiper/css/pagination";
+import { Provider } from "react-redux";
+
+import "swiper/css/free-mode";
+import store from "./store";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <App />
+    <Provider store={store}>
+      <App />
+    </Provider>
   </React.StrictMode>
 );
 
