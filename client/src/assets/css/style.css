@@ -237,7 +237,7 @@ h6 {
   font-weight: 500;
   color: var(--title-color);
   margin: 0px;
-  
+
   transition: all 500ms ease;
 }
 
@@ -1192,12 +1192,23 @@ img {
   font-size: 40px;
   line-height: 50px;
   cursor: pointer;
-  background:  var(--theme-color);
+  background: var(--theme-color);
   display: none;
 }
 
 .mobile-menu .nav-logo img {
   max-width: 160px;
+}
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
 }
 
 .menu-area .mobile-nav-toggler .icon-bar {
@@ -1945,7 +1956,6 @@ button.ltr {
 .grow img {
   /* transition: 1s ease; */
   transition: transform 0.3s ease-in-out;
-
 }
 
 .grow img:hover {
@@ -2201,6 +2211,3 @@ button.ltr {
     line-height: 45px;
   }
 }
-
-  
-  

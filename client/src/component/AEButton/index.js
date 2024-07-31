@@ -1,8 +1,8 @@
 import React from "react";
 import { FaSpinner } from "react-icons/fa";
-
+import "./index.css";
 export default function AEButton(props) {
-  const { title, isLoader, fullWidth, onClick, style,height } = props;
+  const { title, isLoader, fullWidth, onClick, style, height } = props;
   return (
     <button
       className="theme-btn btn-one block"
@@ -18,25 +18,16 @@ export default function AEButton(props) {
       }}
       disabled={isLoader}
     >
-      {isLoader ? <FaSpinner className="spinner" /> : title}
+      {isLoader ? (
+        <div class="lds-ellipsis">
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+        </div>
+      ) : (
+        title
+      )}
     </button>
   );
 }
-
-// Add some CSS to style the spinner icon
-const styles = `
-  .spinner {
-    animation: spin 1s linear infinite;
-  }
-
-  @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-  }
-`;
-
-// Inject the styles into the document
-const styleSheet = document.createElement("style");
-styleSheet.type = "text/css";
-styleSheet.innerText = styles;
-document.head.appendChild(styleSheet);
