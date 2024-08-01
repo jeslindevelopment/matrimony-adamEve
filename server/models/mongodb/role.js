@@ -1,4 +1,3 @@
-@ -1, 134 + 0, 0 @@
 const mongoose = require('.').getConnection()
 const Role = mongoose.model('Role', require('./schema/roleSchema'))
 

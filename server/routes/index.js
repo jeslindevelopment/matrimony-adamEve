@@ -1,9 +1,9 @@
 const express = require('express');
 const router = express.Router();
-const config = require('../config').load();
+const config = require('../config');
 
 // middleware
-const { checkSession } = require('../middleware/sessionAuth');
+// const { checkSession } = require('../middleware/sessionAuth');
 
 
 const auth = require('./auth');

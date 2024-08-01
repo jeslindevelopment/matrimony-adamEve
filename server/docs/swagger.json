@@ -47,6 +47,12 @@
                 },
                 "password": {
                   "example": "any"
+                },
+                "email": {
+                  "example": "any"
+                },
+                "username": {
+                  "example": "any"
                 }
               }
             }
@@ -97,6 +103,21 @@
       "post": {
         "description": "",
         "parameters": [
+          {
+            "name": "host",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "x-forwarded-for",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "user-agent",
+            "in": "header",
+            "type": "string"
+          },
           {
             "name": "body",
             "in": "body",
@@ -238,10 +259,13 @@
                 "ministry": {
                   "example": "any"
                 },
-                "selfDescription": {
+                "selfDescrreq": {
                   "example": "any"
                 },
                 "partnersExpectations": {
+                  "example": "any"
+                },
+                "domain": {
                   "example": "any"
                 }
               }
@@ -254,16 +278,6 @@
           },
           "400": {
             "description": "Bad Request"
-          }
-        }
-      }
-    },
-    "/api/auth/forgotpassword": {
-      "post": {
-        "description": "",
-        "responses": {
-          "200": {
-            "description": "OK"
           }
         }
       }

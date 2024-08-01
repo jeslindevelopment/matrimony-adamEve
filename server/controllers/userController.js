@@ -1,5 +1,3 @@
-@ -1, 155 + 0, 0 @@
-
 const User = require('../models/mongodb/users')
 
 module.exports = {
