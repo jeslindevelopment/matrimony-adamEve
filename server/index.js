@@ -3,7 +3,7 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const cors = require('cors')
 global.__SERVERDIR = path.join(process.cwd(), __dirname)
-const config = require('./config').load()
+const config = require('./config')
 
 config.host = process.env.HOST || '127.0.0.1'
 if (!config.port) {
