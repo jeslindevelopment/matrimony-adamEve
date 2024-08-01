@@ -23,7 +23,7 @@ const mongoConnection = (config) => {
 	}
 	// mongoose.set('useUnifiedTopology', true);
 	// var conn = mongoose.createConnection(config.url, { useNewUrlParser: true, poolSize: 50 })
-	var conn = mongoose.createConnection(config.url, { useNewUrlParser: true, poolSize: 50, keepAlive: 1, connectTimeoutMS: 30000, reconnectTries: 30, reconnectInterval: 5000 })
+	var conn = mongoose.createConnection(config.url)
 
 	// mongoose.Promise = global.Promise
 	conn.on('error', () => {

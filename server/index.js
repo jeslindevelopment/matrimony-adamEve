@@ -17,6 +17,8 @@ app.use(function (req, res, next) {
   res.header("Access-Control-Allow-Headers", "*");
   next();
 });
+app.use(cors())
+
 swagger(app)
 
 app.set('port', config.port)

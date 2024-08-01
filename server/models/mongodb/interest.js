@@ -1,5 +1,5 @@
 const mongoose = require('./').getConnection()
-const Interest = mongoose.model('Interests', require('./schema/InterestSchema'));
+const Interest = mongoose.model('Interests', require('./schema/interestSchema'));
 
 module.exports = {
     /** Return plain Interest object to get default values */
