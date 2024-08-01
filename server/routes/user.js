@@ -8,7 +8,7 @@ router.get('/list', user.getUsers)
 
 //for logged in user details
 router.get('/one', afterSignupAuth, user.getUserDetail)
-router.get('/one', afterSignupAuth, user.updateUser)
+router.post('/update', afterSignupAuth, user.updateUser)
 
 
 module.exports = router

@@ -355,6 +355,34 @@
         }
       }
     },
+    "/api/user/update": {
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "req",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "cookie",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
     "/api/interest/{id}": {
       "post": {
         "description": "",

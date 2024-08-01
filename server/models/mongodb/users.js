@@ -3,7 +3,7 @@ const User = mongoose.model('Users', require('./schema/usersSchema'));
 
 module.exports = {
     /** Return plain user object to get default values */
-    user:()=>{
+    user: () => {
         return new User({ email: 'user@example.com' });
     },
 
@@ -16,7 +16,7 @@ module.exports = {
                     if (fields && fields != null) {
                         userkeys = Object.keys(fields)
                     }
-                   
+
                     if (err) {
                         reject(err)
                         return
@@ -26,8 +26,8 @@ module.exports = {
                             let userResults = {}
                             let user = result[index].toJSON();
                             await Promise.all(userkeys.map(w => {
-                                if(removeFields && removeFields.includes(w)){
-                                }else{
+                                if (removeFields && removeFields.includes(w)) {
+                                } else {
                                     userResults[w] = user[w];
                                 }
                             }))
@@ -36,7 +36,7 @@ module.exports = {
                         resolve(userResp)
                     } else {
                         if (removeFields && removeFields != null) {
-                            await Promise.all(removeFields.map(e=>{
+                            await Promise.all(removeFields.map(e => {
                                 delete result[0][e]
                             }))
                         }
@@ -62,7 +62,7 @@ module.exports = {
         let page = params.page ? parseInt(params.page) : 1
         let query = params.query ? params.query : params
         return new Promise((resolve, reject) => {
-            User.find(query, fields).populate('parentId', 'email').sort(params && params.sort ? params.sort : { 'createdAt': -1 })
+            User.find(query, fields).sort(params && params.sort ? params.sort : { 'createdAt': -1 })
                 .limit(size)
                 .skip(size * (page - 1))
                 .exec((err, result) => {
@@ -82,16 +82,16 @@ module.exports = {
             User.find({
                 _id: _id
             },
-            {
-                "followUpTemplates": {
-                    "$elemMatch": {
-                        "type": { $in: type }
+                {
+                    "followUpTemplates": {
+                        "$elemMatch": {
+                            "type": { $in: type }
+                        }
                     }
                 }
-            }
-            , (err, result) => {
-                err ? reject(err) : resolve(result)
-            });
+                , (err, result) => {
+                    err ? reject(err) : resolve(result)
+                });
         })
     },
     getWhatsAppGlobalTemplates: (params) => {
@@ -101,16 +101,16 @@ module.exports = {
             User.find({
                 _id: _id
             },
-            {
-                "whatsAppGlobalTemplates": {
-                    "$elemMatch": {
-                        "type": { $in: type }
+                {
+                    "whatsAppGlobalTemplates": {
+                        "$elemMatch": {
+                            "type": { $in: type }
+                        }
                     }
                 }
-            }
-            , (err, result) => {
-                err ? reject(err) : resolve(result)
-            });
+                , (err, result) => {
+                    err ? reject(err) : resolve(result)
+                });
         })
     },
     getCount: (params) => {
@@ -225,8 +225,8 @@ module.exports = {
         })
     },
     updateMany: (params) => {
-		    return new Promise((resolve, reject) => {
-			      User.updateMany(params.selector, {'$set': params.data}, (err, result) => {
+        return new Promise((resolve, reject) => {
+            User.updateMany(params.selector, { '$set': params.data }, (err, result) => {
                 if (err) {
                     reject(err)
                 } else {
