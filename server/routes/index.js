@@ -8,8 +8,12 @@ const config = require('../config');
 
 const auth = require('./auth');
 const user = require('./user');
+const interest = require('./interest');
+const shortlist = require('./shortlist');
 
 router.use('/auth', auth);
 router.use('/user', user);
+router.use('/interest', interest);
+router.use('/shortlist', shortlist);
 
 module.exports = router

@@ -1,20 +1,20 @@
 const mongoose = require('./').getConnection()
-const User = mongoose.model('Users', require('./schema/usersSchema'));
+const Shortlist = mongoose.model('Shortlists', require('./schema/shortlistSchema'));
 
 module.exports = {
-    /** Return plain user object to get default values */
-    user: () => {
-        return new User({ email: 'user@example.com' });
+    /** Return plain Shortlist object to get default values */
+    Shortlist: () => {
+        return new Shortlist({ email: 'Shortlist@example.com' });
     },
 
     get: (params, fields = null, removeFields = null) => {
-        let userResp = [];
-        let userkeys = Object.keys(User.schema.paths)
+        let ShortlistResp = [];
+        let Shortlistkeys = Object.keys(Shortlist.schema.paths)
         return new Promise((resolve, reject) => {
-            User.find(params, fields).sort({ 'createdAt': -1 })
+            Shortlist.find(params, fields).sort({ 'createdAt': -1 })
                 .exec(async (err, result) => {
                     if (fields && fields != null) {
-                        userkeys = Object.keys(fields)
+                        Shortlistkeys = Object.keys(fields)
                     }
 
                     if (err) {
@@ -23,17 +23,17 @@ module.exports = {
                     }
                     if (result.length) {
                         await Promise.all(result.map(async (val, index) => {
-                            let userResults = {}
-                            let user = result[index].toJSON();
-                            await Promise.all(userkeys.map(w => {
+                            let ShortlistResults = {}
+                            let Shortlist = result[index].toJSON();
+                            await Promise.all(Shortlistkeys.map(w => {
                                 if (removeFields && removeFields.includes(w)) {
                                 } else {
-                                    userResults[w] = user[w];
+                                    ShortlistResults[w] = Shortlist[w];
                                 }
                             }))
-                            userResp.push(userResults);
+                            ShortlistResp.push(ShortlistResults);
                         }))
-                        resolve(userResp)
+                        resolve(ShortlistResp)
                     } else {
                         if (removeFields && removeFields != null) {
                             await Promise.all(removeFields.map(e => {
@@ -47,7 +47,7 @@ module.exports = {
     },
     get_w_role: (params, fields = null) => {
         return new Promise((resolve, reject) => {
-            User.find(params, fields).populate('role_id').sort({ 'createdAt': -1 })
+            Shortlist.find(params, fields).populate('role_id').sort({ 'createdAt': -1 })
                 .exec((err, result) => {
                     if (err) {
                         reject(err)
@@ -62,7 +62,7 @@ module.exports = {
         let page = params.page ? parseInt(params.page) : 1
         let query = params.query ? params.query : params
         return new Promise((resolve, reject) => {
-            User.find(query, fields).sort(params && params.sort ? params.sort : { 'createdAt': -1 })
+            Shortlist.find(query, fields).populate('parentId', 'email').sort(params && params.sort ? params.sort : { 'createdAt': -1 })
                 .limit(size)
                 .skip(size * (page - 1))
                 .exec((err, result) => {
@@ -79,7 +79,7 @@ module.exports = {
         return new Promise((resolve, reject) => {
             let _id = params._id
             let type = params.type
-            User.find({
+            Shortlist.find({
                 _id: _id
             },
                 {
@@ -98,7 +98,7 @@ module.exports = {
         return new Promise((resolve, reject) => {
             let _id = params._id
             let type = params.type
-            User.find({
+            Shortlist.find({
                 _id: _id
             },
                 {
@@ -115,7 +115,7 @@ module.exports = {
     },
     getCount: (params) => {
         return new Promise((resolve, reject) => {
-            User.countDocuments(params.query ? params.query : params)
+            Shortlist.countDocuments(params.query ? params.query : params)
                 .exec((err, result) => {
                     if (err) {
 
@@ -129,7 +129,7 @@ module.exports = {
     get_w_select: (params, select) => {
 
         return new Promise((resolve, reject) => {
-            User.find(params).select(select)
+            Shortlist.find(params).select(select)
                 .exec((err, result) => {
                     if (err) {
 
@@ -142,7 +142,7 @@ module.exports = {
     },
     get_w_sort: (params, select, sort) => {
         return new Promise((resolve, reject) => {
-            User.find(params).select(select).sort(sort)
+            Shortlist.find(params).select(select).sort(sort)
                 .exec((err, result) => {
                     if (err) {
 
@@ -155,7 +155,7 @@ module.exports = {
     },
     // get_w_password: (params) => {
     //   return new Promise((resolve, reject) => {            
-    //     User.find(params)
+    //     Shortlist.find(params)
     //     .select("+password")
     //     .exec((err, result) => {
     //       if (err) {
@@ -169,7 +169,7 @@ module.exports = {
     // },
     populate: (params, path) => {
         return new Promise((resolve, reject) => {
-            User.populate(params, path, (err, result) => {
+            Shortlist.populate(params, path, (err, result) => {
                 if (err) {
 
                     reject(err)
@@ -181,7 +181,7 @@ module.exports = {
     },
     add: (params) => {
         return new Promise((resolve, reject) => {
-            let modules = new User(params)
+            let modules = new Shortlist(params)
             modules.save((err) => {
                 if (err) {
                     reject(err)
@@ -193,7 +193,7 @@ module.exports = {
     },
     push: (params) => {
         return new Promise((resolve, reject) => {
-            User.updateOne(params.selector, { '$push': params.data }, (err, result) => {
+            Shortlist.updateOne(params.selector, { '$push': params.data }, (err, result) => {
                 if (err) {
                     reject(err)
                 } else {
@@ -204,7 +204,7 @@ module.exports = {
     },
     update: (params) => {
         return new Promise((resolve, reject) => {
-            User.updateOne(params.selector, { '$set': params.data }, (err, result) => {
+            Shortlist.updateOne(params.selector, { '$set': params.data }, (err, result) => {
                 if (err) {
                     reject(err)
                 } else {
@@ -215,7 +215,7 @@ module.exports = {
     },
     delete: (id) => {
         return new Promise((resolve, reject) => {
-            User.findByIdAndRemove({ _id: id }, function (err, result) {
+            Shortlist.findByIdAndRemove({ _id: id }, function (err, result) {
                 if (err) {
                     reject(err)
                 } else {
@@ -226,7 +226,7 @@ module.exports = {
     },
     updateMany: (params) => {
         return new Promise((resolve, reject) => {
-            User.updateMany(params.selector, { '$set': params.data }, (err, result) => {
+            Shortlist.updateMany(params.selector, { '$set': params.data }, (err, result) => {
                 if (err) {
                     reject(err)
                 } else {

@@ -1,4 +1,5 @@
 const User = require('../models/mongodb/users')
+const Intrest = require('../models/mongodb/interest')
 
 module.exports = {
     getUsers: async (req, res) => {
@@ -150,5 +151,5 @@ module.exports = {
                 error
             })
         }
-    },
+    }
 }
