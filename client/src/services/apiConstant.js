@@ -1,7 +1,7 @@
 export const ADAM_EVE_API = {
   //auth
   auth: {
-    login: "/admin/login",
+    login: "api/auth/login",
   },
 };
 

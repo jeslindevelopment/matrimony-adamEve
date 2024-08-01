@@ -10,58 +10,40 @@ const slice = createSlice({
     message: "",
     isLoading: false,
   },
-  reducers: {
-    apiFetching: (state) => {
-      state.isLoading = true;
-    },
-    userDataSuccess: (state, action) => {
-      state.userData = action.payload.data;
-      state.isLoading = false;
-    },
-    userDataFailed: (state, action) => {
-      state.message = action.payload;
-      state.isLoading = false;
-    },
-    apiFailed: (state) => {
-      state.isLoading = false;
-    },
-  },
+  reducers: {},
 });
 
 export default slice.reducer;
 
 /**********************ACTIONS************************************************ */
-export const login = (requestParams, navigate) => async (dispatch) => {
-  dispatch(apiFetching());
+export const userlogin = (requestParams, navigate) => async (dispatch) => {
   api
     .post(`${ADAM_EVE_API.auth.login}`, requestParams)
     .then((response) => {
       let result = response.data;
+      console.log("result", result);
       if (result.status) {
-        secureLocalStorage.setItem(
-          process.env.REACT_APP_TOKEN_STORAGE_KEY,
-          result.token
-        );
-        secureLocalStorage.setItem(
-          process.env.REACT_APP_USER_STORAGE_KEY,
-          result.data
-        );
-        secureLocalStorage.setItem(
-          process.env.REACT_APP_AUTH_STORAGE_KEY,
-          true
-        );
+        // secureLocalStorage.setItem(
+        //   process.env.REACT_APP_TOKEN_STORAGE_KEY,
+        //   result.token
+        // );
+        // secureLocalStorage.setItem(
+        //   process.env.REACT_APP_USER_STORAGE_KEY,
+        //   result.data
+        // );
+        // secureLocalStorage.setItem(
+        //   process.env.REACT_APP_AUTH_STORAGE_KEY,
+        //   true
+        // );
         // dispatch(userDataSuccess(result.data));
         navigate("/", true);
       } else {
-        dispatch(userDataFailed(result.error));
         // toast.error(response.data.message);
       }
     })
     .catch(() => {
-      dispatch(apiFailed());
+      console.log("e");
     });
 };
 
-
-const { apiFetching, userDataFailed, apiFailed } =
-  slice.actions;
+const { apiFetching, userDataFailed, apiFailed } = slice.actions;

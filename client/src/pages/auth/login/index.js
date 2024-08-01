@@ -4,9 +4,11 @@ import { Link } from "react-router-dom";
 import { color } from "../../../assets/css/color/color";
 import AEInput from "../../../component/AEInput";
 import { Icon } from "@iconify/react";
-
+import { useDispatch } from "react-redux";
+import { userlogin } from "../../../store/slice/auth";
 export default function Login() {
   const [formData, setFormData] = useState({});
+  const dispatch = useDispatch();
   const handleLogin = () => {
     if (!formData?.phone) {
       setFormData({ ...formData, phoneErr: "Please enter your phone number" });
@@ -19,7 +21,13 @@ export default function Login() {
     if (!formData?.password) {
       setFormData({ ...formData, passwordErr: "Please enter your password" });
       return;
+      
     }
+    let request = {
+      phone: formData?.phone,
+      password: formData?.password,
+    };
+    dispatch(userlogin(request));
   };
   return (
     <>
@@ -73,7 +81,7 @@ export default function Login() {
                     setFormData({
                       ...formData,
                       password: e.target.value,
-                      passwordErr:''
+                      passwordErr: "",
                     });
                   }}
                 />
