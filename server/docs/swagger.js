@@ -11,8 +11,8 @@ const generateSwagger = require("swagger-autogen")();
 const swaggerDocument = {
     info: {
         version: "1.0.0",
-        title: "Todo Apis",
-        description: "API for Managing todo calls",
+        title: "Matrimony Apis",
+        description: "API for Managing matrimony api calls",
         contact: {
             name: "API Support",
             email: "jesmathew96@gmail.com",

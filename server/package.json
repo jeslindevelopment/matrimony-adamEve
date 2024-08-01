@@ -11,6 +11,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "bcrypt": "^5.1.1",
     "cross-env": "^7.0.3",
     "express": "^4.19.2",
     "express-validator": "^7.1.0",
@@ -20,6 +21,7 @@
     "mongoose": "^8.4.5",
     "mongoose-data-seed": "^2.1.6",
     "swagger-autogen": "^2.23.7",
+    "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.1",
     "twilio": "^5.2.2"
   },
