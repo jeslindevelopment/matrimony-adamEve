@@ -79,6 +79,13 @@ module.exports = {
             "role_id": 1,
             "subuserRole": 1
         }).then(result => {
+            if (!result) {
+                res.status(400).json({
+                    success: false,
+                    message: 'User not found. Please try again',
+                    err
+                })
+            }
             if (result && result[0] && result[0].password === undefined) {
                 res.status(500).json({
                     success: false,
