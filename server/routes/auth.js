@@ -7,6 +7,7 @@ const auth = require('../controllers/authController')
 router.post('/login', auth.signin)
 router.post('/logout', afterSignupAuth, auth.logout)
 router.post('/signup', auth.validate(), auth.signup)
-// router.post('/forgotpassword', auth.forgotPassword)
+
+router.post('/contact', auth.addContactMessage)
 
 module.exports = router

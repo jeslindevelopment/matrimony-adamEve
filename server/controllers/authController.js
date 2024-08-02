@@ -10,6 +10,7 @@ const qs = require('qs')
 const axios = require('axios');
 const mongoose = require('mongoose');
 const EmailModule = require('./emailController');
+const contact = require('../models/mongodb/contact')
 
 module.exports = {
     validate: () => {
@@ -743,19 +744,24 @@ Selamat bergabung dengan Mengantar!`,
             })
         }
     },
-    trackFacebook: async (req, res) => {
+    addContactMessage: async (req, res) => {
         try {
-            let { eventName, userdata, fbp, fbc } = req.body;
-            let domain = req.headers.referer ? req.headers.referer : req.headers.host;
-            let ip = req.headers['x-forwarded-for'] ? req.headers['x-forwarded-for'] : req.socket.localAddress ? req.socket.localAddress :
-                req.socket.remoteAddress;
-            let agent = req.headers['user-agent'];
-            track['FacebookAddEvent'](config.pixeltoken, config.pixelid, eventName, undefined, domain, { metadata: { ip, 'user-agent': agent }, data: userdata, fbp, fbc });
+            let params = req.body;
+            if (!params.name || params.email || params.phone || params.message) {
+                return res.status(400).json({
+                    success: false,
+                    data: 'Missing details'
+                })
+            }
+            await contact.add(params)
             return res.status(200).json({
                 success: true
             })
         } catch (err) {
-            console.log(error, "error");
+            return res.status(400).json({
+                success: false,
+                data: 'Error contacting'
+            })
         }
     }
 }
