@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import api from "../../services";
 import secureLocalStorage from "react-secure-storage";
 import { ADAM_EVE_API } from "../../services/apiConstant";
+import { toast } from "react-hot-toast";
 
 const slice = createSlice({
   name: "auth",
@@ -16,34 +17,77 @@ const slice = createSlice({
 export default slice.reducer;
 
 /**********************ACTIONS************************************************ */
-export const userlogin = (requestParams, navigate) => async (dispatch) => {
+// user login
+export const userlogin =
+  (requestParams, setIsLoading, navigate) => async (dispatch) => {
+    api
+      .post(`${ADAM_EVE_API.auth.login}`, requestParams)
+      .then((response) => {
+        let result = response.data;
+        if (result.success) {
+          toast.success(result?.c);
+          secureLocalStorage.setItem(
+            process.env.REACT_APP_TOKEN_STORAGE_KEY,
+            result
+          );
+          navigate("/");
+          window.location.reload();
+        } else {
+          toast.error(response.data.message);
+        }
+        setIsLoading(false);
+      })
+      .catch((e) => {
+        console.log("e", e);
+        toast.error(e?.response?.data?.message);
+        setIsLoading(false);
+      });
+  };
+
+// user register
+export const signUp =
+  (requestParams, setIsLoading, navigate) => async (dispatch) => {
+    api
+      .post(`${ADAM_EVE_API.auth.signUp}`, requestParams)
+      .then((response) => {
+        let result = response.data;
+        if (result.success) {
+          toast.success(result?.c);
+          secureLocalStorage.setItem(
+            process.env.REACT_APP_TOKEN_STORAGE_KEY,
+            result
+          );
+          navigate("/");
+          window.location.reload();
+        } else {
+          toast.error(response.data.message);
+        }
+        setIsLoading(false);
+      })
+      .catch((e) => {
+        console.log("e", e);
+        toast.error(e?.response?.data?.errors[0]?.msg);
+        setIsLoading(false);
+      });
+  };
+// get user detail
+
+export const getUserDetail = (requestParams) => async (dispatch) => {
   api
-    .post(`${ADAM_EVE_API.auth.login}`, requestParams)
+    .get(`${ADAM_EVE_API.auth.getUserDetail}`, requestParams)
     .then((response) => {
       let result = response.data;
       console.log("result", result);
-      if (result.status) {
-        // secureLocalStorage.setItem(
-        //   process.env.REACT_APP_TOKEN_STORAGE_KEY,
-        //   result.token
-        // );
-        // secureLocalStorage.setItem(
-        //   process.env.REACT_APP_USER_STORAGE_KEY,
-        //   result.data
-        // );
-        // secureLocalStorage.setItem(
-        //   process.env.REACT_APP_AUTH_STORAGE_KEY,
-        //   true
-        // );
-        // dispatch(userDataSuccess(result.data));
-        navigate("/", true);
+      if (result.success) {
+        toast.success(result?.c);
       } else {
-        // toast.error(response.data.message);
+        toast.error(response.data.message);
       }
     })
-    .catch(() => {
-      console.log("e");
+    .catch((e) => {
+      console.log("e", e);
+      toast.error(e?.response?.data?.c
+      );
     });
 };
-
 const { apiFetching, userDataFailed, apiFailed } = slice.actions;

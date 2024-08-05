@@ -2,6 +2,8 @@ export const ADAM_EVE_API = {
   //auth
   auth: {
     login: "api/auth/login",
+    signUp: "/api/auth/signup",
+    getUserDetail: "/api/user/one",
   },
 };
 

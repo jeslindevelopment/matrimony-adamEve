@@ -2,12 +2,7 @@ import axios from "axios";
 import { useEffect } from "react";
 import secureLocalStorage from "react-secure-storage";
 import { useNavigate } from "react-router";
-
-const token = secureLocalStorage.getItem(
-  process.env.REACT_APP_TOKEN_STORAGE_KEY
-);
-
-console.log("token == ", token);
+import { loginData } from "../constant";
 
 // axios instance
 const instance = axios.create({
@@ -18,7 +13,7 @@ const instance = axios.create({
     "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
     "Content-Type": "application/json",
     "Cache-Control": "no-cache, no-store, max-age=0, must-revalidate",
-    Authorization: token ? `Bearer ${token}` : "",
+    Authorization: loginData ? loginData?.token : "",
   },
 });
 
@@ -27,11 +22,8 @@ const AxiosInterceptor = ({ children }) => {
 
   useEffect(() => {
     const reqInterceptor = (request) => {
-      const token = secureLocalStorage.getItem(
-        process.env.REACT_APP_TOKEN_STORAGE_KEY
-      );
-      if (token) {
-        request.headers.Authorization = `Bearer ${token}`;
+      if (loginData) {
+        request.headers.Authorization = `Bearer ${loginData?.token}`;
       }
       return request;
     };
@@ -46,7 +38,9 @@ const AxiosInterceptor = ({ children }) => {
         secureLocalStorage.clear();
         navigate("/login");
       }
-      return Promise.reject(error);
+      if (error.response.status === 400) {
+        return error;
+      }
     };
 
     const requestInterceptor = instance.interceptors.request.use(

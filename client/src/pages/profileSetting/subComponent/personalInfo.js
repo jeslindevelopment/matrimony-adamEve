@@ -18,7 +18,8 @@ import {
 import AEButton from "../../../component/AEButton";
 
 export default function PersonalInfo() {
-  const { setFormData, formData, handleNext ,handlePrevious} = useContext(UserContext);
+  const { setFormData, formData, handleNext, handlePrevious } =
+    useContext(UserContext);
 
   return (
     <>
@@ -28,7 +29,13 @@ export default function PersonalInfo() {
             background="#b99a4570"
             placeholder="Height"
             options={HEIGHT}
-            value={""}
+            value={formData?.height}
+            onChange={(e) => {
+              setFormData({
+                ...formData,
+                height: e.target.value,
+              });
+            }}
           />{" "}
         </div>
         <div className="col-lg-6 col-md-6 col-sm-12">
@@ -36,6 +43,13 @@ export default function PersonalInfo() {
             background="#b99a4570"
             placeholder="Weight"
             endIcon
+            value={formData?.weight}
+            onChange={(e) => {
+              setFormData({
+                ...formData,
+                weight: e.target.value,
+              });
+            }}
             endText="KG"
           />
         </div>
@@ -44,7 +58,13 @@ export default function PersonalInfo() {
             background="#b99a4570"
             placeholder="Body Type"
             options={BODY_TYPES}
-            value={""}
+            value={formData?.bodyType}
+            onChange={(e) => {
+              setFormData({
+                ...formData,
+                bodyType: e.target.value,
+              });
+            }}
           />
         </div>
         <div className="col-lg-6 col-md-6 col-sm-12">
@@ -52,7 +72,13 @@ export default function PersonalInfo() {
             background="#b99a4570"
             placeholder="Complexion "
             options={COMPLEXION}
-            value={""}
+            value={formData?.complexion}
+            onChange={(e) => {
+              setFormData({
+                ...formData,
+                complexion: e.target.value,
+              });
+            }}
           />{" "}
         </div>
         <div className="col-lg-6 col-md-6 col-sm-12   ">
@@ -60,7 +86,13 @@ export default function PersonalInfo() {
             background="#b99a4570"
             placeholder="Eating Habits"
             options={EATING_HABIT}
-            value={""}
+            value={formData?.eatingHabits}
+            onChange={(e) => {
+              setFormData({
+                ...formData,
+                eatingHabits: e.target.value,
+              });
+            }}
           />{" "}
         </div>
         <div className="col-lg-6 col-md-6 col-sm-12   ">
@@ -68,7 +100,13 @@ export default function PersonalInfo() {
             background="#b99a4570"
             placeholder="Smoke"
             options={SMOKE}
-            value={""}
+            value={formData?.smoke}
+            onChange={(e) => {
+              setFormData({
+                ...formData,
+                smoke: e.target.value,
+              });
+            }}
           />
         </div>
         <div className="col-lg-6 col-md-6 col-sm-12   ">
@@ -76,7 +114,13 @@ export default function PersonalInfo() {
             background="#b99a4570"
             placeholder="Drink"
             options={DRINK}
-            value={""}
+            value={formData?.drink}
+            onChange={(e) => {
+              setFormData({
+                ...formData,
+                drink: e.target.value,
+              });
+            }}
           />
         </div>
         <div className="col-lg-6 col-md-6 col-sm-12   ">
@@ -84,18 +128,40 @@ export default function PersonalInfo() {
             background="#b99a4570"
             placeholder="Education "
             options={HIGHEST_EDUCATION}
-            value={""}
+            value={formData?.education}
+            onChange={(e) => {
+              setFormData({
+                ...formData,
+                education: e.target.value,
+              });
+            }}
           />
         </div>
         <div className="col-lg-6 col-md-6 col-sm-12   ">
-          <AEInput background="#b99a4570" placeholder="Specialization " />
+          <AEInput
+            value={formData?.specialization}
+            onChange={(e) => {
+              setFormData({
+                ...formData,
+                specialization: e.target.value,
+              });
+            }}
+            background="#b99a4570"
+            placeholder="Specialization "
+          />
         </div>{" "}
         <div className="col-lg-6 col-md-6 col-sm-12   ">
           <AESelect
             background="#b99a4570"
             placeholder="Blood Group"
             options={BLOOD_GROUP}
-            value={""}
+            value={formData?.bloodGroup}
+            onChange={(e) => {
+              setFormData({
+                ...formData,
+                bloodGroup: e.target.value,
+              });
+            }}
           />
         </div>
         <div className="col-lg-6 col-md-6 col-sm-12">
@@ -103,38 +169,106 @@ export default function PersonalInfo() {
             background="#b99a4570"
             placeholder="Occupation  "
             options={OCCUPATION}
-            value={""}
+            value={formData?.occupation}
+            onChange={(e) => {
+              setFormData({
+                ...formData,
+                occupation: e.target.value,
+              });
+            }}
           />
         </div>
         <div className="col-lg-6 col-md-6 col-sm-12 ">
-          <AEInput background="#b99a4570" placeholder="Job Location" />
+          <AEInput
+            value={formData?.jobLocation}
+            onChange={(e) => {
+              setFormData({
+                ...formData,
+                jobLocation: e.target.value,
+              });
+            }}
+            background="#b99a4570"
+            placeholder="Job Location"
+          />
         </div>
         <div className="col-lg-6 col-md-6 col-sm-12 ">
           <AESelect
             background="#b99a4570"
             placeholder="Annual Income"
             options={ANNUAL_INCOME}
-            value={""}
+            value={formData?.annualIncome}
+            onChange={(e) => {
+              setFormData({
+                ...formData,
+                annualIncome: e.target.value,
+              });
+            }}
           />
         </div>
         <div className="col-lg-6 col-md-6 col-sm-12 ">
-          <AEInput background="#b99a4570" placeholder="Designation " />
+          <AEInput
+            value={formData?.designation}
+            onChange={(e) => {
+              setFormData({
+                ...formData,
+                designation: e.target.value,
+              });
+            }}
+            background="#b99a4570"
+            placeholder="Designation "
+          />
         </div>
         <div className="col-lg-6 col-md-6 col-sm-12 ">
-          <AEInput background="#b99a4570" placeholder="Mother Tongue " />
+          <AEInput
+            value={formData?.motherTongue}
+            onChange={(e) => {
+              setFormData({
+                ...formData,
+                motherTongue: e.target.value,
+              });
+            }}
+            background="#b99a4570"
+            placeholder="Mother Tongue "
+          />
         </div>{" "}
         <div className="col-lg-6 col-md-6 col-sm-12 ">
-          <AEInput background="#b99a4570" placeholder="Language Known " />
+          <AEInput
+            value={formData?.language}
+            onChange={(e) => {
+              setFormData({
+                ...formData,
+                language: e.target.value,
+              });
+            }}
+            background="#b99a4570"
+            placeholder="Language Known "
+          />
         </div>
         <div className="col-lg-6 col-md-6 col-sm-12 ">
-          <AEInput background="#b99a4570" placeholder="Disability (if Any)" />
+          <AEInput
+            value={formData?.disability}
+            onChange={(e) => {
+              setFormData({
+                ...formData,
+                disability: e.target.value,
+              });
+            }}
+            background="#b99a4570"
+            placeholder="Disability (if Any)"
+          />
         </div>{" "}
         <div className="col-lg-6 col-md-6 col-sm-12 ">
           <AESelect
             background="#b99a4570"
             placeholder="Preferred Profiles from which (State)"
             options={INDIAN_STATES}
-            value={""}
+            value={formData?.preferredProfilesState}
+            onChange={(e) => {
+              setFormData({
+                ...formData,
+                preferredProfilesState: e.target.value,
+              });
+            }}
           />{" "}
         </div>
       </div>

@@ -1,3 +1,5 @@
+import secureLocalStorage from "react-secure-storage";
+
 export const GENDER_TYPE = ["Male", "Female"];
 export const MARITAL_STATUS = [
   "Never Married",
@@ -273,3 +275,5 @@ export const  MOTHER_OCCUPATION = [
   "Self Employed",
   "Other"
 ];
+
+export const loginData= secureLocalStorage.getItem(process.env.REACT_APP_TOKEN_STORAGE_KEY)

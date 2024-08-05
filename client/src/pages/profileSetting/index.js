@@ -1,16 +1,21 @@
 import { Step, Stepper } from "react-form-stepper";
 import { color } from "../../assets/css/color/color";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { UserContext } from "../../component/userContext";
 import BasicInfo from "./subComponent/basicInfo";
 import PersonalInfo from "./subComponent/personalInfo";
 import FamilyInfo from "./subComponent/familyInfo";
 import ChurchInfo from "./subComponent/churchInfo";
 import Details from "./subComponent/details";
-
+import { useDispatch } from "react-redux";
+import { getUserDetail } from "../../store/slice/auth";
 const ProfileSetting = () => {
   const [activeStep, setActiveStep] = useState(0);
   const [formData, setFormData] = useState({});
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getUserDetail());
+  }, []);
   const handleStepper = () => {
     if (activeStep === 0) {
       return <BasicInfo />;
@@ -30,11 +35,12 @@ const ProfileSetting = () => {
   };
   const handleNext = () => setActiveStep(activeStep + 1);
   const handlePrevious = () => setActiveStep(activeStep - 1);
-
+  const handleSave = () => {};
+  console.log("formdata", formData);
   return (
     <section
       className="py-4 "
-      style={{ background:  color.formBG, minHeight: "88vh" }}
+      style={{ background: color.formBG, minHeight: "88vh" }}
     >
       <div
         className="auto-container bg-white rounded-4"
@@ -64,7 +70,13 @@ const ProfileSetting = () => {
           <Step label={<div className="fs-6 fw-bold">Details</div>} />
         </Stepper>
         <UserContext.Provider
-          value={{ setFormData, formData, handleNext, handlePrevious }}
+          value={{
+            setFormData,
+            formData,
+            handleNext,
+            handlePrevious,
+            handleSave,
+          }}
         >
           <div className="p-lg-4">{handleStepper()}</div>
         </UserContext.Provider>

@@ -13,6 +13,7 @@ export default function AESelect({
       <select
         className="form-select mb-3"
         onChange={onChange}
+        value={value}
         style={{
           background: background ? background : "",
           fontWeight: 500,
