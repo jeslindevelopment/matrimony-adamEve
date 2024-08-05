@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import AEButton from "../../../component/AEButton";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { color } from "../../../assets/css/color/color";
 import AEInput from "../../../component/AEInput";
 import AESelect from "../../../component/AESelect";
@@ -10,9 +10,14 @@ import {
   MARITAL_STATUS,
 } from "../../../constant";
 import { Icon } from "@iconify/react";
+import { useDispatch } from "react-redux";
+import { signUp } from "../../../store/slice/auth";
 
 export default function Register() {
   const [formData, setFormData] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const handleRegister = () => {
     if (!formData?.firstName) {
       setFormData({ ...formData, firstNameErr: "Please enter first name" });
@@ -53,6 +58,18 @@ export default function Register() {
       setFormData({ ...formData, passwordErr: "Please enter your password" });
       return;
     }
+    setIsLoading(true)
+    let request = {
+      password: formData?.password,
+      firstname: formData?.firstName,
+      surname: formData?.lastName,
+      dob: formData?.date,
+      gender: formData?.gender,
+      maritalStatus: formData?.marital,
+      phone: formData?.phone,
+      denomination: formData?.denomination,
+    };
+    dispatch(signUp(request,setIsLoading,navigate))
   };
   return (
     <>
@@ -207,7 +224,7 @@ export default function Register() {
                   fullWidth
                   title="Submit "
                   onClick={handleRegister}
-                  //  isLoader={isLoader}
+                   isLoader={isLoading}
                 />
               </div>
             </div>

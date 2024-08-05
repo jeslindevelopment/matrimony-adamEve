@@ -1,4 +1,4 @@
-const mongoose = require('./../').getConnection()
+const mongoose = require('.').getConnection()
 const Authorization = mongoose.model('Authorization', require('./schema/authorizationSchema'))
 
 module.exports = {

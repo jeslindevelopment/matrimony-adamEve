@@ -5,15 +5,25 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "cross-env NODE_ENV=development nodemon index"
+    "start": "cross-env NODE_ENV=development nodemon index",
+    "swagger-autogen": "node ./docs/swagger.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "bcrypt": "^5.1.1",
     "cross-env": "^7.0.3",
     "express": "^4.19.2",
-    "mongoose": "^8.4.5",
-    "mongoose-data-seed": "^2.1.6"
+    "express-validator": "^7.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "mailgun-js": "^0.22.0",
+    "md5": "^2.3.0",
+    "mongoose": "^6.10.0",
+    "mongoose-data-seed": "^2.1.6",
+    "swagger-autogen": "^2.23.7",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.1",
+    "twilio": "^5.2.2"
   },
   "devDependencies": {
     "cors": "^2.8.5",

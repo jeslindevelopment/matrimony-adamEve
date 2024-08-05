@@ -1,16 +1,16 @@
 const path = require('path')
-const { database, databaseDefault } = require('../config').load()
+const { database, databaseDefault } = require('../config')
 
 class ConnectionManager {
 
-	constructor (connection_driver, config_name) {
-		this.driver 	= connection_driver
-		this.type 		= config_name
-		this.config 	= database[config_name]
+	constructor(connection_driver, config_name) {
+		this.driver = connection_driver
+		this.type = config_name
+		this.config = database[config_name]
 		this.connection = []
 	}
 
-	connect (config) {
+	connect(config) {
 		if (config.active) {
 			return this.driver(config)
 		} else {
@@ -18,7 +18,7 @@ class ConnectionManager {
 		}
 	}
 
-	getConnection (number) {
+	getConnection(number) {
 		if (!number) {
 			number = 0
 		}

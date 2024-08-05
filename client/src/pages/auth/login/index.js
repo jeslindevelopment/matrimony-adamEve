@@ -1,12 +1,16 @@
 import React, { useState } from "react";
 import AEButton from "../../../component/AEButton";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { color } from "../../../assets/css/color/color";
 import AEInput from "../../../component/AEInput";
 import { Icon } from "@iconify/react";
-
+import { useDispatch } from "react-redux";
+import { userlogin } from "../../../store/slice/auth";
 export default function Login() {
   const [formData, setFormData] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const handleLogin = () => {
     if (!formData?.phone) {
       setFormData({ ...formData, phoneErr: "Please enter your phone number" });
@@ -20,6 +24,12 @@ export default function Login() {
       setFormData({ ...formData, passwordErr: "Please enter your password" });
       return;
     }
+    setIsLoading(true);
+    let request = {
+      phone: formData?.phone,
+      password: formData?.password,
+    };
+    dispatch(userlogin(request, setIsLoading, navigate));
   };
   return (
     <>
@@ -73,7 +83,7 @@ export default function Login() {
                     setFormData({
                       ...formData,
                       password: e.target.value,
-                      passwordErr:''
+                      passwordErr: "",
                     });
                   }}
                 />
@@ -83,7 +93,7 @@ export default function Login() {
                   fullWidth
                   title="Login "
                   onClick={handleLogin}
-                  //  isLoader={true}
+                  isLoader={isLoading}
                 />
               </div>
 

@@ -1,6 +1,6 @@
 const { Schema, isObjectIdOrHexString } = require('mongoose');
 
-const users = new Schema({
+const User = new Schema({
     firstname: String,
     surname: String,
     dob: Date,
@@ -59,7 +59,7 @@ const users = new Schema({
 })
 
 
-users.index({ username: 1, })
-users.index({ role: 1, })
+User.index({ username: 1, })
+User.index({ role: 1, })
 
-module.exports = users
+module.exports = User

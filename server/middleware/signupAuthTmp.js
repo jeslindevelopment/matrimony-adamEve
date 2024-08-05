@@ -1,9 +1,10 @@
-const config = require('../config').load()
+const config = require('../config')
 const Cookie = require('cookie')
 const jwt = require('jsonwebtoken')
 const User = require('../models/mongodb/users')
 
-export const afterSignupAuth = (req, res, next) => {
+
+const afterSignupAuth = (req, res, next) => {
   let token = req.headers && req.headers.token ? req.headers && req.headers.token : ''
 
   if (token) {
@@ -85,4 +86,7 @@ export const afterSignupAuth = (req, res, next) => {
       }
     }
   }
+}
+module.exports = {
+  afterSignupAuth
 }

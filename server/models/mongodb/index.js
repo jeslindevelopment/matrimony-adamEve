@@ -21,14 +21,9 @@ const mongoConnection = (config) => {
 	} else {
 		config.port = ''
 	}
-
-	// mongoose.connect('mongodb://' + config.user + by + config.pass + at + config.host + on + config.port + '/' + config.name, extend(options, config.options))
-	// mongoose.set('useCreateIndex', true)
-	mongoose.set('useFindAndModify', false);
-	mongoose.set('autoIndex', false);
 	// mongoose.set('useUnifiedTopology', true);
 	// var conn = mongoose.createConnection(config.url, { useNewUrlParser: true, poolSize: 50 })
-	var conn = mongoose.createConnection(config.url, { useNewUrlParser: true, poolSize: 50, keepAlive: 1, connectTimeoutMS: 30000, reconnectTries: 30, reconnectInterval: 5000 })
+	var conn = mongoose.createConnection(config.url)
 
 	// mongoose.Promise = global.Promise
 	conn.on('error', () => {

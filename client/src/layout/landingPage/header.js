@@ -10,6 +10,8 @@ import Modal from "react-bootstrap/Modal";
 import AEInput from "../../component/AEInput";
 import { Icon } from "@iconify/react";
 import { color } from "../../assets/css/color/color";
+import { loginData } from "../../constant";
+import secureLocalStorage from "react-secure-storage";
 export default function Header({
   scroll,
   handleMobileMenu,
@@ -25,7 +27,11 @@ export default function Header({
     setShow(false);
   };
   const handleShow = () => setShow(true);
-  const handleCloseLogoutDialog = () => setShowLogoutDialog(false);
+  const handleCloseLogoutDialog = () => {
+    setShowLogoutDialog(false);
+    secureLocalStorage.clear();
+    window.location.reload();
+  };
   const handleChangePassword = () => {
     if (!formData?.oldPassword) {
       setFormData({ ...formData, oldPasswordErr: "Please enter old password" });
@@ -87,18 +93,19 @@ export default function Header({
                   </div>
                 </nav>
                 <div className="menu-right-content ml_70">
-                  <Link
-                    onClick={() => navigate("/auth/login")}
-                    smooth={true}
-                    duration={500}
-                  >
-                    <AEButton title="Login" />{" "}
-                  </Link>
-                  &nbsp;&nbsp; &nbsp;
-                  <ProfilePopover
-                    onChangePasswordClick={handleShow}
-                    onLogoutClick={() => setShowLogoutDialog(true)}
-                  />
+                  {loginData ? (
+                    <ProfilePopover
+                      onChangePasswordClick={handleShow}
+                      onLogoutClick={() => setShowLogoutDialog(true)}
+                    />
+                  ) : (
+                    <Link smooth={true} duration={500}>
+                      <AEButton
+                        title="Login"
+                        onClick={() => navigate("/auth/login")}
+                      />
+                    </Link>
+                  )}
                 </div>
               </div>
             </div>
@@ -126,18 +133,19 @@ export default function Header({
                   </div>
                 </nav>
                 <div className="menu-right-content ml_70">
-                  <Link
-                    onClick={() => navigate("/auth/login")}
-                    smooth={true}
-                    duration={100}
-                  >
-                    <AEButton title="Login" />{" "}
-                  </Link>{" "}
-                  &nbsp;&nbsp; &nbsp;
-                  <ProfilePopover
-                    onChangePasswordClick={handleShow}
-                    onLogoutClick={() => setShowLogoutDialog(true)}
-                  />
+                  {loginData ? (
+                    <ProfilePopover
+                      onChangePasswordClick={handleShow}
+                      onLogoutClick={() => setShowLogoutDialog(true)}
+                    />
+                  ) : (
+                    <Link smooth={true} duration={500}>
+                      <AEButton
+                        title="Login"
+                        onClick={() => navigate("/auth/login")}
+                      />{" "}
+                    </Link>
+                  )}
                 </div>
               </div>
             </div>
