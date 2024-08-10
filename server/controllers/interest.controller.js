@@ -52,5 +52,30 @@ module.exports = {
                 error: err
             })
         }
+    },
+
+    withdrawIntrest: async(req, res) =>{
+        try{
+            if (!req.params.id || !res.locals.auth.id) {
+                return res.status(400).json({
+                    success: false,
+                    message: messages.REQUIRED_FIELDS_MISSING,
+                })
+            }
+            let interests = await Intrest.delete(req.params.id)
+            if (interests) {
+                res.status(200).json({
+                    success: true,
+                    message: messages.INTEREST_WITHDRAWN
+                })
+            }
+        }catch(err){
+            console.log(err)
+            res.status(400).json({
+                success: false,
+                message: messages.UNEXPECTED_ERROR,
+                error: err
+            }) 
+        }
     }
 }

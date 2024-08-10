@@ -10,5 +10,6 @@ module.exports = {
     USER_REGISTERED: 'User registered successfully',
     MESSAGE_RECIEVED: "Message received successfully",
     INTEREST_SENT: "Intreset sent successfully",
-    INTEREST_ALREADY_SENT: "Interest already sent"
+    INTEREST_ALREADY_SENT: "Interest already sent",
+    INTEREST_WITHDRAWN: "Interest withdrawn successfully",
 }
