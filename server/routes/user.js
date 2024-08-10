@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const { afterSignupAuth } = require('../middleware/signupAuthTmp')
-const user = require('../controllers/userController')
+const user = require('../controllers/user.controller')
 
 // ======= ROUTE FOR /API/USER/ ============
 router.get('/list', user.getUsers)

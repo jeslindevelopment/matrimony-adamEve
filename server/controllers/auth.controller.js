@@ -9,16 +9,19 @@ const md5 = require('md5')
 const qs = require('qs')
 const axios = require('axios');
 const mongoose = require('mongoose');
-const EmailModule = require('./emailController');
+const EmailModule = require('./email.controller');
 const contact = require('../models/mongodb/contact')
 
 module.exports = {
     validate: () => {
         return [
-            check('name', 'Name is required').not().isEmpty(),
-            // check('email', 'Email is required').not().isEmpty().isEmail(),
-            check('password', 'State name is required').not().isEmpty(),
-            check('phone', 'Phone is required').not().isEmpty()
+            check('firstname', 'Firstname is required').not().isEmpty(),
+            check('surname', 'Surname is required').not().isEmpty(),
+            check('dob', 'Date of birth is required').not().isEmpty(),
+            check('gender', 'Gender is required').not().isEmpty(),
+            check('password', 'password name is required').not().isEmpty(),
+            check('phone', 'Phone is required').not().isEmpty(),
+            check('denomination', 'Denomination is required').not().isEmpty()
         ]
     },
     logout: async (req, res) => {
@@ -46,64 +49,83 @@ module.exports = {
         if (req.body.phone == '' || req.body.password == '') {
             return res.status(500).json({
                 success: false,
-                message: 'Phone No. or Password is not correct. Please try again'
+                message: messages.PHONE_PASSWORD_INCORRECT
             })
         }
-        User.get({ phone: new RegExp(["^", req.body.phone, "$"].join(""), "i") }, {
-            'name': 1,
-            'parentId': 1,
-            'username': 1,
-            '_id': 1,
-            'formPermissions': 1,
-            'permissions': 1,
-            'phone': 1,
-            'formulirNumber': 1,
-            'profile_picture': 1,
-            'email': 1,
-            'language': 1,
-            'theme': 1,
-            'is_active': 1,
-            'defaultCommission': 1,
-            'commissionType': 1,
-            'balance': 1,
-            'role': 1,
-            'clickableNumbers': 1,
-            'showMyAddress': 1,
-            'isReservedBalance': 1,
-            'isTagged': 1,
-            'isVerifiedEmail': 1,
-            'isVerifiedPhone': 1,
-            'documentStatus': 1,
-            'canDrop': 1,
-            'lastmileRole': 1,
-            "password": 1,
-            "role_id": 1,
-            "subuserRole": 1
+
+        User.get({ phone: {"$regex": req.body.phone, "$options": "i" } }, {
+                _id:1,
+                password:1,
+                firstname:1,
+                surname:1,
+                dob:1,
+                gender:1,
+                maritalStatus:1,
+                unmarriedReason:1,
+                phone:1,
+                otp:1,
+                status:1,
+                denomination:1,
+                city:1,
+                state:1,
+                country:1,
+                pincode:1,
+                height:1,
+                weight:1,
+                bodyType:1,
+                complexion:1,
+                eatingHabits:1,
+                drink:1,
+                smoke:1,
+                education:1,
+                specialization:1,
+                bloodGroup:1,
+                jobLocation:1,
+                annualIncome:1,
+                designation:1,
+                motherTongue:1,
+                language:1,
+                disability:1,
+                preferredProfilesState:1,
+
+                fatherName:1,
+                fatherOccupation:1,
+                motherName:1,
+                motherOccupation:1,
+                numberOfBrother:1,
+                numberOfSister:1,
+                parentContact:1,
+
+                churchName:1,
+                churchPriest:1,
+                pastorsContact:1,
+                churchAddress:1,
+                yearOfBaptism:1,
+                ministry:1,
+
+                selfDescription:1,
+                partnersExpectations:1, 
+                role: 1
         }).then(result => {
             if (!result) {
                 res.status(400).json({
                     success: false,
-                    message: 'User not found. Please try again',
+                    message: messages.USER_NOT_FOUND,
                     err
                 })
             }
-            if (result && result[0] && result[0].password === undefined) {
-                res.status(500).json({
-                    success: false,
-                    message: 'You haven\'t confirmed your account, please check your email',
-                    err
-                })
-            }
+           
             bcrypt.compare(req.body.password, result[0].password).then(bcryptRes => {
                 if (bcryptRes) {
-                    User.get({ _id: result[0]._id, is_active: true }).then(async active_user => {
+                    User.get({ _id: result[0]._id }).then(async active_user => {
+                    // User.get({ _id: result[0]._id, staus: "Pending" }).then(async active_user => {
                         if (active_user.length > 0) {
                             var token = jwt.sign({
                                 userId: result[0]._id,
                                 email: result[0].email,
-                                role: result[0].role,
+                                role: result[0].role || 'user',
                                 subuserRole: result[0].subuserRole,
-                            }, config.jwtKey, { expiresIn: expiresIn })
+                            }, config.jwtKey, { expiresIn: 60 * 60 * 24 * 7 })
                             var params = {
                                 selector: { email: new RegExp(["^", req.body.email, "$"].join(""), "i") },
                                 data: { last_login: Date.now() }
@@ -131,7 +153,6 @@ module.exports = {
                                 params.data.isFormulirUser = true;
                             }
                             User.update(params).then(async login_saved => {
-                                console.log(login_saved);
                                 module.exports.addAuthorization(result[0]._id, result[0].email, req, token)
                                 if (result[0].lastmileRole == 'account') {
                                     let params = {
@@ -143,88 +164,86 @@ module.exports = {
                                     }
                                 }
 
-                                let [aff] = await AffiliateMember.get({ user_id: result[0]._id });
-                                let formPermissions = result[0].formPermissions;
-
-                                if (aff && formPermissions) {
-                                    formPermissions["showAffiliateMenu"] = true
-                                }
-
-                                if (result[0].role == "admin") {
-                                    formPermissions = undefined
-                                }
-
-                                // let baseUrl = (req.headers.origin && req.headers.origin.includes("dev-form-front.mengantar.com")) || (req.headers.host && req.headers.host.includes("dev-form-front.mengantar.com"))  ? ('https://dev-form-front-id.mengantar.com/').replace('https://', '').replace('http://', ''): config.baseURL.replace('https://', '').replace('http://', '')
-                                //Added check for designer urls to respond with its checkout url
                                 res.json({
                                     id: result[0]._id,
-                                    name: result[0].name,
-                                    config: { baseUrl: config.baseURL.replace('https://', '').replace('http://', '') },
-                                    username: result[0].username,
-                                    email: result[0].email,
-                                    role_id: result[0].role_id,
-                                    parentId: result[0].parentId,
-                                    access: rules,
-                                    discount: result[0].discount + result[0].discountRate,
-                                    phone: result[0].phone,
-                                    language: result[0].language ? result[0].language : 'en',
-                                    theme: result[0].theme ? result[0].theme : 'light',
                                     role: result[0].role,
-                                    canDrop: result[0].canDrop,
-                                    formPermissions: formPermissions,
-                                    is_active: result[0].is_active,
-                                    balance: result[0].balance,
-                                    subuserRole: result[0].subuserRole,
-                                    lastmileRole: result[0].lastmileRole,
-                                    branch: result[0].branch,
-                                    region: result[0].region,
-                                    whenPickup: result[0].whenPickup,
-                                    emails: result[0].emails,
-                                    telegramIds: result[0].telegramIds,
-                                    whenDelivered: result[0].whenDelivered,
-                                    whenAttention: result[0].whenAttention,
-                                    whenAction: result[0].whenAction,
-                                    telegramId: result[0].telegramId,
-                                    telegramNotification: result[0].telegramNotification,
-                                    bankTransferDefault: result[0].bankTransferDefault,
-                                    autoWithdraw: result[0].autoWithdraw,
-                                    autoWithdrawData: result[0].autoWithdrawData,
-                                    autoWithdrawAdminDisabled: result[0].autoWithdrawAdminDisabled ? result[0].autoWithdrawAdminDisabled : 0,
-                                    documentStatus: result[0].documentStatus,
-                                    isReservedBalance: result[0].isReservedBalance,
-                                    isTagged: result[0].isTagged,
-                                    defaultCommission: result[0].defaultCommission,
-                                    commissionType: result[0].commissionType,
+                                    firstname: result[0]?.firstname,
+                                    surname: result[0]?.surname,
+                                    dob: result[0]?.dob,
+                                    gender: result[0]?.gender,
+                                    maritalStatus: result[0]?.maritalStatus,
+                                    unmarriedReason: result[0]?.unmarriedReason,
+                                    phone: result[0]?.phone,
+                                    otp: result[0]?.otp,
+                                    status: result[0]?.status,
+                                    denomination: result[0]?.denomination,
+                                    city: result[0]?.city,
+                                    state: result[0]?.state,
+                                    country: result[0]?.country,
+                                    pincode: result[0]?.pincode,
+                                    height: result[0]?.height,
+                                    weight: result[0]?.weight,
+                                    bodyType: result[0]?.bodyType,
+                                    complexion: result[0]?.complexion,
+                                    eatingHabits: result[0]?.eatingHabits,
+                                    drink: result[0]?.drink,
+                                    smoke: result[0]?.smoke,
+                                    education: result[0]?.education,
+                                    specialization: result[0]?.specialization,
+                                    bloodGroup: result[0]?.bloodGroup,
+                                    jobLocation: result[0]?.jobLocation,
+                                    annualIncome: result[0]?.annualIncome,
+                                    designation: result[0]?.designation,
+                                    motherTongue: result[0]?.motherTongue,
+                                    language: result[0]?.language,
+                                    disability: result[0]?.disability,
+                                    preferredProfilesState: result[0]?.preferredProfilesState,
+
+                                    fatherName: result[0]?.fatherName,
+                                    fatherOccupation: result[0]?.fatherOccupation,
+                                    motherName: result[0]?.motherName,
+                                    motherOccupation: result[0]?.motherOccupation,
+                                    numberOfBrother: result[0]?.numberOfBrother,
+                                    numberOfSister: result[0]?.numberOfSister,
+                                    parentContact: result[0]?.parentContact,
+
+                                    churchName: result[0]?.churchName,
+                                    churchPriest: result[0]?.churchPriest,
+                                    pastorsContact: result[0]?.pastorsContact,
+                                    churchAddress: result[0]?.churchAddress,
+                                    yearOfBaptism: result[0]?.yearOfBaptism,
+                                    ministry: result[0]?.ministry,
+
+                                    selfDescription: result[0]?.selfDescription,
+                                    partnersExpectations: result[0]?.partnersExpectations,
                                     token,
                                     success: true
                                 })
                             }).catch(err => {
-                                console.log('err', err)
                                 res.status(500).json({
                                     success: false,
-                                    message: 'something is wrong',
+                                    message: messages.UNEXPECTED_ERROR,
                                     err
                                 })
                             })
                         } else {
                             res.status(400).json({
                                 success: false,
-                                message: 'Account is inactive'
+                                message: messages.USER_NOT_ACTIVE
                             })
                         }
                     })
                 } else {
                     res.status(400).json({
                         success: false,
-                        message: 'Email or Password is not correct. Please try again'
+                        message: messages.PHONE_PASSWORD_INCORRECT
                     })
                 }
             })
         }).catch(err => {
-            console.log('error', err)
             res.status(400).json({
                 success: false,
-                message: 'Email or Password is not correct. Please try again',
+                message: messages.PHONE_PASSWORD_INCORRECT,
                 err
             })
         })
@@ -323,30 +342,15 @@ module.exports = {
             } else {
                 res.status(400).json({
                     success: false,
-                    message: 'user not found',
+                    message: messages.USER_NOT_FOUND,
                 })
             }
         } else {
             res.status(400).json({
                 success: false,
-                message: 'this available only for admin',
+                message: messages.USER_UNAUTHORIZED,
             })
         }
-    },
-    checkEmail: (req, res) => {
-        User.get({ email: req.params.email }).then(res_valid => {
-            if (res_valid.length != 0) {
-                return res.json({
-                    success: true,
-                    message: "Email exists"
-                })
-            } else {
-                return res.json({
-                    success: false,
-                    message: "Email not Found"
-                })
-            }
-        })
     },
     checkUsername: (req, res) => {
         User.get({ username: req.params.username }).then(res_valid => {
@@ -363,6 +367,12 @@ module.exports = {
     },
     signup: async (req, res) => {
         try {
+            if(!req.body.firstname || !req.body.surname || !req.body.dob || !req.body.gender || !req.body.maritalStatus || !req.body.phone || !req.body.denomination){
+                return res.status(400).json({
+                    success: false,
+                    message: messages.REQUIRED_FIELDS_MISSING
+                })
+            }
             var password = bcrypt.hashSync(req.body.password, 10)
             var params = {
                 password,
@@ -428,7 +438,7 @@ module.exports = {
                     return res.status(400).json({
                         success: false,
                         errors: [{
-                            "msg": "Number already exist",
+                            "msg": messages.NUMBER_EXIST,
                             "param": "Number"
                         }]
                     })
@@ -441,54 +451,13 @@ module.exports = {
                     role: result.role
                 }, config.jwtKey)
 
-                EmailModule.mailgunSendEmail({
-                    email_to: result.email,
-                    text: `Halo,
-
-Terima kasih telah mendaftar dan ingin mencoba Mengantar.com,
-kamu bisa langsung login ke app.mengantar.com dan mulai melakukan pengiriman.
-
-Jika ada kendala, jangan sungkan untuk langsung menghubungi kita.
-Kamu bisa chat dengan kita setelah login ke dashboard.
-
-Tim support kita tersedia pada pukul 8:00 - 20:00 WIB, di hari Senin - Sabtu.
-
-Selamat bergabung dengan Mengantar!`,
-                    subject: 'Selamat Datang di Mengantar'
-                })
-
-                //server side tracking
-                let domain = req.body.domain ? req.body.domain : undefined;
-                if (domain) {
-                    if (domain && domain.includes(req.headers.host)) {
-                        domain = req.headers.host;
-                    }
-                    let trackingData = await Tracking.get({ domain });
-                    trackingData.forEach(async elem => {
-                        if (elem && elem.triggerCondition == "CompleteRegistration") {
-                            let { accessToken, pixelId, eventName, eventValue, type, testEventCode } = elem
-                            track[type + 'AddEvent'](accessToken, pixelId, eventName, eventValue, domain, result, testEventCode)
-                        }
-                    })
-                }
-
-                //tracking for formulir
-                let ip = req.headers['x-forwarded-for'] ? req.headers['x-forwarded-for'] : req.socket.localAddress ? req.socket.localAddress :
-                    req.socket.remoteAddress;
-                let agent = req.headers['user-agent'];
-                track['FacebookAddEvent'](config.pixeltoken, config.pixelid, "CompleteRegistration", undefined, domain, {
-                    customerEmail: result.email,
-                    customerPhone: result.phone, metadata: { ip, 'user-agent': agent }
-                });
-
                 return res.json({
                     success: true,
                     token,
                     firstname: result.firstname,
                     lastname: result.lastname,
-                    c: 'user registered successfully'
+                    message: messages.USER_REGISTERED
                 })
-
             })
         } catch (error) {
             console.log('error', error)
@@ -524,7 +493,6 @@ Selamat bergabung dengan Mengantar!`,
                 data: 'Recovery email sent'
             })
         } catch (error) {
-            console.log('eerr', error)
             res.status(500).json({
                 success: false,
                 error
@@ -546,7 +514,6 @@ Selamat bergabung dengan Mengantar!`,
                 data: 'Code is OK'
             })
         } catch (error) {
-            console.log('eerr', error)
             res.status(500).json({
                 success: false,
                 error
@@ -575,7 +542,6 @@ Selamat bergabung dengan Mengantar!`,
                 data: 'Password successfully changed'
             })
         } catch (error) {
-            console.log('eerr', error)
             res.status(500).json({
                 success: false,
                 error
@@ -675,7 +641,6 @@ Selamat bergabung dengan Mengantar!`,
             })
         }
         catch (e) {
-            console.log('Send code on register Error', e.response)
             const dataMessages = e && e.response && e.response.data && e.response.data.error ? e.response.data.error.messages : "";
             return res.json({
                 success: false,
@@ -741,26 +706,6 @@ Selamat bergabung dengan Mengantar!`,
             return res.json({
                 success: false,
                 data: 'captcha verification error'
-            })
-        }
-    },
-    addContactMessage: async (req, res) => {
-        try {
-            let params = req.body;
-            if (!params.name || params.email || params.phone || params.message) {
-                return res.status(400).json({
-                    success: false,
-                    data: 'Missing details'
-                })
-            }
-            await contact.add(params)
-            return res.status(200).json({
-                success: true
-            })
-        } catch (err) {
-            return res.status(400).json({
-                success: false,
-                data: 'Error contacting'
             })
         }
     }

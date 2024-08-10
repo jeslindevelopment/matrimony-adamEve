@@ -7,7 +7,7 @@ module.exports = {
     "mongodb": [
       {
         "active": true,
-        "url": "mongodb+srv://mathewjeslindevelopment:TmJ4QpLE1gR1k0cv@matrimonyadamneve.44dljum.mongodb.net/matrimony",
+        "url": "mongodb://127.0.0.1:27017/matrimony",
         "options": {}
       }
     ]

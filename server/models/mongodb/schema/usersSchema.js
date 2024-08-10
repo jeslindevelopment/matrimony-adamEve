@@ -1,6 +1,8 @@
 const { Schema, isObjectIdOrHexString } = require('mongoose');
 
 const User = new Schema({
+    role: {type: String, default: "user"},
+    password: String,
     firstname: String,
     surname: String,
     dob: Date,
@@ -12,7 +14,7 @@ const User = new Schema({
     subscriptionDate: { type: String },
     phone: { type: String, unique: true, required: true, dropDups: true },
     otp: String,
-    status: String,
+    status: {type: String},
     denomination: String,
     city: String,
     state: String,
