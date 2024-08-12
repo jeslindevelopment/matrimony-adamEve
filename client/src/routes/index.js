@@ -9,6 +9,7 @@ import LandingPageLayout from "../layout/landingPage/landingPageLayout";
 import ProfileSetting from "../pages/profileSetting";
 import ProfileListing from "../pages/profileListing";
 import { loginData } from "../constant";
+import ProfileDetails from "../pages/profileListing/profileDetails";
 
 export default function Router() {
 
@@ -21,6 +22,8 @@ export default function Router() {
         { path: "/", element: <LandingPage /> },
         { path: "/profile-setting", element: <ProfileSetting /> },
         { path: "/profile-listings", element: <ProfileListing /> },
+        { path: "/profile-detail", element: <ProfileDetails /> },
+
       ],
     },
     {

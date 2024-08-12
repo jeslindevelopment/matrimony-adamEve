@@ -1,4 +1,4 @@
-import image from "../../../assets/images/1535303839A36I8979-Edit.jpg";
+import image from "../../../assets/images/why-us-bg.jpg";
 export default function WhyUs() {
   return (
     <>
@@ -13,11 +13,7 @@ export default function WhyUs() {
               <div className="image_block_one">
                 <div className="image-box pr_90 mr_40">
                   <figure className="image">
-                    <img
-                      // src={image}
-                      src="https://www.brides.com/thmb/hJfQiJR2ayzZIUzpUtJTxl_14I0=/700x700/filters:no_upscale():max_bytes(150000):strip_icc()/shoegame-b0c204a63a454002b15ccc256154d291.jpg"
-                      alt=""
-                    />
+                    <img src={image} alt="" />
                   </figure>
                 </div>
               </div>
@@ -29,24 +25,37 @@ export default function WhyUs() {
                     <h6>Why Choose Adam & Eve ? </h6>
                   </div>
                   <div className="text-box mb_40">
-                    <h6>
-                      Genuine Profiles | Safe & Secure | Detailed Family
-                      Information
-                    </h6>
+                    <p className="mt-1">
+                      {/* Genuine Profiles | Safe & Secure | Detailed Family
+                      Information */}
+                      Bible says in Deut 7:3-4, Exo 34:12, Nehemiah 13:26-27, 2
+                      Cor 6:14 that Believer must marry a believer. With the
+                      rising numbers of cross cultural marriage in the body of
+                      Christ is leading many to desperation and loss of peace.
+                      In order to avoid such heartaches Adam N Eve Matrimony
+                      provides its comprehensive database profiles.
+                    </p>
+                    <p className="mt-2">
+                      We seek data only from Christians who believes on Jesus
+                      Christ and who have a good report in their respective
+                      churches.
+                    </p>
                   </div>
                   <div className="inner-box mb_45">
                     <div className="single-item">
                       <div className="icon-box">
                         <i className="icon-11"></i>
                       </div>
-                      <h5>Choose from government verified profiles</h5>
+                      <h5>Purpose of ADAM N EVE MATRIMONY</h5>
                       <p className="mt-1">
-                        Feel safe, we manually verify authenticity of profiles
-                        using government ID proofs like Pan card, Aadhar card,
-                        Driving License
+                        The purpose behind this venture is to offer an
+                        exhaustive array of profiles of marriageable individuals
+                        to the body of believers. It also aims to minimize the
+                        hassle of parents who travel to places looking for a
+                        suitable bride / groom.
                       </p>
                     </div>
-                    <div className="single-item">
+                    {/* <div className="single-item">
                       <div className="icon-box">
                         <i className="icon-11"></i>
                       </div>
@@ -70,7 +79,7 @@ export default function WhyUs() {
                         Embark on your journey to find your perfect match now
                         available in multiple languages.
                       </p>
-                    </div>
+                    </div> */}
                   </div>
                 </div>
               </div>

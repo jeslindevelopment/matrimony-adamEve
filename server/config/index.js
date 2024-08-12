@@ -7,7 +7,7 @@ module.exports = {
     "mongodb": [
       {
         "active": true,
-        "url": "mongodb://127.0.0.1:27017/matrimony",
+        "url": "mongodb://0.0.0.0:27017/matrimony",
         "options": {}
       }
     ]
