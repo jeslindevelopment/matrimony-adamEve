@@ -62,7 +62,7 @@ module.exports = {
         let page = params.page ? parseInt(params.page) : 1
         let query = params.query ? params.query : params
         return new Promise((resolve, reject) => {
-            Interest.find(query, fields).populate('parentId', 'email').sort(params && params.sort ? params.sort : { 'createdAt': -1 })
+            Interest.find(query, fields).populate('receiveUserId', 'email').sort(params && params.sort ? params.sort : { 'createdAt': -1 })
                 .limit(size)
                 .skip(size * (page - 1))
                 .exec((err, result) => {
