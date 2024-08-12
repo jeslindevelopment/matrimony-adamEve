@@ -6,6 +6,7 @@ import WhyUs from "./subComponent/whyUs.js";
 import AboutUs from "./subComponent/AbousUs.js";
 import Process from "./subComponent/process.js";
 import LookingFor from "./subComponent/lookingFor.js";
+import OurTeam from "./subComponent/ourTeam.js";
 
 export default function LandingPage() {
   useEffect(() => {
@@ -18,6 +19,7 @@ export default function LandingPage() {
       <WhyUs />
       <Process />
       <AboutUs />
+      <OurTeam/>
       <Contact />
     </>
   );

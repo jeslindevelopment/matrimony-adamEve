@@ -2,17 +2,19 @@ const config = require('../config')
 const Cookie = require('cookie')
 const jwt = require('jsonwebtoken')
 const User = require('../models/mongodb/users')
+const messages = require('../global/messages')
 
 
 const afterSignupAuth = (req, res, next) => {
   let token = req.headers && req.headers.token ? req.headers && req.headers.token : ''
-
+  console.log(token, "token")
   if (token) {
     jwt.verify(token, config.jwtKey, async (err, decode) => {
+      console.log(decode)
       if (err) {
         return res.status(401).json({
           success: false,
-          c: 'invalid token 1'
+          c: messages.INVALID_TOKEN
         })
       } else {
 
@@ -20,7 +22,6 @@ const afterSignupAuth = (req, res, next) => {
           if (user_result && user_result.length > 0 && user_result[0]._id) {
             res.locals.auth = {
               id: decode.userId,
-              parentId: user_result.parentId,
               createAuth: true
             }
             req.userId = decode.userId;
@@ -28,13 +29,13 @@ const afterSignupAuth = (req, res, next) => {
           } else {
             res.status(400).json({
               success: false,
-              c: 'user not allowed to access this function'
+              c: messages.INVALID_TOKEN
             })
           }
         }).catch(err => {
           res.status(400).json({
             success: false,
-            c: 'An error occured'
+            c: messages.UNEXPECTED_ERROR
           })
         })
       }
@@ -43,7 +44,7 @@ const afterSignupAuth = (req, res, next) => {
     if (!req.headers.cookie) {
       return res.status(400).json({
         success: false,
-        c: 'user data not found'
+        c:messages.USER_NOT_FOUND
       })
     }
     var cookie = Cookie.parse(req.headers.cookie)
@@ -51,19 +52,18 @@ const afterSignupAuth = (req, res, next) => {
     if (cookie.formData == undefined && cookie.user == undefined) {
       return res.status(400).json({
         success: false,
-        c: 'user data not found 1'
+        c: messages.USER_NOT_FOUND
       })
     } else {
       if (!JSON.parse(parsed.user).is_active) {
         return res.status(400).json({
           success: false,
-          c: 'user is inactive'
+          c: messages.USER_NOT_ACTIVE
         })
       } else {
         if (cookie.user != undefined) {
           res.locals.auth = {
             id: JSON.parse(parsed.user).id,
-            parentId: JSON.parse(parsed.user).parentId,
             createAuth: true
           }
           next()
@@ -72,7 +72,7 @@ const afterSignupAuth = (req, res, next) => {
             if (err) {
               return res.status(400).json({
                 success: false,
-                c: 'invalid token'
+                c: messages.INVALID_TOKEN
               })
             } else {
               res.locals.auth = {
@@ -87,6 +87,97 @@ const afterSignupAuth = (req, res, next) => {
     }
   }
 }
+
+
+const afterAdminAuth = (req, res, next) => {
+  let token = req.headers && req.headers.token ? req.headers && req.headers.token : ''
+
+  if (token) {
+    jwt.verify(token, config.jwtKey, async (err, decode) => {
+      if (err) {
+        return res.status(401).json({
+          success: false,
+          c: messages.INVALID_TOKEN
+        })
+      } else {
+        if(decode.role != "admin"){
+          return res.status(401).json({
+          success: false,
+          c: messages.USER_UNAUTHORIZED
+        })
+        }else{
+          User.get({ _id: decode.userId }).then((user_result) => {
+            if (user_result && user_result.length > 0 && user_result[0]._id) {
+              res.locals.auth = {
+                id: decode.userId,
+                createAuth: true
+              }
+              req.userId = decode.userId;
+              next()
+            } else {
+              res.status(400).json({
+                success: false,
+                c: messages.USER_UNAUTHORIZED
+              })
+            }
+          }).catch(err => {
+            res.status(400).json({
+              success: false,
+              c: messages.UNEXPECTED_ERROR
+            })
+          })
+        }
+      }
+    })
+  } else {
+    if (!req.headers.cookie) {
+      return res.status(400).json({
+        success: false,
+        c: messages.USER_NOT_FOUND
+      })
+    }
+    var cookie = Cookie.parse(req.headers.cookie)
+    var parsed = cookie
+    if (cookie.formData == undefined && cookie.user == undefined) {
+      return res.status(400).json({
+        success: false,
+        c: messages.USER_NOT_FOUND
+      })
+    } else {
+      if (!JSON.parse(parsed.user).is_active) {
+        return res.status(400).json({
+          success: false,
+          c: messages.USER_NOT_ACTIVE
+        })
+      } else {
+        if (cookie.user != undefined) {
+          res.locals.auth = {
+            id: JSON.parse(parsed.user).id,
+            createAuth: true
+          }
+          next()
+        } else {
+          jwt.verify(JSON.parse(parsed.auth).accessToken, config.jwtKey, (err, decode) => {
+            if (err) {
+              return res.status(400).json({
+                success: false,
+                c: messages.INVALID_TOKEN
+              })
+            } else {
+              res.locals.auth = {
+                id: decode.userId,
+                createAuth: false
+              }
+              next()
+            }
+          })
+        }
+      }
+    }
+  }
+}
+
 module.exports = {
-  afterSignupAuth
+  afterSignupAuth,
+  afterAdminAuth
 }
