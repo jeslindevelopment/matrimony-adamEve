@@ -60,7 +60,8 @@ module.exports = {
     getPages: (params, fields = null) => {
         let size = params.size ? parseInt(params.size) : 10000
         let page = params.page ? parseInt(params.page) : 1
-        let query = params.query ? params.query : params
+        let query = params.query ? params.query : {}
+        console.log(size, page, query)
         return new Promise((resolve, reject) => {
             User.find(query, fields).sort(params && params.sort ? params.sort : { 'createdAt': -1 })
                 .limit(size)

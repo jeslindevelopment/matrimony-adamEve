@@ -3,7 +3,16 @@ import { Model } from '../server/models';
 
 const data = [
   {
-    name: "Executive ",
+    name: "Free",
+    fee: 0,
+    validity: "unlimited",
+    freeContacts: "unlimited",
+    profileType: "Normal",
+    contactAllowed: "unlimited",
+    photosAllowed: "unlimited"
+  },
+  {
+    name: "Executive",
     fee: 500,
     validity: "1",
     freeContacts: "5",

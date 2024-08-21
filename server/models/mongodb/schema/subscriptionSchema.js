@@ -1,5 +1,5 @@
 const { Schema, model } = require('mongoose'),
-    User = model('User', require('./../usersSchema'))
+    User = model('User', require('./usersSchema'))
 const subscription = new Schema({
     name: String,
     fee: Number,
