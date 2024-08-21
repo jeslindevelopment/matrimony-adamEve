@@ -8,21 +8,54 @@ import AEButton from "../../component/AEButton";
 import ProfilePopover from "./profilePopover";
 import Modal from "react-bootstrap/Modal";
 import AEInput from "../../component/AEInput";
+import { Icon } from "@iconify/react";
 import { color } from "../../assets/css/color/color";
+import { loginData } from "../../constant";
+import secureLocalStorage from "react-secure-storage";
 export default function Header({
   scroll,
-  isMobileMenu,
   handleMobileMenu,
   isSidebar,
-  handlePopup,
   handleSidebar,
 }) {
+  const [formData, setFormData] = useState({});
   const navigate = useNavigate();
   const [show, setShow] = useState(false);
   const [showLogoutDialog, setShowLogoutDialog] = useState(false);
-  const handleClose = () => setShow(false);
+  const handleClose = () => {
+    setFormData({});
+    setShow(false);
+  };
   const handleShow = () => setShow(true);
-  const handleCloseLogoutDialog = () => setShowLogoutDialog(false);
+  const handleCloseLogoutDialog = () => {
+    setShowLogoutDialog(false);
+    secureLocalStorage.clear();
+    window.location.reload();
+  };
+  const handleChangePassword = () => {
+    if (!formData?.oldPassword) {
+      setFormData({ ...formData, oldPasswordErr: "Please enter old password" });
+      return;
+    }
+    if (!formData?.newPassword) {
+      setFormData({ ...formData, newPasswordErr: "Please enter new password" });
+      return;
+    }
+    if (!formData?.confirmPassword) {
+      setFormData({
+        ...formData,
+        confirmPasswordErr: "Please  confirm password",
+      });
+      return;
+    }
+    if (formData?.newPassword != formData?.confirmPassword) {
+      setFormData({
+        ...formData,
+        confirmPasswordErr: "Password does not match",
+      });
+      return;
+    }
+  };
   return (
     <>
       {/* <header className="main-header header-style-three"> */}
@@ -60,18 +93,19 @@ export default function Header({
                   </div>
                 </nav>
                 <div className="menu-right-content ml_70">
-                  <Link
-                    onClick={() => navigate("/auth/login")}
-                    smooth={true}
-                    duration={500}
-                  >
-                    <AEButton title="Login" />{" "}
-                  </Link>
-                  &nbsp;&nbsp; &nbsp;
-                  <ProfilePopover
-                    onChangePasswordClick={handleShow}
-                    onLogoutClick={() => setShowLogoutDialog(true)}
-                  />
+                  {loginData ? (
+                    <ProfilePopover
+                      onChangePasswordClick={handleShow}
+                      onLogoutClick={() => setShowLogoutDialog(true)}
+                    />
+                  ) : (
+                    <Link smooth={true} duration={500}>
+                      <AEButton
+                        title="Login"
+                        onClick={() => navigate("/auth/login")}
+                      />
+                    </Link>
+                  )}
                 </div>
               </div>
             </div>
@@ -99,18 +133,19 @@ export default function Header({
                   </div>
                 </nav>
                 <div className="menu-right-content ml_70">
-                  <Link
-                    onClick={() => navigate("/auth/login")}
-                    smooth={true}
-                    duration={100}
-                  >
-                    <AEButton title="Login" />{" "}
-                  </Link>                  &nbsp;&nbsp; &nbsp;
-
-                  <ProfilePopover
-                    onChangePasswordClick={handleShow}
-                    onLogoutClick={() => setShowLogoutDialog(true)}
-                  />
+                  {loginData ? (
+                    <ProfilePopover
+                      onChangePasswordClick={handleShow}
+                      onLogoutClick={() => setShowLogoutDialog(true)}
+                    />
+                  ) : (
+                    <Link smooth={true} duration={500}>
+                      <AEButton
+                        title="Login"
+                        onClick={() => navigate("/auth/login")}
+                      />{" "}
+                    </Link>
+                  )}
                 </div>
               </div>
             </div>
@@ -130,12 +165,100 @@ export default function Header({
           <Modal.Title>Change Password</Modal.Title>
         </Modal.Header>
         <Modal.Body style={{ backgroundColor: color.modalBG }}>
-          <AEInput placeholder="Current Password" />
-          <AEInput placeholder="New Password" />
-          <AEInput placeholder="Confirm New Password" />
+          <AEInput
+            placeholder="Current Password"
+            formErr={formData?.oldPasswordErr}
+            endText={
+              <Icon
+                icon={
+                  formData?.oldShowPass
+                    ? "lets-icons:eye-light"
+                    : "iconamoon:eye-off-light"
+                }
+                color="black"
+                width={25}
+                onClick={() =>
+                  setFormData({
+                    ...formData,
+                    oldShowPass: !formData?.oldShowPass,
+                  })
+                }
+              />
+            }
+            type={formData?.oldShowPass ? "text" : "password"}
+            onChange={(e) => {
+              setFormData({
+                ...formData,
+                oldPassword: e.target.value,
+                oldPasswordErr: "",
+              });
+            }}
+          />
+          <AEInput
+            placeholder="New Password"
+            formErr={formData?.newPasswordErr}
+            endText={
+              <Icon
+                icon={
+                  formData?.newShowPass
+                    ? "lets-icons:eye-light"
+                    : "iconamoon:eye-off-light"
+                }
+                color="black"
+                width={25}
+                onClick={() =>
+                  setFormData({
+                    ...formData,
+                    newShowPass: !formData?.newShowPass,
+                  })
+                }
+              />
+            }
+            type={formData?.newShowPass ? "text" : "password"}
+            onChange={(e) => {
+              setFormData({
+                ...formData,
+                newPassword: e.target.value,
+                newPasswordErr: "",
+              });
+            }}
+          />
+          <AEInput
+            placeholder="Confirm New Password"
+            formErr={formData?.confirmPasswordErr}
+            endText={
+              <Icon
+                icon={
+                  formData?.confirmShowPass
+                    ? "lets-icons:eye-light"
+                    : "iconamoon:eye-off-light"
+                }
+                color="black"
+                width={25}
+                onClick={() =>
+                  setFormData({
+                    ...formData,
+                    confirmShowPass: !formData?.confirmShowPass,
+                  })
+                }
+              />
+            }
+            type={formData?.confirmShowPass ? "text" : "password"}
+            onChange={(e) => {
+              setFormData({
+                ...formData,
+                confirmPassword: e.target.value,
+                confirmPasswordErr: "",
+              });
+            }}
+          />
           <div className="row">
             <div className="col-12">
-              <AEButton title="Submit" fullWidth onClick={handleClose} />
+              <AEButton
+                title="Submit"
+                fullWidth
+                onClick={handleChangePassword}
+              />
             </div>
           </div>
         </Modal.Body>

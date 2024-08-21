@@ -1,4 +1,4 @@
-import image from "../../../assets/images/Candid-Wedding-Photography-Coimbatore-2.png";
+import image from "../../../assets/images/abous-us-bg.jpg";
 export default function AboutUs() {
   return (
     <>
@@ -22,13 +22,22 @@ export default function AboutUs() {
             data-wow-duration="1500ms"
           >
             <div className="text-center">
-              <p style={{ fontSize: 25, lineHeight: 1.5,color:'black' }}>
-                Adam & Eve is a trusted matchmaking service created for peoples
-                who are looking for a life partner for their self or loved ones.
-                Unlike other Matrimonial services, we focus on providing
-                trustworthy detailed family and background information to help
-                you take the next step with confidence. With over 80+ community
-                sites, you can find a match from your own community.
+              <p style={{ fontSize: 20, lineHeight: 1.5, color: "black" }}>
+                Established on 03 June 2015, Adam N Eve Matrimony came into
+                existence with the motive to serve the people of God. The
+                founder Pastor Patrick Peter came face to face with the ground
+                reality and plight of the believers as they struggle to find a
+                believer life partner. The burden for the unmarried believers
+                was very strong in his mind and once a man approached him in
+                Rajasthan with tears in his eyes and expressed his helplessness
+                in finding a right life partner for his sister. The immediate
+                response from Pastor Patrick’s heart was <span className="fw-bolder">
+                   “Lord what can I do for
+                these people” </span>. Not being hasty he consulted several pastors and
+                leaders regarding his burden and most of them offered positive
+                response. The next issue that confronted him was that of finance
+                for this venture. Miraculously this need was supplied and Adam N
+                Eve Matrimony came into existence.{" "}
               </p>
             </div>
           </div>

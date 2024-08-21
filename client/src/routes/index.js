@@ -8,13 +8,11 @@ import Register from "../pages/auth/register";
 import LandingPageLayout from "../layout/landingPage/landingPageLayout";
 import ProfileSetting from "../pages/profileSetting";
 import ProfileListing from "../pages/profileListing";
-// import Login from "../pages/auth/login";
-// import secureLocalStorage from "react-secure-storage";
+import { loginData } from "../constant";
+import ProfileDetails from "../pages/profileListing/profileDetails";
+
 export default function Router() {
-  // const isLoggedIn = secureLocalStorage.getItem(
-  //   process.env.REACT_APP_AUTH_STORAGE_KEY
-  // );
-  const isLoggedIn = false;
+
   const routes = useRoutes([
     {
       path: "/",
@@ -24,11 +22,13 @@ export default function Router() {
         { path: "/", element: <LandingPage /> },
         { path: "/profile-setting", element: <ProfileSetting /> },
         { path: "/profile-listings", element: <ProfileListing /> },
+        { path: "/profile-detail", element: <ProfileDetails /> },
+
       ],
     },
     {
       path: "/auth",
-      element: !isLoggedIn ? <AuthLayout /> : <Navigate to="/" />,
+      element: !loginData ? <AuthLayout /> : <Navigate to="/" />,
       children: [
         { path: "login", element: <Login /> },
         { path: "forgotPassword", element: <ForgotPass /> },

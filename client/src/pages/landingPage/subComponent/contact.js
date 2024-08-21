@@ -91,6 +91,7 @@ const Contact = () => {
                     <i className="icon-2"></i>
                   </div>
                   <h3>Our Location</h3>
+
                   <p>Address</p>
                 </div>
               </div>
@@ -110,8 +111,6 @@ const Contact = () => {
                     <Link href="mailto:developerspoint72@gmail.com">
                       abc@gmail.com
                     </Link>
-                    <br />
-                    <br />
                   </p>
                 </div>
               </div>
@@ -129,8 +128,6 @@ const Contact = () => {
                   <h3>Phone Number</h3>
                   <p>
                     <Link href="tel:11111111111">+(91) 11111111111</Link>
-                    <br />
-                    <br />
                   </p>
                 </div>
               </div>

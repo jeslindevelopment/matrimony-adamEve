@@ -3,7 +3,7 @@ import { UserContext } from "../../../component/userContext";
 import AEButton from "../../../component/AEButton";
 
 export default function Details() {
-  const { setFormData, formData, handleNext, handlePrevious } =
+  const { setFormData, formData, handleSave, handlePrevious } =
     useContext(UserContext);
 
   return (
@@ -13,6 +13,13 @@ export default function Details() {
           <textarea
             class="form-control"
             aria-label="With textarea"
+            value={formData?.selfDescrreq}
+            onChange={(e) => {
+              setFormData({
+                ...formData,
+                selfDescrreq: e.target.value,
+              });
+            }}
             placeholder="About yourself"
             style={{ background: "#b99a4570" }}
           />
@@ -20,6 +27,13 @@ export default function Details() {
         <div className="col-12 mt-3">
           <textarea
             class="form-control"
+            value={formData?.partnersExpectations}
+            onChange={(e) => {
+              setFormData({
+                ...formData,
+                partnersExpectations: e.target.value,
+              });
+            }}
             aria-label="With textarea"
             placeholder=" Partners expectations "
             style={{ background: "#b99a4570" }}
@@ -39,8 +53,8 @@ export default function Details() {
           <div>
             <AEButton
               fullWidth
-              title="Next "
-              onClick={handleNext}
+              title="Save "
+              onClick={handleSave}
               //  isLoader={isLoader}
             />
           </div>

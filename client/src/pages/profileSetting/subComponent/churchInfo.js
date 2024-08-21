@@ -2,9 +2,7 @@ import React, { useContext } from "react";
 import { UserContext } from "../../../component/userContext";
 import AEInput from "../../../component/AEInput";
 import AESelect from "../../../component/AESelect";
-import {
-    MINISTRY
-} from "../../../constant";
+import { MINISTRY } from "../../../constant";
 import AEButton from "../../../component/AEButton";
 
 export default function ChurchInfo() {
@@ -15,26 +13,82 @@ export default function ChurchInfo() {
     <>
       <div className="row">
         <div className="col-lg-6 col-md-6 col-sm-12">
-          <AEInput background="#b99a4570" placeholder="Name of Church" />
+          <AEInput
+            value={formData?.churchName}
+            onChange={(e) => {
+              setFormData({
+                ...formData,
+                churchName: e.target.value,
+              });
+            }}
+            background="#b99a4570"
+            placeholder="Name of Church"
+          />
         </div>
         <div className="col-lg-6 col-md-6 col-sm-12">
-          <AEInput background="#b99a4570" placeholder="Name of Church Priest" />
+          <AEInput
+            value={formData?.churchPriest}
+            onChange={(e) => {
+              setFormData({
+                ...formData,
+                churchPriest: e.target.value,
+              });
+            }}
+            background="#b99a4570"
+            placeholder="Name of Church Priest"
+          />
         </div>
         <div className="col-lg-6 col-md-6 col-sm-12">
-          <AEInput background="#b99a4570" placeholder="Church Address" />
+          <AEInput
+            value={formData?.churchAddress}
+            onChange={(e) => {
+              setFormData({
+                ...formData,
+                churchAddress: e.target.value,
+              });
+            }}
+            background="#b99a4570"
+            placeholder="Church Address"
+          />
         </div>
         <div className="col-lg-6 col-md-6 col-sm-12">
-          <AEInput background="#b99a4570" placeholder="Year of Baptism" />
+          <AEInput
+            value={formData?.yearOfBaptism}
+            onChange={(e) => {
+              setFormData({
+                ...formData,
+                yearOfBaptism: e.target.value,
+              });
+            }}
+            background="#b99a4570"
+            placeholder="Year of Baptism"
+          />
         </div>{" "}
         <div className="col-lg-6 col-md-6 col-sm-12">
-          <AEInput background="#b99a4570" placeholder="Pastors Contact No." />
+          <AEInput
+            value={formData?.pastorsContact}
+            onChange={(e) => {
+              setFormData({
+                ...formData,
+                pastorsContact: e.target.value?.slice(0, 10),
+              });
+            }}
+            background="#b99a4570"
+            placeholder="Pastors Contact No."
+          />
         </div>
         <div className="col-lg-6 col-md-6 col-sm-12 ">
           <AESelect
             background="#b99a4570"
             placeholder="Ministry if Any"
             options={MINISTRY}
-            value={""}
+            value={formData?.ministry}
+            onChange={(e) => {
+              setFormData({
+                ...formData,
+                ministry: e.target.value,
+              });
+            }}
           />{" "}
         </div>
       </div>
