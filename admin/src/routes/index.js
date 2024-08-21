@@ -5,6 +5,7 @@ import AuthLayout from "../layout/auth";
 import secureLocalStorage from "react-secure-storage";
 import ForgotPassword from "../pages/auth/forgot";
 import Users from "../pages/dashboard/users";
+import Subscription from "../pages/dashboard/subscription";
 // import Events from "../pages/dashboard/events";
 import DashboardLayout from "../layout/dashboard";
 import DashboardApp from "../pages/dashboard/dashboard";
@@ -21,6 +22,7 @@ export default function Router() {
         { path: "app", element: <DashboardApp /> },
         // { path: "events", element: <Events /> },
         { path: "users", element: <Users /> },
+        { path: "subscription", element: <Subscription /> },
         { path: "datatable", element: <DataTable /> },
         // { path: 'setting', element: <SettingPage/> },
         // { path: '*', element: <Page404/> },

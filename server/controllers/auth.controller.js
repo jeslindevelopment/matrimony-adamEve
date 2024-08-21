@@ -713,12 +713,13 @@ module.exports = {
     },
     getSubscriptionPlan: async (req, res) => {
         try {
-            let plans = await Subscription.getPages(params, fields);
+            let plans = await Subscription.getPages({});
             res.status(200).json({
                 success: true,
                 data: plans,
             })
         } catch (error) {
+            console.log(error, "error")
             return res.json({
                 success: false,
                 data: error

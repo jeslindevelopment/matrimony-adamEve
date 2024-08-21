@@ -17,11 +17,11 @@ const navConfig = [
     path: "/dashboard/users",
     icon: <Icon icon="fa:users" width={20} />,
   },
-  // {
-  //   title: "Data Table",
-  //   path: "/dashboard/datatable",
-  //   icon: <Icon icon="majesticons:data-line" width={20} />,
-  // },
+  {
+    title: "Subscription Plan",
+    path: "/dashboard/subscription",
+    icon: <Icon icon="majesticons:data-line" width={20} />,
+  },
 ];
 
 export default navConfig;
