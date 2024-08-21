@@ -33,7 +33,7 @@ const authSlice = createSlice({
             state.email = action.payload.email
             state.id = action.payload.id
             localStorage.setItem('userToken', action.payload.access_token);
-            localStorage.setItem('role', action.payload.role || "teacher");
+            localStorage.setItem('role', action.payload.role || "user");
             localStorage.setItem('email', action.payload.email);
             localStorage.setItem('id', action.payload.id);
             state.success = true

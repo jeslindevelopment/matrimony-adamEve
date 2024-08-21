@@ -1,6 +1,5 @@
 import { Navigate, useRoutes } from "react-router-dom";
 // layouts
-
 import AuthLayout from "../layout/auth";
 // import Login from "../pages/auth/login";
 import secureLocalStorage from "react-secure-storage";
@@ -16,8 +15,7 @@ export default function Router() {
   const routes = useRoutes([
     {
       path: "/dashboard",
-      element: <DashboardLayout />,
-      // element: isLoggedIn ? <DashboardLayout /> : <Navigate to="/login" />,
+      element: isLoggedIn ? <DashboardLayout /> : <Navigate to="/login" />,
       children: [
         { element: <Navigate to="/dashboard/app" />, index: true },
         { path: "app", element: <DashboardApp /> },

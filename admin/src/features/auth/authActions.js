@@ -4,6 +4,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import { backendURL } from "../../config";
 import { showNotification } from "../notification/notificationSlice";
 import { handleError } from "../common";
+import secureLocalStorage from "react-secure-storage";
 
 const prefix = "/auth";
 
@@ -31,21 +32,18 @@ export const setSignupState = createAsyncThunk(
 
 export const loginUser = createAsyncThunk(
   "auth/login",
-  async ({ email, password, navigate }, { rejectWithValue, dispatch }) => {
+  async ({ phone, password, navigate }, { rejectWithValue, dispatch }) => {
     try {
-      var bodyFormData = new FormData();
-      bodyFormData.append('username', email);
-      if (password) {
-        bodyFormData.append('password', password);
-      }
-      const response = await axios.post(`${backendURL}${prefix}/login`, bodyFormData,
-        { headers: { "Content-Type": "multipart/form-data" } });
+      var bodyFormData = { phone, password }
+      const response = await axios.post(`${backendURL}${prefix}/login`, bodyFormData);
       dispatch(
         showNotification({
           message: "Logged in successfully",
           type: "success",
         })
       );
+      secureLocalStorage.setItem("authenticated", true);
+      navigate('/dashboard')
       return response.data;
     } catch (error) {
       // return custom error message from backend if present

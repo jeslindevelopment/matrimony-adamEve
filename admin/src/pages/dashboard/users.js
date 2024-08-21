@@ -10,15 +10,14 @@ export default function DataTable() {
   const [size, setSize] = useState(10);
   const [page, setPage] = useState(1);
   const { userList } = useSelector((state) => state.users);
+  const { userToken } = useSelector((state) => state.auth)
   const dispatch = useDispatch();
-  console.log(userList, "state.users");
 
   useEffect(() => {
-    dispatch(getUsers({ userToken: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NmI3Nzg2ZjY2ZTQyODY0NzZjNjNhNjUiLCJyb2xlIjoidXNlciIsImlhdCI6MTcyNDA2ODAwOSwiZXhwIjoxNzI0NjcyODA5fQ.UgZthBR2VBY5x4MkZLt5L2a3krHQbG_blL6ibJLlabA", size, page }));
+    dispatch(getUsers({ userToken, size, page }));
   }, []);
 
   useEffect(() => {
-    console.log(userList, "userList")
     setDataSource(userList);
   }, [userList]);
 
@@ -55,7 +54,6 @@ export default function DataTable() {
         filter: true,
         sort: false,
         customBodyRender: (value) => {
-          console.log(value, "value")
           return !value ? "-" : value
         },
       },
@@ -182,28 +180,28 @@ export default function DataTable() {
       options: {
         filter: false,
         sort: false,
-        customBodyRender: (value, tableMeta, updateValue) => {
+        customBodyRender: (value, meta) => {
           return (
             <>
               <Helmet>
                 <title> DataTable </title>
               </Helmet>
-              {tableMeta.columnIndex}
-              {userList[tableMeta.columnIndex]} {value} {updateValue}
-              {userList[tableMeta.columnIndex] && <Button onClick={() => alert("Edit")}>
-                Free Plan
-              </Button>}
-              <Button
-                onClick={() => alert("Delete")}
-                style={{ marginLeft: "-1rem" }}
-              >
-                <Icon
-                  icon="ic:baseline-delete"
-                  color="red"
-                  width="25"
-                  height="25"
-                />
-              </Button>
+              <div style={{ display: "flex" }}>
+                {userList[meta.rowIndex] && <Button onClick={() => alert("Edit")}>
+                  Free Plan
+                </Button>}
+                <Button
+                  onClick={() => alert("Delete")}
+                  style={{ marginLeft: "-1rem" }}
+                >
+                  <Icon
+                    icon="ic:baseline-delete"
+                    color="red"
+                    width="25"
+                    height="25"
+                  />
+                </Button>
+              </div>
             </>
           );
         },
@@ -213,10 +211,8 @@ export default function DataTable() {
 
   return (
     <div className="App wrapper">
-      <h4>User Data </h4>
-
       <MUIDataTable
-        title={"Events List"}
+        title={"User List"}
         data={dataSource}
         columns={columns}
         options={{

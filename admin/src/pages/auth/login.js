@@ -13,23 +13,23 @@ import { Icon } from "@iconify/react";
 import AdminButton from "../../components/adminButton";
 import AdminInput from "../../components/adminInput";
 import { useState } from "react";
-import secureLocalStorage from "react-secure-storage";
 import { color } from "../../theme/color";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { loginUser } from "../../features/auth/authActions";
 // TODO remove, this demo shouldn't need to reset the theme.
 
 const defaultTheme = createTheme();
 
 export default function Login() {
-  const Navigate = useNavigate();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [phoneNumber, setPhoneNumber] = useState("");
   const [password, setPassword] = useState("");
   const [formError, setFormError] = useState({});
   const [showPassword, setShowPassword] = useState(false);
   const handleSubmit = () => {
-    const validPhoneNumber = new RegExp(
-      "^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]\d{3}[\s.-]\d{4}$"
-    );
+    const validPhoneNumber = new RegExp('1?\W*([2-9][0-8][0-9])\W*([2-9][0-9]{2})\W*([0-9]{4})(\se?x?t?(\d*))?');
 
     if (!phoneNumber) {
       setFormError((formError) => ({
@@ -51,9 +51,7 @@ export default function Login() {
       }));
       return;
     }
-
-    secureLocalStorage.setItem("authenticated", true);
-    Navigate("/dashboard");
+    dispatch(loginUser({ password, phone: phoneNumber, navigate }))
   };
 
   return (
@@ -116,7 +114,7 @@ export default function Login() {
             </Typography>
             <Box noValidate sx={{ mt: 1 }}>
               <AdminInput
-                title="PhoneNumber"
+                title="Phone Number"
                 type="phoneNumber"
                 value={phoneNumber}
                 onChange={(val) => {

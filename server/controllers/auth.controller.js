@@ -1,5 +1,6 @@
 const User = require('../models/mongodb/users')
 const Role = require('../models/mongodb/role')
+const Subscription = require('../models/mongodb/subscription')
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
 const Authorization = require('../models/mongodb/authorization')
@@ -11,6 +12,7 @@ const axios = require('axios');
 const mongoose = require('mongoose');
 const EmailModule = require('./email.controller');
 const contact = require('../models/mongodb/contact')
+const messages = require('../global/messages')
 
 module.exports = {
     validate: () => {
@@ -53,59 +55,59 @@ module.exports = {
             })
         }
 
-        User.get({ phone: {"$regex": req.body.phone, "$options": "i" } }, {
-                _id:1,
-                password:1,
-                firstname:1,
-                surname:1,
-                dob:1,
-                gender:1,
-                maritalStatus:1,
-                unmarriedReason:1,
-                phone:1,
-                otp:1,
-                status:1,
-                denomination:1,
-                city:1,
-                state:1,
-                country:1,
-                pincode:1,
-                height:1,
-                weight:1,
-                bodyType:1,
-                complexion:1,
-                eatingHabits:1,
-                drink:1,
-                smoke:1,
-                education:1,
-                specialization:1,
-                bloodGroup:1,
-                jobLocation:1,
-                annualIncome:1,
-                designation:1,
-                motherTongue:1,
-                language:1,
-                disability:1,
-                preferredProfilesState:1,
+        User.get({ phone: { "$regex": req.body.phone, "$options": "i" } }, {
+            _id: 1,
+            password: 1,
+            firstname: 1,
+            surname: 1,
+            dob: 1,
+            gender: 1,
+            maritalStatus: 1,
+            unmarriedReason: 1,
+            phone: 1,
+            otp: 1,
+            status: 1,
+            denomination: 1,
+            city: 1,
+            state: 1,
+            country: 1,
+            pincode: 1,
+            height: 1,
+            weight: 1,
+            bodyType: 1,
+            complexion: 1,
+            eatingHabits: 1,
+            drink: 1,
+            smoke: 1,
+            education: 1,
+            specialization: 1,
+            bloodGroup: 1,
+            jobLocation: 1,
+            annualIncome: 1,
+            designation: 1,
+            motherTongue: 1,
+            language: 1,
+            disability: 1,
+            preferredProfilesState: 1,
 
-                fatherName:1,
-                fatherOccupation:1,
-                motherName:1,
-                motherOccupation:1,
-                numberOfBrother:1,
-                numberOfSister:1,
-                parentContact:1,
+            fatherName: 1,
+            fatherOccupation: 1,
+            motherName: 1,
+            motherOccupation: 1,
+            numberOfBrother: 1,
+            numberOfSister: 1,
+            parentContact: 1,
 
-                churchName:1,
-                churchPriest:1,
-                pastorsContact:1,
-                churchAddress:1,
-                yearOfBaptism:1,
-                ministry:1,
+            churchName: 1,
+            churchPriest: 1,
+            pastorsContact: 1,
+            churchAddress: 1,
+            yearOfBaptism: 1,
+            ministry: 1,
 
-                selfDescription:1,
-                partnersExpectations:1, 
-                role: 1
+            selfDescription: 1,
+            partnersExpectations: 1,
+            role: 1
         }).then(result => {
             if (!result) {
                 res.status(400).json({
@@ -114,11 +116,11 @@ module.exports = {
                     err
                 })
             }
-           
+
             bcrypt.compare(req.body.password, result[0].password).then(bcryptRes => {
                 if (bcryptRes) {
                     User.get({ _id: result[0]._id }).then(async active_user => {
-                    // User.get({ _id: result[0]._id, staus: "Pending" }).then(async active_user => {
+                        // User.get({ _id: result[0]._id, staus: "Pending" }).then(async active_user => {
                         if (active_user.length > 0) {
                             var token = jwt.sign({
                                 userId: result[0]._id,
@@ -367,7 +369,7 @@ module.exports = {
     },
     signup: async (req, res) => {
         try {
-            if(!req.body.firstname || !req.body.surname || !req.body.dob || !req.body.gender || !req.body.maritalStatus || !req.body.phone || !req.body.denomination){
+            if (!req.body.firstname || !req.body.surname || !req.body.dob || !req.body.gender || !req.body.maritalStatus || !req.body.phone || !req.body.denomination) {
                 return res.status(400).json({
                     success: false,
                     message: messages.REQUIRED_FIELDS_MISSING
@@ -706,6 +708,20 @@ module.exports = {
             return res.json({
                 success: false,
                 data: 'captcha verification error'
+            })
+        }
+    },
+    getSubscriptionPlan: async (req, res) => {
+        try {
+            let plans = await Subscription.getPages(params, fields);
+            res.status(200).json({
+                success: true,
+                data: plans,
+            })
+        } catch (error) {
+            return res.json({
+                success: false,
+                data: error
             })
         }
     }

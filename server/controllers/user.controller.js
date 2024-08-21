@@ -141,6 +141,9 @@ module.exports = {
             var params = { ...req.body }
             delete params.role;
             delete params.otp;
+            delete params.subscriptionID;
+            delete params.subscriptionPlan;
+            delete params.subscriptionDate;
 
             await User.update({
                 selector: { _id: res.locals.auth.id },
