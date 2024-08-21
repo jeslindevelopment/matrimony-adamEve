@@ -4,6 +4,7 @@
   .single-price {
     padding-bottom: 25px;
     background: #fff;
+    min-height: 100vh;
     text-align: center;
     overflow: hidden;
     position: relative;

@@ -2,10 +2,13 @@ import React from "react";
 import { color } from "../../assets/css/color/color";
 import { Icon } from "@iconify/react";
 import { useNavigate } from "react-router-dom";
+import moment from "moment";
 
 export default function UsersCard(props) {
   const navigate = useNavigate();
-  const { key, item,setShowPlanDialog } = props;
+  const { key, item, setShowPlanDialog ,onViewDeatil} = props;
+  console.log("item", item);
+
   return (
     <div className="col-lg-3 col-md-6 col-sm-12 rounded-4 p-2" key={key}>
       <div className="bg-white py-2 px-1 rounded-4">
@@ -21,8 +24,8 @@ export default function UsersCard(props) {
               <div className="fs-6 text-center w-100">
                 <p className="text-white fw-bold">25 years</p>
                 <p className="text-white">
-                  5-feet-1-inches, Roman Catholic, Hindi, Graduate, Commission
-                  Agent
+                  5-feet-1-inches, {item?.denomination}, Hindi, Graduate,
+                  Commission Agent
                 </p>
                 <p className="text-white">Rs. 1 – 2 Lacs/year</p>
                 <p className="text-white fw-bold">Assam, India</p>
@@ -53,7 +56,7 @@ export default function UsersCard(props) {
             <button
               type="button"
               class="btn btn-sm"
-              onClick={() => navigate("/profile-detail")}
+              onClick={onViewDeatil}
               style={{
                 background: color.hightLightColor,
                 borderRadius: 10,
@@ -67,7 +70,7 @@ export default function UsersCard(props) {
             <button
               type="button"
               class="btn btn-sm"
-              onClick={()=>setShowPlanDialog(true)}
+              onClick={() => setShowPlanDialog(true)}
               style={{
                 background: color.hightLightColor,
                 borderRadius: 10,

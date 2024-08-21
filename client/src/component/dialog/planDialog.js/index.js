@@ -15,7 +15,7 @@ export default function PlanDialog(props) {
           <div className="pricing-area" style={{marginTop:'-4rem'}}>
             <div className="container">
               <div className="row">
-                <div className="col-md-4 col-sm-6">
+                <div className="col-md-4 col-sm-6" >
                   <div className="single-price">
                     <div className="price-header">
                       <h5 className="title">Executive Plan </h5>

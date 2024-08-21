@@ -46,8 +46,9 @@ export default function BasicInfo() {
           <AEInput
             background="#b99a4570"
             type="date"
-            value={formData?.dob}
+            value={formData?.dob || ""}
             onChange={(e) => {
+              console.log("e.targte",e.target.value)
               setFormData({
                 ...formData,
                 dob: e.target.value,
@@ -146,7 +147,6 @@ export default function BasicInfo() {
               setFormData({
                 ...formData,
                 pincode: e.target.value.slice(0, 6),
-
               });
             }}
             background="#b99a4570"

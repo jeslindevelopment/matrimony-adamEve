@@ -3,7 +3,7 @@ import { UserContext } from "../../../component/userContext";
 import AEButton from "../../../component/AEButton";
 
 export default function Details() {
-  const { setFormData, formData, handleNext, handlePrevious } =
+  const { setFormData, formData, handleSave, handlePrevious } =
     useContext(UserContext);
 
   return (
@@ -53,8 +53,8 @@ export default function Details() {
           <div>
             <AEButton
               fullWidth
-              title="Next "
-              onClick={handleNext}
+              title="Save "
+              onClick={handleSave}
               //  isLoader={isLoader}
             />
           </div>

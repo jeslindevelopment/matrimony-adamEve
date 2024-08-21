@@ -8,13 +8,26 @@ const slice = createSlice({
   name: "auth",
   initialState: {
     userData: null,
+    userListData: null,
     message: "",
     isLoading: false,
   },
-  reducers: {},
+  reducers: {
+    getUserDetailSuccess: (state, action) => {
+      state.userData = action.payload;
+    },
+    getUsersListSuccess: (state, action) => {
+      state.userListData = action.payload;
+    },
+    getProfileDetailSuccess: (state, action) => {
+      state.profileDetail = action.payload;
+    },
+  },
 });
 
 export default slice.reducer;
+const { getUserDetailSuccess, getUsersListSuccess, getProfileDetailSuccess } =
+  slice.actions;
 
 /**********************ACTIONS************************************************ */
 // user login
@@ -31,7 +44,7 @@ export const userlogin =
             result
           );
           navigate("/");
-          window.location.reload();
+          // window.location.reload();
         } else {
           toast.error(response.data.message);
         }
@@ -58,7 +71,7 @@ export const signUp =
             result
           );
           navigate("/");
-          window.location.reload();
+          // window.location.reload();
         } else {
           toast.error(response.data.message);
         }
@@ -77,17 +90,70 @@ export const getUserDetail = (requestParams) => async (dispatch) => {
     .get(`${ADAM_EVE_API.auth.getUserDetail}`, requestParams)
     .then((response) => {
       let result = response.data;
-      console.log("result", result);
       if (result.success) {
-        toast.success(result?.c);
+        dispatch(getUserDetailSuccess(result?.data[0]));
       } else {
         toast.error(response.data.message);
       }
     })
     .catch((e) => {
       console.log("e", e);
-      toast.error(e?.response?.data?.c
-      );
+      toast.error(e?.response?.data?.c);
     });
 };
-const { apiFetching, userDataFailed, apiFailed } = slice.actions;
+
+// update User Deatils
+
+export const updateUserDeatils = (requestParams) => async (dispatch) => {
+  api
+    .post(`${ADAM_EVE_API.auth.updateUserDeatils}`, requestParams)
+    .then((response) => {
+      let result = response.data;
+      if (result.success) {
+        console.log("ddd", result);
+      } else {
+        toast.error(response.data.message);
+      }
+    })
+    .catch((e) => {
+      console.log("e", e);
+      toast.error(e?.response?.data?.message);
+    });
+};
+
+//  get Users List
+export const getUsersList = (requestParams) => async (dispatch) => {
+  api
+    .get(`${ADAM_EVE_API.auth.getUsersList}`, requestParams)
+    .then((response) => {
+      let result = response.data;
+      if (result.success) {
+        dispatch(getUsersListSuccess(result));
+      } else {
+        toast.error(response.data.message);
+      }
+    })
+    .catch((e) => {
+      console.log("e", e);
+      toast.error(e?.response?.data?.c);
+    });
+};
+// get Profile Detail
+
+export const getProfileDetail = (id) => async (dispatch) => {
+  api
+    .get(`${ADAM_EVE_API.auth.getProfileDetail}/${id}`)
+    .then((response) => {
+      let result = response.data;
+      if (result.success) {
+        console.log("dd", result);
+        dispatch(getProfileDetailSuccess(result?.data[0]));
+      } else {
+        toast.error(response.data.message);
+      }
+    })
+    .catch((e) => {
+      console.log("e", e);
+      toast.error(e?.response?.data?.c);
+    });
+};

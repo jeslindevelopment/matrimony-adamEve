@@ -1,10 +1,19 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { color } from "../../../assets/css/color/color";
 import "../index.css";
 import DetailListBox from "./detailListBox";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { getProfileDetail } from "../../../store/slice/auth";
 export default function ProfileDetails() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { profileDetail } = useSelector((state) => state.auth);
+  const { state } = useLocation();
+  useEffect(() => {
+    dispatch(getProfileDetail(state?.id));
+  }, []);
+  console.log("profileDetail", profileDetail);
   return (
     <>
       <section class="bg-light py-3 py-md-5 py-xl-8">
@@ -30,7 +39,7 @@ export default function ProfileDetails() {
                       class="card-header text-white fs-6 fw-bolder"
                       style={{ background: color.hightLightColor }}
                     >
-                      Welcome, user name
+                      Welcome, {profileDetail?.firstname}
                     </div>
                     <div class="card-body">
                       <div class="text-center mb-3">
@@ -40,7 +49,7 @@ export default function ProfileDetails() {
                           alt="Luna John"
                         />
                       </div>
-                      <h5 class="text-center mb-1">Ethan Leo</h5>
+                      <h5 class="text-center mb-1">{profileDetail?.firstname} {profileDetail?.surname}</h5>
                       <div class="d-grid m-0">
                         <button class="btn btn-outline-primary" type="button">
                           Follow

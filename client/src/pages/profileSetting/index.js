@@ -8,14 +8,26 @@ import FamilyInfo from "./subComponent/familyInfo";
 import ChurchInfo from "./subComponent/churchInfo";
 import Details from "./subComponent/details";
 import { useDispatch } from "react-redux";
-import { getUserDetail } from "../../store/slice/auth";
+import { getUserDetail, updateUserDeatils } from "../../store/slice/auth";
+import { useSelector } from "react-redux";
+import moment from "moment";
 const ProfileSetting = () => {
   const [activeStep, setActiveStep] = useState(0);
   const [formData, setFormData] = useState({});
   const dispatch = useDispatch();
+  const { userData } = useSelector((state) => state.auth);
   useEffect(() => {
     dispatch(getUserDetail());
   }, []);
+  useEffect(() => {
+    if (userData) {
+      setFormData(userData);
+      setFormData((formData) => ({
+        ...formData,
+        dob: moment(userData?.dob).format("YYYY-MM-DD"),
+      }));
+    }
+  }, [userData]);
   const handleStepper = () => {
     if (activeStep === 0) {
       return <BasicInfo />;
@@ -35,7 +47,9 @@ const ProfileSetting = () => {
   };
   const handleNext = () => setActiveStep(activeStep + 1);
   const handlePrevious = () => setActiveStep(activeStep - 1);
-  const handleSave = () => {};
+  const handleSave = () => {
+    dispatch(updateUserDeatils(formData));
+  };
   console.log("formdata", formData);
   return (
     <section
