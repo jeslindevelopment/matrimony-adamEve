@@ -20,13 +20,13 @@ export default function Login() {
                 <AEInput placeholder="Phone Number" maxLength={10} />
               </div>
               <div className="col-lg-12">
-                <AEInput placeholder="Password" maxLength={10} />
+                <AEInput placeholder="Password" maxLength={50} />
               </div>
               <div className="col-lg-12 col-md-12 col-sm-12 form-group message-btn centred">
                 <AEButton
                   fullWidth
                   title="Login "
-                  //  isLoader={isLoader}
+                //  isLoader={isLoader}
                 />
               </div>
 

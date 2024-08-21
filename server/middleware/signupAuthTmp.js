@@ -22,6 +22,7 @@ const afterSignupAuth = (req, res, next) => {
           if (user_result && user_result.length > 0 && user_result[0]._id) {
             res.locals.auth = {
               id: decode.userId,
+              role: decode.role,
               createAuth: true
             }
             req.userId = decode.userId;
@@ -44,7 +45,7 @@ const afterSignupAuth = (req, res, next) => {
     if (!req.headers.cookie) {
       return res.status(400).json({
         success: false,
-        c:messages.USER_NOT_FOUND
+        c: messages.USER_NOT_FOUND
       })
     }
     var cookie = Cookie.parse(req.headers.cookie)
@@ -100,12 +101,12 @@ const afterAdminAuth = (req, res, next) => {
           c: messages.INVALID_TOKEN
         })
       } else {
-        if(decode.role != "admin"){
+        if (decode.role != "admin") {
           return res.status(401).json({
-          success: false,
-          c: messages.USER_UNAUTHORIZED
-        })
-        }else{
+            success: false,
+            c: messages.USER_UNAUTHORIZED
+          })
+        } else {
           User.get({ _id: decode.userId }).then((user_result) => {
             if (user_result && user_result.length > 0 && user_result[0]._id) {
               res.locals.auth = {

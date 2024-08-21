@@ -9,25 +9,35 @@ module.exports = {
                 page: req.query.page ? req.query.page : 1,
             }
 
-            params["query"] = {
-                $and: [
-                    { gender: req.query.gender },
-                    { status: "active" }
-                ]
+            // params["query"] = {
+            //     $and: [
+            //         { status: "active" },
+            //         { role: "user" }
+            //     ]
+            // }
+
+            if (req.query.gender) {
+                params["query"]["$and"].push({ gender: req.query.gender })
             }
 
-            params.query.$and.push({
-                firstname: new RegExp("^" + req.query.search, "i"),
-                surname: new RegExp("^" + req.query.search, "i"),
-                denomination: new RegExp("^" + req.query.search, "i"),
-                city: new RegExp("^" + req.query.search, "i"),
-                state: new RegExp("^" + req.query.search, "i"),
-                country: new RegExp("^" + req.query.search, "i")
-            })
+            // if (res.locals && res.locals?.auth?.role != "admin") {
+            //     params["query"]["$and"].push({ id: { $nin: [res.locals.auth.id] } })
+            // }
+            if (req.query.search) {
+                params.query.$and.push({
+                    firstname: new RegExp("^" + req.query.search, "i"),
+                    surname: new RegExp("^" + req.query.search, "i"),
+                    denomination: new RegExp("^" + req.query.search, "i"),
+                    city: new RegExp("^" + req.query.search, "i"),
+                    state: new RegExp("^" + req.query.search, "i"),
+                    country: new RegExp("^" + req.query.search, "i")
+                })
+            }
 
             const fields = {
                 firstname: 1,
                 surname: 1,
+                phone: 1,
                 dob: 1,
                 maritalStatus: 1,
                 denomination: 1,
@@ -41,16 +51,18 @@ module.exports = {
                 specialization: 1,
                 annualIncome: 1,
                 language: 1,
+                subscriptionPlan: 1
             }
 
             let users = await User.getPages(params, fields);
-            let count = await User.getCount({ parentId: res.locals.auth.id });
+            let count = await User.getCount({});
             res.status(200).json({
                 success: true,
                 data: users,
                 count
             })
         } catch (error) {
+            console.log(error, "error")
             res.status(500).json({
                 success: false,
                 error
