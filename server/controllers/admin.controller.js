@@ -1,15 +1,16 @@
 module.exports = {
     updateUser: async (req, res) => {
         try {
-            var params = { ...req.body }
-            delete params.otp;
+            var params = req.body
+            var id = param.id
+            delete params.id;
 
             await User.update({
-                selector: { _id: res.locals.auth.id },
+                selector: { _id: id },
                 data: params
             })
 
-            let [user] = await User.get({ _id: res.locals.auth.id })
+            let [user] = await User.get({ _id: id })
             user = user.toJSON()
             let time2 = new Date().getTime()
             return res.json({

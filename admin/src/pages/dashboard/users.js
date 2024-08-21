@@ -5,6 +5,7 @@ import { Icon } from "@iconify/react";
 import { Helmet } from "react-helmet-async";
 import { useSelector, useDispatch } from "react-redux";
 import { getUsers } from "../../features/user/userActions";
+import { updateUser } from "../../features/admin/adminActions";
 
 export default function DataTable() {
   const [size, setSize] = useState(10);
@@ -187,8 +188,10 @@ export default function DataTable() {
                 <title> DataTable </title>
               </Helmet>
               <div style={{ display: "flex" }}>
-                {userList[meta.rowIndex] && <Button onClick={() => alert("Edit")}>
+                {userList[meta.rowIndex] && userList[meta.rowIndex].subscriptionPlan != "Free" ? <Button onClick={() => updateFreeSubscription(userList[meta.rowIndex]._id)}>
                   Free Plan
+                </Button> : <Button onClick={() => removeFreeSubscription(userList[meta.rowIndex]._id)}>
+                  Remove Free Plan
                 </Button>}
                 <Button
                   onClick={() => alert("Delete")}
@@ -208,6 +211,24 @@ export default function DataTable() {
       },
     },
   ];
+
+  const updateFreeSubscription = (id) => {
+    const payload = {
+      subscriptionPlan: "Free",
+      subscriptionDate: new Date(),
+      id
+    }
+    dispatch(updateUser({ userToken, payload }))
+  }
+
+  const removeFreeSubscription = (id) => {
+    const payload = {
+      subscriptionPlan: null,
+      subscriptionDate: null,
+      id
+    }
+    dispatch(updateUser({ userToken, payload }))
+  }
 
   return (
     <div className="App wrapper">

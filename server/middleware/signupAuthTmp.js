@@ -6,7 +6,7 @@ const messages = require('../global/messages')
 
 
 const afterSignupAuth = (req, res, next) => {
-  let token = req.headers && req.headers.token ? req.headers && req.headers.token : ''
+  let token = req.headers && req.headers.authorization ? req.headers && req.headers.authorization : ''
   console.log(token, "token")
   if (token) {
     jwt.verify(token, config.jwtKey, async (err, decode) => {
@@ -91,7 +91,8 @@ const afterSignupAuth = (req, res, next) => {
 
 
 const afterAdminAuth = (req, res, next) => {
-  let token = req.headers && req.headers.token ? req.headers && req.headers.token : ''
+  let token = req.headers && req.headers.authorization ? req.headers && req.headers.authorization : ''
+  console.log(req.headers);
 
   if (token) {
     jwt.verify(token, config.jwtKey, async (err, decode) => {

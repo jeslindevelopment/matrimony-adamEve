@@ -12,7 +12,7 @@ export const getUsers = createAsyncThunk(
     async ({ userToken, size, page }, { rejectWithValue, dispatch }) => {
         try {
             const config = {
-                headers: { Authorization: `Bearer ${userToken}` },
+                headers: { Authorization: `${userToken}` },
             };
             const response = await axios.get(`${backendURL}${prefix}/list?size=${size}&page=${page}`, config);
             return response.data;
