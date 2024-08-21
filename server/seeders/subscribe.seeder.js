@@ -1,5 +1,5 @@
-import { Seeder } from 'mongoose-data-seed';
-import { Model } from '../server/models';
+const { Seeder } = require('mongoose-data-seed');
+const Subscription = require('../models/mongodb/subscription')
 
 const data = [
   {
@@ -43,12 +43,14 @@ const data = [
 class SubscribeSeeder extends Seeder {
 
   async shouldRun() {
-    return Model.countDocuments().exec().then(count => count === 0);
+    return Subscription.getCount({}).then(count => count === 0);
   }
 
   async run() {
-    return Model.create(data);
+    await Promise.all(data.map(e => {
+      return Subscription.add(e);
+    }))
   }
 }
 
-export default SubscribeSeeder;
+module.exports = SubscribeSeeder;

@@ -3,6 +3,7 @@ import axios from "axios";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { backendURL } from "../../config";
 import { showNotification } from "../notification/notificationSlice";
+import { getUsers } from "../user/userActions";
 import { handleError } from "../common";
 
 const prefix = "/admin";
@@ -16,6 +17,7 @@ export const updateUser = createAsyncThunk(
             };
             console.log(userToken, payload)
             const response = await axios.post(`${backendURL}${prefix}/user-update`, payload, config);
+            dispatch(getUsers({ userToken, size: 10, page: 1 }))
             return response.data;
         } catch (error) {
             // return custom error message from backend if present
