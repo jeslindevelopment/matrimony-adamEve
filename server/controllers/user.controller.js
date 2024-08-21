@@ -136,6 +136,70 @@ module.exports = {
             })
         }
     },
+    getOtherUserDetail: async (req, res) => {
+        try {
+            const fields = {
+                firstname: 1,
+                surname: 1,
+                dob: 1,
+                gender: 1,
+                maritalStatus: 1,
+                unmarriedReason: 1,
+                phone: 1,
+                denomination: 1,
+                city: 1,
+                state: 1,
+                country: 1,
+                pincode: 1,
+                height: 1,
+                weight: 1,
+                bodyType: 1,
+                complexion: 1,
+                eatingHabits: 1,
+                drink: 1,
+                smoke: 1,
+                education: 1,
+                specialization: 1,
+                bloodGroup: 1,
+                jobLocation: 1,
+                annualIncome: 1,
+                designation: 1,
+                motherTongue: 1,
+                language: 1,
+                disability: 1,
+                preferredProfilesState: 1,
+
+                fatherName: 1,
+                fatherOccupation: 1,
+                motherName: 1,
+                motherOccupation: 1,
+                numberOfBrother: 1,
+                numberOfSister: 1,
+                parentContact: 1,
+
+                churchName: 1,
+                churchPriest: 1,
+                pastorsContact: 1,
+                churchAddress: 1,
+                yearOfBaptism: 1,
+                ministry: 1,
+
+                selfDescription: 1,
+                partnersExpectations: 1
+            }
+            let user = await User.get({ _id: req.params.id }, fields)
+            return res.json({
+                success: true,
+                data: user
+            })
+        } catch (error) {
+            res.status(400).json({
+                success: false,
+                message: 'Error on get user',
+                error
+            })
+        }
+    },
     updateUser: async (req, res) => {
         try {
             var params = { ...req.body }
