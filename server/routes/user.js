@@ -8,6 +8,7 @@ router.get('/list', user.getUsers)
 
 //for logged in user details
 router.get('/one', afterSignupAuth, user.getUserDetail)
+router.get('/:id', afterSignupAuth, user.getOtherUserDetail)
 router.post('/update', afterSignupAuth, user.updateUser)
 
 
