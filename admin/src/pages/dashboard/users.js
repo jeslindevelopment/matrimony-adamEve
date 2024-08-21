@@ -193,7 +193,7 @@ export default function DataTable() {
                 </Button> : <Button onClick={() => removeFreeSubscription(userList[meta.rowIndex]._id)}>
                   Remove Free Plan
                 </Button>}
-                <Button
+                {/* <Button
                   onClick={() => alert("Delete")}
                   style={{ marginLeft: "-1rem" }}
                 >
@@ -203,7 +203,7 @@ export default function DataTable() {
                     width="25"
                     height="25"
                   />
-                </Button>
+                </Button> */}
               </div>
             </>
           );

@@ -1,23 +1,32 @@
-const mongoURL = process.env.MONGO_URL || 'mongodb://localhost:27017/dbname';
 const mongoose = require('mongoose');
 const Subscribe = require('./seeders/subscribe.seeder');
+// const { database, databaseDefault } = require('./config')
+// const mongoURL = database;
 
 /**
  * Seeders List
  * order is important
  * @type {Object}
  */
-export const seedersList = {
+const seedersList = {
   Subscribe
 };
 /**
  * Connect to mongodb implementation
  * @return {Promise}
  */
-export const connect = async () =>
-  await mongoose.connect(mongoURL, { useNewUrlParser: true });
+const connect = async () => {
+  let { connectAllDatabase } = require('./models')
+  connectAllDatabase()
+}
 /**
  * Drop/Clear the database implementation
  * @return {Promise}
  */
-export const dropdb = async () => mongoose.connection.db.dropDatabase();
+const dropdb = async () => mongoose.connection.db.dropDatabase();
+
+module.exports = {
+  seedersList,
+  connect,
+  dropdb
+}
