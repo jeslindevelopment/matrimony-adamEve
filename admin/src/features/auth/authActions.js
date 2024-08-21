@@ -74,7 +74,7 @@ export const logout = createAsyncThunk(
   async ({ userToken, email }, { rejectWithValue, dispatch, getState }) => {
     try {
       const config = {
-        headers: { "Authorization": `Bearer ${userToken}` }
+        headers: { "Authorization": `${userToken}` }
       }
       const response = await axios.post(
         `${backendURL}${prefix}/logout?user_email=${email}`, {}, config

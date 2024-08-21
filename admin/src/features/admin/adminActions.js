@@ -12,8 +12,9 @@ export const updateUser = createAsyncThunk(
     async ({ userToken, payload }, { rejectWithValue, dispatch }) => {
         try {
             const config = {
-                headers: { Authorization: `Bearer ${userToken}` },
+                headers: { Authorization: `${userToken}` },
             };
+            console.log(userToken, payload)
             const response = await axios.post(`${backendURL}${prefix}/user-update`, payload, config);
             return response.data;
         } catch (error) {

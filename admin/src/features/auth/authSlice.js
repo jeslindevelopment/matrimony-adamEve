@@ -29,10 +29,11 @@ const authSlice = createSlice({
         })
         builder.addCase(loginUser.fulfilled, (state, action, payload) => {
             state.role = action.payload.role
-            state.userToken = action.payload.access_token
+            state.userToken = action.payload.token
             state.email = action.payload.email
             state.id = action.payload.id
-            localStorage.setItem('userToken', action.payload.access_token);
+            state.userInfo = action.payload
+            localStorage.setItem('userToken', action.payload.token);
             localStorage.setItem('role', action.payload.role || "user");
             localStorage.setItem('email', action.payload.email);
             localStorage.setItem('id', action.payload.id);
