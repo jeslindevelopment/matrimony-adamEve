@@ -10,6 +10,7 @@ import ProfileSetting from "../pages/profileSetting";
 import ProfileListing from "../pages/profileListing";
 import { loginData } from "../constant";
 import ProfileDetails from "../pages/profileListing/profileDetails";
+import MyInterest from "../pages/myInterest";
 
 export default function Router() {
 
@@ -23,6 +24,8 @@ export default function Router() {
         { path: "/profile-setting", element: <ProfileSetting /> },
         { path: "/profile-listings", element: <ProfileListing /> },
         { path: "/profile-detail", element: <ProfileDetails /> },
+        { path: "/my-interest", element: <MyInterest /> },
+
 
       ],
     },

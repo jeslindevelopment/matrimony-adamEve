@@ -1,21 +1,30 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { color } from "../../../assets/css/color/color";
 import "../index.css";
 import DetailListBox from "./detailListBox";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { getProfileDetail } from "../../../store/slice/auth";
+import {  getProfileDetail } from "../../../store/slice/auth";
+import noImage from "../../../assets/images/no-image.jpg";
+import moment from "moment";
+import SendInterestDialog from "../sendInterest";
+
 export default function ProfileDetails() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { profileDetail } = useSelector((state) => state.auth);
+  const [showInterestDialog, setShowInterestDialog] = useState(false);
   const { state } = useLocation();
   useEffect(() => {
     dispatch(getProfileDetail(state?.id));
   }, []);
-  console.log("profileDetail", profileDetail);
   return (
     <>
+      <SendInterestDialog
+        id={state?.id}
+        showDialog={showInterestDialog}
+        handleCloseDialog={() => setShowInterestDialog(false)}
+      />
       <section class="bg-light py-3 py-md-5 py-xl-8">
         <div class="container">
           <nav aria-label="breadcrumb">
@@ -44,15 +53,30 @@ export default function ProfileDetails() {
                     <div class="card-body">
                       <div class="text-center mb-3">
                         <img
-                          src="https://buffer.com/library/content/images/size/w1200/2023/10/free-images.jpg"
+                          src={noImage}
                           class="img-fluid rounded-circle"
                           alt="Luna John"
                         />
                       </div>
-                      <h5 class="text-center mb-1">{profileDetail?.firstname} {profileDetail?.surname}</h5>
+                      <h5 class="text-center mb-1">
+                        {profileDetail?.firstname} {profileDetail?.surname}
+                      </h5>
                       <div class="d-grid m-0">
-                        <button class="btn btn-outline-primary" type="button">
-                          Follow
+                        <button
+                          type="button"
+                          class="btn"
+                          onClick={() => setShowInterestDialog(true)}
+                          style={{
+                            background: color.hightLightColor,
+                            borderRadius: 10,
+                            height: 40,
+                            marginTop: "0.5rem",
+                            color: "white",
+                            fontSize: 12,
+                            fontWeight: 600,
+                          }}
+                        >
+                          Send Request
                         </button>
                       </div>
                     </div>
@@ -67,12 +91,9 @@ export default function ProfileDetails() {
                       Expectation for partner
                     </div>
                     <div class="card-body fs-6 fw-bolder">
-                      Ethan Leo is a seasoned and results-driven Project Manager
-                      who brings experience and expertise to project management.
-                      With a proven track record of successfully delivering
-                      complex projects on time and within budget, Ethan Leo is
-                      the go-to professional for organizations seeking efficient
-                      and effective project leadership.{" "}
+                      {profileDetail?.partnersExpectations
+                        ? profileDetail?.partnersExpectations
+                        : "N/A"}
                     </div>
                   </div>
                 </div>
@@ -150,25 +171,52 @@ export default function ProfileDetails() {
                     >
                       <h5 class="mb-3">About</h5>
                       <p class="lead mb-3 fs-6 fw-bolder">
-                        Ethan Leo is a seasoned and results-driven Project
-                        Manager who brings experience and expertise to project
-                        management. With a proven track record of successfully
-                        delivering complex projects on time and within budget,
-                        Ethan Leo is the go-to professional for organizations
-                        seeking efficient and effective project leadership.
+                        {profileDetail?.selfDescription
+                          ? profileDetail?.selfDescription
+                          : "N/A"}
                       </p>
                       <h5 class="mb-3 mt-2">Profile</h5>
                       <div class="row g-0">
-                        <DetailListBox title={"First Name"} text={""} />
-                        <DetailListBox title={"Last Name"} text={""} />
-                        <DetailListBox title={"DOB"} text={""} />
-                        <DetailListBox title={"Gender"} text={""} />
-                        <DetailListBox title={"Marital Status"} text={""} />
-                        <DetailListBox title={"Denomination"} text={""} />
-                        <DetailListBox title={"Phone Number"} text={""} />
-                        <DetailListBox title={"Present City"} text={""} />
-                        <DetailListBox title={"States"} text={""} />
-                        <DetailListBox title={"Pin Code"} text={""} />
+                        <DetailListBox
+                          title={"First Name"}
+                          text={profileDetail?.firstname}
+                        />
+                        <DetailListBox
+                          title={"Last Name"}
+                          text={profileDetail?.surname}
+                        />
+                        <DetailListBox
+                          title={"DOB"}
+                          text={moment(profileDetail?.dob).format("DD-MM-YYYY")}
+                        />
+                        <DetailListBox
+                          title={"Gender"}
+                          text={profileDetail?.gender}
+                        />
+                        <DetailListBox
+                          title={"Marital Status"}
+                          text={profileDetail?.maritalStatus}
+                        />
+                        <DetailListBox
+                          title={"Denomination"}
+                          text={profileDetail?.denomination}
+                        />
+                        <DetailListBox
+                          title={"Phone Number"}
+                          text={profileDetail?.phone}
+                        />
+                        <DetailListBox
+                          title={"City"}
+                          text={profileDetail?.city}
+                        />
+                        <DetailListBox
+                          title={"States"}
+                          text={profileDetail?.state}
+                        />
+                        <DetailListBox
+                          title={"Pin Code"}
+                          text={profileDetail?.pincode}
+                        />
                       </div>
                     </div>
                     {/* personal info */}
@@ -180,28 +228,73 @@ export default function ProfileDetails() {
                       tabindex="0"
                     >
                       <div class="row g-0">
-                        <DetailListBox title={"Height"} text={""} />
-                        <DetailListBox title={"Weight"} text={""} />
-                        <DetailListBox title={"Body Type"} text={""} />
-                        <DetailListBox title={"Complexion "} text={""} />
-                        <DetailListBox title={"Eating Habits"} text={""} />
-                        <DetailListBox title={"Drink "} text={""} />
-                        <DetailListBox title={"Smoke "} text={""} />
-                        <DetailListBox title={"Education"} text={""} />
-                        <DetailListBox title={"Blood Group"} text={""} />
-                        <DetailListBox title={"Occupation "} text={""} />
-                        <DetailListBox title={"Job Location "} text={""} />
-                        <DetailListBox title={"Annual Income "} text={""} />
-                        <DetailListBox title={"Designation  "} text={""} />
-                        <DetailListBox title={"Mother Tongue "} text={""} />
-                        <DetailListBox title={"Language Known "} text={""} />
+                        <DetailListBox
+                          title={"Height"}
+                          text={profileDetail?.height}
+                        />
+                        <DetailListBox
+                          title={"Weight"}
+                          text={profileDetail?.weight}
+                        />
+                        <DetailListBox
+                          title={"Body Type"}
+                          text={profileDetail?.bodyType}
+                        />
+                        <DetailListBox
+                          title={"Complexion "}
+                          text={profileDetail?.complexion}
+                        />
+                        <DetailListBox
+                          title={"Eating Habits"}
+                          text={profileDetail?.eatingHabits}
+                        />
+                        <DetailListBox
+                          title={"Drink "}
+                          text={profileDetail?.drink}
+                        />
+                        <DetailListBox
+                          title={"Smoke "}
+                          text={profileDetail?.smoke}
+                        />
+                        <DetailListBox
+                          title={"Education"}
+                          text={profileDetail?.education}
+                        />
+                        <DetailListBox
+                          title={"Blood Group"}
+                          text={profileDetail?.bloodGroup}
+                        />
+                        <DetailListBox
+                          title={"Occupation "}
+                          text={profileDetail?.occupation}
+                        />
+                        <DetailListBox
+                          title={"Job Location "}
+                          text={profileDetail?.jobLocation}
+                        />
+                        <DetailListBox
+                          title={"Annual Income "}
+                          text={profileDetail?.annualIncome}
+                        />
+                        <DetailListBox
+                          title={"Designation  "}
+                          text={profileDetail?.designation}
+                        />
+                        <DetailListBox
+                          title={"Mother Tongue "}
+                          text={profileDetail?.motherTongue}
+                        />
+                        <DetailListBox
+                          title={"Language Known "}
+                          text={profileDetail?.language}
+                        />
                         <DetailListBox
                           title={"Disability (if Any)"}
-                          text={""}
+                          text={profileDetail?.disability}
                         />
                         <DetailListBox
                           title={"Preferred Profiles from "}
-                          text={""}
+                          text={profileDetail?.preferredProfilesState}
                         />
                       </div>
                     </div>
@@ -214,21 +307,33 @@ export default function ProfileDetails() {
                       tabindex="0"
                     >
                       <div class="row g-0">
-                        <DetailListBox title={"Name of Father"} text={""} />
+                        <DetailListBox
+                          title={"Name of Father"}
+                          text={profileDetail?.fatherName}
+                        />
                         <DetailListBox
                           title={"Father’s Occupation"}
-                          text={""}
+                          text={profileDetail?.fatherOccupation}
                         />
-                        <DetailListBox title={"Name of Mother"} text={""} />
+                        <DetailListBox
+                          title={"Name of Mother"}
+                          text={profileDetail?.motherName}
+                        />
                         <DetailListBox
                           title={"Mother’s Occupation"}
-                          text={""}
+                          text={profileDetail?.motherOccupation}
                         />
-                        <DetailListBox title={"No. of Brother"} text={""} />
-                        <DetailListBox title={"No. of Sister"} text={""} />
+                        <DetailListBox
+                          title={"No. of Brother"}
+                          text={profileDetail?.numberOfBrother}
+                        />
+                        <DetailListBox
+                          title={"No. of Sister"}
+                          text={profileDetail?.numberOfSister}
+                        />
                         <DetailListBox
                           title={"Contact No. of Parent"}
-                          text={""}
+                          text={profileDetail?.parentContact}
                         />
                       </div>
                     </div>
@@ -241,18 +346,30 @@ export default function ProfileDetails() {
                       tabindex="0"
                     >
                       <div class="row g-0">
-                        <DetailListBox title={"Name of Church"} text={""} />
+                        <DetailListBox
+                          title={"Name of Church"}
+                          text={profileDetail?.churchName}
+                        />
                         <DetailListBox
                           title={"Name of Church Priest"}
-                          text={""}
+                          text={profileDetail?.churchPriest}
                         />
                         <DetailListBox
                           title={"Pastors Contact No."}
-                          text={""}
+                          text={profileDetail?.pastorsContact}
                         />
-                        <DetailListBox title={"Church Address"} text={""} />
-                        <DetailListBox title={"Year of Baptism"} text={""} />
-                        <DetailListBox title={"Ministry if Any"} text={""} />
+                        <DetailListBox
+                          title={"Church Address"}
+                          text={profileDetail?.churchAddress}
+                        />
+                        <DetailListBox
+                          title={"Year of Baptism"}
+                          text={profileDetail?.yearOfBaptism}
+                        />
+                        <DetailListBox
+                          title={"Ministry if Any"}
+                          text={profileDetail?.ministry}
+                        />
                       </div>
                     </div>
                   </div>

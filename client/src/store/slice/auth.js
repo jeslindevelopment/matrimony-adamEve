@@ -11,6 +11,7 @@ const slice = createSlice({
     userListData: null,
     message: "",
     isLoading: false,
+    interestListData:[]
   },
   reducers: {
     getUserDetailSuccess: (state, action) => {
@@ -22,12 +23,19 @@ const slice = createSlice({
     getProfileDetailSuccess: (state, action) => {
       state.profileDetail = action.payload;
     },
+    getInterestListSuccess: (state, action) => {
+      state.interestListData = action.payload;
+    },
   },
 });
 
 export default slice.reducer;
-const { getUserDetailSuccess, getUsersListSuccess, getProfileDetailSuccess } =
-  slice.actions;
+const {
+  getUserDetailSuccess,
+  getUsersListSuccess,
+  getProfileDetailSuccess,
+  getInterestListSuccess,
+} = slice.actions;
 
 /**********************ACTIONS************************************************ */
 // user login
@@ -155,5 +163,62 @@ export const getProfileDetail = (id) => async (dispatch) => {
     .catch((e) => {
       console.log("e", e);
       toast.error(e?.response?.data?.c);
+    });
+};
+
+//  shortList
+export const shortList = (id) => async (dispatch) => {
+  api
+    .post(`${ADAM_EVE_API.auth.shortList}/${id}`)
+    .then((response) => {
+      let result = response.data;
+      if (result.success) {
+        console.log("dd", result);
+        // dispatch(getProfileDetailSuccess(result?.data[0]));
+      } else {
+        toast.error(response.data.message);
+      }
+    })
+    .catch((e) => {
+      console.log("e", e);
+      toast.error(e?.response?.data?.message);
+    });
+};
+
+//  send Interest
+export const sendInterest = (id, handleCloseDialog) => async (dispatch) => {
+  api
+    .post(`${ADAM_EVE_API.auth.sendInterest}/${id}`)
+    .then((response) => {
+      let result = response.data;
+      if (result.success) {
+        toast.success(result?.message);
+      } else {
+        toast.error(response.data.message);
+      }
+      handleCloseDialog();
+    })
+    .catch((e) => {
+      console.log("e", e);
+      handleCloseDialog();
+      toast.error(e?.response?.data?.message);
+    });
+};
+
+// get Interest List
+export const getInterestList = () => async (dispatch) => {
+  api
+    .get(`${ADAM_EVE_API.auth.getInterestList}`)
+    .then((response) => {
+      let result = response.data;
+      if (result.success) {
+        dispatch(getInterestListSuccess(result.data));
+      } else {
+        toast.error(response.data.message);
+      }
+    })
+    .catch((e) => {
+      console.log("e", e);
+      toast.error(e?.response?.data?.message);
     });
 };

@@ -991,7 +991,7 @@ img {
 .main-menu .navigation > li > ul,
 .main-menu .navigation > li > .megamenu {
   position: absolute;
-  left: inherit;
+  right: 0px;
   top: 100%;
   width: 230px;
   margin-top: 15px;

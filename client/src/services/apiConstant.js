@@ -6,7 +6,10 @@ export const ADAM_EVE_API = {
     getUserDetail: "/api/user/one",
     updateUserDeatils: "/api/user/update",
     getUsersList:'/api/user/list',
-    getProfileDetail:'/api/user'
+    getProfileDetail:'/api/user',
+    shortList:'api/shortlist',
+    sendInterest:'/api/interest',
+    getInterestList:'api/interest'
   },
 };
 
