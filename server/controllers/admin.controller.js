@@ -1,6 +1,7 @@
 const User = require('../models/mongodb/users');
-const backup = require('mongodb-backup');
+// const backup = require('mongodb-backup');
 const { database } = require("../config");
+const { MongoTransferer, MongoDBDuplexConnector, LocalFileSystemDuplexConnector } = require('mongodb-snapshot');
 
 module.exports = {
     updateUser: async (req, res) => {
@@ -34,20 +35,27 @@ module.exports = {
     backupDatabase: async (req, res) => {
         try {
             console.log(database["mongodb"][0].url)
-            const xx = backup({
-                uri: database["mongodb"][0].url, // mongodb://<dbuser>:<dbpassword>@<dbdomain>.mongolab.com:<dbport>/<dbdatabase>
-                root: "backup",
-                callback: function (err) {
-
-                    if (err) {
-                        console.error(err);
-                    } else {
-                        console.log('finish');
-                    }
+            const mongo_connector = new MongoDBDuplexConnector({
+                connection: {
+                    uri: `mongodb://127.0.0.1:27017`,
+                    dbname: 'matrimony',
                 },
-                tar: 'dump.tar',
             });
-            console.log(xx, "------xx")
+
+            const localfile_connector = new LocalFileSystemDuplexConnector({
+                connection: {
+                    path: './backup.tar',
+                },
+            });
+
+            const transferer = new MongoTransferer({
+                source: mongo_connector,
+                targets: [localfile_connector],
+            });
+
+            for await (const { total, write } of transferer) {
+                console.log(`remaining bytes to write: ${total - write}`);
+            }
         } catch (err) {
             console.log(err)
         }

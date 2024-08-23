@@ -6,7 +6,7 @@ import moment from "moment";
 
 export default function UsersCard(props) {
   const navigate = useNavigate();
-  const { key, item, setShowPlanDialog ,onViewDeatil} = props;
+  const { key, item, setShowPlanDialog, onViewDeatil } = props;
   console.log("item", item);
 
   return (
@@ -52,7 +52,7 @@ export default function UsersCard(props) {
               />
             </div>
           </div> */}
-          <div className="d-flex justify-content-between mb-3">
+          <div className="d-flex justify-content-evenly mb-3">
             <button
               type="button"
               class="btn btn-sm"

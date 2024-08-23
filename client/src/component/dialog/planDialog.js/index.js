@@ -12,7 +12,7 @@ export default function PlanDialog(props) {
           <Modal.Title>Purchase Plan</Modal.Title>
         </Modal.Header>
         <Modal.Body style={{ backgroundColor: color.modalBG }}>
-          <div className="pricing-area" style={{marginTop:'-4rem'}}>
+          <div className="pricing-area" style={{ marginTop: '-4rem' }}>
             <div className="container">
               <div className="row">
                 <div className="col-md-4 col-sm-6" >
@@ -34,6 +34,11 @@ export default function PlanDialog(props) {
                       <li>One Photo.</li>
                     </ul>
                     <AEButton
+                      style={{
+                        position: "absolute",
+                        marginLeft: "-50px",
+                        left: "50%", bottom: "5%"
+                      }}
                       // onClick={() => navigate("/")}
                       title={"Buy Now"}
                     />
@@ -61,6 +66,11 @@ export default function PlanDialog(props) {
                       <li>Two Photo.</li>
                     </ul>
                     <AEButton
+                      style={{
+                        position: "absolute",
+                        marginLeft: "-50px",
+                        left: "50%", bottom: "5%"
+                      }}
                       // onClick={() => navigate("/")}
                       title={"Buy Now"}
                     />
@@ -100,6 +110,11 @@ export default function PlanDialog(props) {
                     </ul>
 
                     <AEButton
+                      style={{
+                        position: "absolute",
+                        marginLeft: "-50px",
+                        left: "50%", bottom: "5%"
+                      }}
                       // onClick={() => navigate("/")}
                       title={"Buy Now"}
                     />
