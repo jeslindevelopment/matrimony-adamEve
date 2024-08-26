@@ -14,5 +14,7 @@ module.exports = {
     INTEREST_WITHDRAWN: "Interest withdrawn successfully",
     USER_UPDATE_SUCCESS: "User updated successfully",
     SUBSCRIPTION_UPDATE_FAILED: "Subscription update failed",
-    SUBSCRIPTION_UPDATE_SUCCESS: "Subscription updated successfully"
+    SUBSCRIPTION_UPDATE_SUCCESS: "Subscription updated successfully",
+    SHORTLIST_SUCCESS: "User shortlisted",
+    SHORTLIST_REMOVED: "Removed from shortlist",
 }

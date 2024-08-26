@@ -289,17 +289,22 @@
         "description": "",
         "parameters": [
           {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "cookie",
+            "in": "header",
+            "type": "string"
+          },
+          {
             "name": "size",
             "in": "query",
             "type": "string"
           },
           {
             "name": "page",
-            "in": "query",
-            "type": "string"
-          },
-          {
-            "name": "gender",
             "in": "query",
             "type": "string"
           },
@@ -312,6 +317,12 @@
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
           },
           "500": {
             "description": "Internal Server Error"
@@ -410,7 +421,7 @@
       }
     },
     "/api/interest/{id}": {
-      "post": {
+      "get": {
         "description": "",
         "parameters": [
           {
@@ -444,7 +455,7 @@
       }
     },
     "/api/interest/withdraw/{id}": {
-      "post": {
+      "get": {
         "description": "",
         "parameters": [
           {
@@ -506,7 +517,7 @@
       }
     },
     "/api/shortlist/{id}": {
-      "post": {
+      "get": {
         "description": "",
         "parameters": [
           {

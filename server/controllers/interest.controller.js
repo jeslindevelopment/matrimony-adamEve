@@ -1,5 +1,6 @@
 const Intrest = require('../models/mongodb/interest')
 const messages = require('../global/messages')
+const mongoose = require('mongoose');
 
 module.exports = {
     sendIntrest: async (req, res) => {
@@ -10,7 +11,7 @@ module.exports = {
                     message: messages.REQUIRED_FIELDS_MISSING,
                 })
             }
-            let receiveUserId = req.params.id
+            let receiveUserId = new mongoose.mongo.ObjectId(req.params.id)
             let interests = await Intrest.get({ sendUserId: res.locals.auth.id, receiveUserId })
             if (interests.length) {
                 res.status(400).json({
@@ -18,7 +19,8 @@ module.exports = {
                     message: messages.INTEREST_ALREADY_SENT
                 })
             } else {
-                await Intrest.add({ sendUserId: res.locals.auth.id, receiveUserId, receivedDate: new Date() })
+                console.log({ sendUserId: res.locals.auth.id, receiveUserId, receivedDate: new Date() })
+                await Intrest.add({ sendUserId: new mongoose.mongo.ObjectId(res.locals.auth.id), receiveUserId, receivedDate: new Date() })
                 res.status(200).json({
                     success: true,
                     message: messages.INTEREST_SENT

@@ -4,25 +4,21 @@ const Intrest = require('../models/mongodb/interest')
 module.exports = {
     getUsers: async (req, res) => {
         try {
+            let [user] = await User.get({ _id: res.locals.auth.id })
             let params = {
                 size: req.query.size ? req.query.size : 1000,
                 page: req.query.page ? req.query.page : 1,
             }
-
-            // params["query"] = {
-            //     $and: [
-            //         { status: "active" },
-            //         { role: "user" }
-            //     ]
-            // }
-
-            if (req.query.gender) {
-                params["query"]["$and"].push({ gender: req.query.gender })
+            params["query"] = {
+                $and: []
             }
 
-            // if (res.locals && res.locals?.auth?.role != "admin") {
-            //     params["query"]["$and"].push({ id: { $nin: [res.locals.auth.id] } })
-            // }
+            if (user.gender == "female") {
+                params["query"]["$and"].push({ gender: "male" })
+            } else {
+                params["query"]["$and"].push({ gender: "female" })
+            }
+
             if (req.query.search) {
                 params.query.$and.push({
                     firstname: new RegExp("^" + req.query.search, "i"),
@@ -62,7 +58,7 @@ module.exports = {
                 count
             })
         } catch (error) {
-            console.log(error, "error")
+            console.log(error)
             res.status(500).json({
                 success: false,
                 error
@@ -225,12 +221,18 @@ module.exports = {
             })
 
         } catch (error) {
-            console.log('error', error)
             res.status(400).json({
                 success: false,
                 message: 'Error on update user',
                 error
             })
+        }
+    },
+    buySubscription: async (req, res) => {
+        try {
+
+        } catch (error) {
+
         }
     }
 }

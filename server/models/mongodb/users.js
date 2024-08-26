@@ -63,16 +63,57 @@ module.exports = {
         let query = params.query ? params.query : {}
         console.log(size, page, query)
         return new Promise((resolve, reject) => {
-            User.find(query, fields).sort(params && params.sort ? params.sort : { 'createdAt': -1 })
-                .limit(size)
-                .skip(size * (page - 1))
-                .exec((err, result) => {
-                    if (err) {
-                        reject(err)
-                        return
+            User.aggregate([
+                {
+                    $lookup: {
+                        from: "shortlists",
+                        localField: "_id",
+                        foreignField: "shortlistUserId",
+                        as: "shortlisted_info"
                     }
-                    resolve(result)
-                })
+                },
+                {
+                    $addFields: {
+                        isShortlisted: {
+                            $cond: {
+                                if: { $gt: [{ $size: "$shortlisted_info" }, 0] },
+                                then: true,
+                                else: false
+                            }
+                        }
+                    }
+                },
+                {
+                    $project: {
+                        firstname: 1,
+                        surname: 1,
+                        phone: 1,
+                        dob: 1,
+                        maritalStatus: 1,
+                        denomination: 1,
+                        city: 1,
+                        state: 1,
+                        country: 1,
+                        pincode: 1,
+                        height: 1,
+                        weight: 1,
+                        education: 1,
+                        specialization: 1,
+                        annualIncome: 1,
+                        language: 1, // Include fields you want to show
+                        isShortlisted: 1 // Add the `isShortlisted` field
+                    }
+                },
+                { "$skip": size * (page - 1) },
+                { "$limit": size }
+            ]).exec((err, result) => {
+                console.log(err, result)
+                if (err) {
+                    reject(err)
+                    return
+                }
+                resolve(result)
+            })
         })
     },
 
