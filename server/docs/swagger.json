@@ -86,7 +86,7 @@
         "description": "",
         "parameters": [
           {
-            "name": "req",
+            "name": "authorization",
             "in": "header",
             "type": "string"
           },
@@ -274,6 +274,16 @@
         }
       }
     },
+    "/api/auth/subscription": {
+      "get": {
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/user/list": {
       "get": {
         "description": "",
@@ -314,7 +324,41 @@
         "description": "",
         "parameters": [
           {
-            "name": "req",
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "cookie",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/api/user/{id}": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
             "in": "header",
             "type": "string"
           },
@@ -342,7 +386,7 @@
         "description": "",
         "parameters": [
           {
-            "name": "req",
+            "name": "authorization",
             "in": "header",
             "type": "string"
           },
@@ -376,7 +420,7 @@
             "type": "string"
           },
           {
-            "name": "req",
+            "name": "authorization",
             "in": "header",
             "type": "string"
           },
@@ -401,7 +445,7 @@
         "description": "",
         "parameters": [
           {
-            "name": "req",
+            "name": "authorization",
             "in": "header",
             "type": "string"
           },
@@ -432,7 +476,7 @@
             "type": "string"
           },
           {
-            "name": "req",
+            "name": "authorization",
             "in": "header",
             "type": "string"
           },
@@ -496,7 +540,7 @@
         "description": "",
         "parameters": [
           {
-            "name": "req",
+            "name": "authorization",
             "in": "header",
             "type": "string"
           },
@@ -525,6 +569,90 @@
           },
           "401": {
             "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/api/admin/user-update": {
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "cookie",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/api/admin/subscription-detail/{id}": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "cookie",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/api/admin/backup": {
+      "get": {
+        "description": "",
+        "responses": {
+          "default": {
+            "description": ""
           }
         }
       }
