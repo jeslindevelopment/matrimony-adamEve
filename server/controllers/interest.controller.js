@@ -32,19 +32,18 @@ module.exports = {
             })
         }
     },
-
-    getMyIntrests: async(req, res) =>{
-        try{
+    getMyIntrests: async (req, res) => {
+        try {
             let params = {
                 query: { sendUserId: res.locals.auth.id }
             }
             let interests = await Intrest.getPages(params)
-             res.status(200).json({
-                    success: true,
-                    data: interests
-                })
+            res.status(200).json({
+                success: true,
+                data: interests
+            })
 
-        }catch(err){
+        } catch (err) {
             console.log(err)
             res.status(400).json({
                 success: false,
@@ -53,9 +52,8 @@ module.exports = {
             })
         }
     },
-
-    withdrawIntrest: async(req, res) =>{
-        try{
+    withdrawIntrest: async (req, res) => {
+        try {
             if (!req.params.id || !res.locals.auth.id) {
                 return res.status(400).json({
                     success: false,
@@ -69,13 +67,13 @@ module.exports = {
                     message: messages.INTEREST_WITHDRAWN
                 })
             }
-        }catch(err){
+        } catch (err) {
             console.log(err)
             res.status(400).json({
                 success: false,
                 message: messages.UNEXPECTED_ERROR,
                 error: err
-            }) 
+            })
         }
     }
 }

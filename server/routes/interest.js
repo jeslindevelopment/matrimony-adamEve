@@ -5,7 +5,7 @@ const intrest = require('../controllers/interest.controller')
 
 // ======= ROUTE FOR /API/AUTH/ ============
 router.post('/:id', afterSignupAuth, intrest.sendIntrest)
-router.post('/:id', afterSignupAuth, intrest.withdrawIntrest)
+router.post('/withdraw/:id', afterSignupAuth, intrest.withdrawIntrest)
 router.get('/', afterSignupAuth, intrest.getMyIntrests)
 
 module.exports = router
