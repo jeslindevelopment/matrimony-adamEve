@@ -2,73 +2,41 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import AEButton from "../../../component/AEButton";
 import { color } from "../../../assets/css/color/color";
+import AEInput from "../../../component/AEInput";
+import { useDispatch } from "react-redux";
+import { contactUs } from "../../../store/slice/auth";
 // import toast from "react-hot-toast";
 // import axios from "axios";
 
 const Contact = () => {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState("");
-  const [subject, setSubject] = useState("");
-  const [message, setMessage] = useState("");
+  const [formData, setFormData] = useState({});
   const [isLoader, setIsLoader] = useState(false);
-
-  const handlePhoneChange = (e) => {
-    const value = e.target.value;
-    // Allow only digits
-    const regex = /^[0-9\b]+$/;
-    if (value === "" || regex.test(value)) {
-      setPhone(value);
+  const dispatch = useDispatch();
+  const handleSubmit = () => {
+    if (!formData?.firstName) {
+      setFormData({ ...formData, firstNameErr: "Please enter first name" });
+      return;
     }
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault(); // Prevent default form submission behavior
-
-    // Implement form submission logic here, e.g., send data to backend
-    const serviceId = "service_kwsc34f";
-    const templateId = "template_ap7txmh";
-    const publicKey = "drG99uRcVmmVfiT0M";
-
-    const data = {
-      service_id: serviceId,
-      template_id: templateId,
-      user_id: publicKey,
-      template_params: {
-        to_name: "Mohib Sheikh",
-        name: name,
-        email: email,
-        phone: phone,
-        subject: subject,
-        message: message,
-      },
+    if (!formData?.phone) {
+      setFormData({ ...formData, phoneErr: "Please enter your phone number" });
+      return;
+    }
+    if (formData?.phone?.length < 10) {
+      setFormData({ ...formData, phoneErr: "Please enter valid phone number" });
+      return;
+    }
+    if (!formData?.message) {
+      setFormData({ ...formData, messageErr: "Please enter message" });
+      return;
+    }
+    setIsLoader(true);
+    let request = {
+      name: formData?.firstName,
+      email: formData?.email,
+      phone: formData?.phone,
+      message: formData?.message,
     };
-
-    // try {
-    //   setIsLoader(true);
-    //   await axios.post("https://api.emailjs.com/api/v1.0/email/send", data);
-    //   setName("");
-    //   setEmail("");
-    //   setPhone("");
-    //   setSubject("");
-    //   setMessage("");
-    //   toast.success(
-    //     <h6>
-    //       Thank you for contating us.
-    //       <br />
-    //       We shall get back to you soon!
-    //     </h6>
-    //   );
-    //   setIsLoader(false);
-    // } catch (error) {
-    //   setName("");
-    //   setEmail("");
-    //   setPhone("");
-    //   setSubject("");
-    //   setMessage("");
-    //   toast.error(<h6>Some error occured while sending email!</h6>);
-    //   setIsLoader(false);
-    // }
+    dispatch(contactUs(request));
   };
 
   return (
@@ -168,62 +136,84 @@ const Contact = () => {
             <div className="auto-container">
               <div className="sec-title"></div>
               <div className="form-inner">
-                <form onSubmit={handleSubmit}>
-                  <div className="row clearfix">
-                    <div className="col-lg-6 col-md-6 col-sm-12 form-group">
-                      <input
-                        type="text"
-                        name="username"
-                        value={name}
-                        placeholder="Your Name"
-                        required
-                        onChange={(e) => setName(e.target.value)}
-                      />
-                    </div>
-                    <div className="col-lg-6 col-md-6 col-sm-12 form-group">
-                      <input
-                        type="email"
-                        name="email"
-                        placeholder="Your email"
-                        value={email}
-                        required
-                        onChange={(e) => setEmail(e.target.value)}
-                      />
-                    </div>
-                    <div className="col-lg-6 col-md-6 col-sm-12 form-group">
-                      <input
-                        type="text"
-                        name="phone"
-                        required
-                        placeholder="Phone"
-                        value={phone}
-                        onChange={handlePhoneChange}
-                      />
-                    </div>
-                    <div className="col-lg-6 col-md-6 col-sm-12 form-group">
-                      <input
-                        type="text"
-                        name="subject"
-                        value={subject}
-                        required
-                        placeholder="Subject"
-                        onChange={(e) => setSubject(e.target.value)}
-                      />
-                    </div>
-                    <div className="col-lg-12 col-md-12 col-sm-12 form-group">
-                      <textarea
-                        name="message"
-                        placeholder="Type message"
-                        value={message}
-                        required
-                        onChange={(e) => setMessage(e.target.value)}
-                      ></textarea>
-                    </div>
-                    <div className="col-lg-12 col-md-12 col-sm-12 form-group message-btn centred">
-                      <AEButton title="Send Message" isLoader={isLoader} />{" "}
-                    </div>
+                <div className="row clearfix">
+                  <div className="col-lg-6 col-md-6 col-sm-12 form-group">
+                    <AEInput
+                      formErr={formData?.firstNameErr}
+                      value={formData?.firstName}
+                      onChange={(e) => {
+                        setFormData({
+                          ...formData,
+                          firstName: e.target.value,
+                          firstNameErr: "",
+                        });
+                      }}
+                      placeholder="First Name"
+                    />
                   </div>
-                </form>
+                  <div className="col-lg-6 col-md-6 col-sm-12 form-group">
+                    <AEInput
+                      height="60px"
+                      type="number"
+                      formErr={formData?.phoneErr}
+                      value={formData?.phone}
+                      onChange={(e) => {
+                        setFormData({
+                          ...formData,
+                          phone: e.target.value.slice(0, 10),
+                          phoneErr: "",
+                        });
+                      }}
+                      placeholder="Phone Number"
+                    />
+                  </div>
+
+                  <div className="col-lg-12 col-md-12 col-sm-12 form-group">
+                    <AEInput
+                      value={formData?.email}
+                      onChange={(e) => {
+                        setFormData({
+                          ...formData,
+                          email: e.target.value,
+                        });
+                      }}
+                      placeholder="Your email"
+                      type="email"
+                    />
+                  </div>
+
+                  <div className="col-lg-12 col-md-12 col-sm-12 form-group">
+                    <textarea
+                      name="message"
+                      placeholder="Type message"
+                      style={{ borderRadius: 5 }}
+                      value={formData?.message}
+                      required
+                      onChange={(e) =>
+                        setFormData({ ...formData, message: e.target.value })
+                      }
+                    ></textarea>
+                    <p
+                      style={{
+                        fontSize: 13,
+                        marginTop: "-0.1rem",
+                        marginBottom: "1rem",
+                        marginLeft: "0.3rem",
+                        color: "red",
+                        fontWeight: 500,
+                      }}
+                    >
+                      {formData?.messageErr}
+                    </p>
+                  </div>
+                  <div className="col-lg-12 col-md-12 col-sm-12 form-group message-btn centred">
+                    <AEButton
+                      title="Send Message"
+                      onClick={handleSubmit}
+                      isLoader={isLoader}
+                    />{" "}
+                  </div>
+                </div>{" "}
               </div>
             </div>
           </section>

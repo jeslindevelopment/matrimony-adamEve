@@ -11,7 +11,7 @@ const slice = createSlice({
     userListData: null,
     message: "",
     isLoading: false,
-    interestListData:[]
+    interestListData: [],
   },
   reducers: {
     getUserDetailSuccess: (state, action) => {
@@ -213,6 +213,44 @@ export const getInterestList = () => async (dispatch) => {
       let result = response.data;
       if (result.success) {
         dispatch(getInterestListSuccess(result.data));
+      } else {
+        toast.error(response.data.message);
+      }
+    })
+    .catch((e) => {
+      console.log("e", e);
+      toast.error(e?.response?.data?.message);
+    });
+};
+// contact Us
+
+export const contactUs = (data) => async () => {
+  api
+    .post(`${ADAM_EVE_API.auth.contactUs}`, data)
+    .then((response) => {
+      let result = response.data;
+      console.log("result", result);
+      if (result.success) {
+        console.log("ddd", result);
+      } else {
+        toast.error(response.data.data);
+      }
+    })
+    .catch((e) => {
+      console.log("e", e);
+      toast.error(e?.response?.data?.data);
+    });
+};
+
+//  get shortlist
+export const getShortList = () => async (dispatch) => {
+  api
+    .get(`${ADAM_EVE_API.auth.getShortList}`)
+    .then((response) => {
+      let result = response.data;
+      console.log('result',result)
+      if (result.success) {
+        // dispatch(getShortListSuccess(result.data));
       } else {
         toast.error(response.data.message);
       }

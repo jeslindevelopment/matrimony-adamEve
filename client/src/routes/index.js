@@ -11,6 +11,7 @@ import ProfileListing from "../pages/profileListing";
 import { loginData } from "../constant";
 import ProfileDetails from "../pages/profileListing/profileDetails";
 import MyInterest from "../pages/myInterest";
+import MyFavourites from "../pages/myFavourites";
 
 export default function Router() {
 
@@ -25,7 +26,9 @@ export default function Router() {
         { path: "/profile-listings", element: <ProfileListing /> },
         { path: "/profile-detail", element: <ProfileDetails /> },
         { path: "/my-interest", element: <MyInterest /> },
+        { path: "/my-favourite", element: <MyFavourites /> },
 
+        
 
       ],
     },
