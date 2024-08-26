@@ -17,4 +17,9 @@ module.exports = {
     SUBSCRIPTION_UPDATE_SUCCESS: "Subscription updated successfully",
     SHORTLIST_SUCCESS: "User shortlisted",
     SHORTLIST_REMOVED: "Removed from shortlist",
+    INTEREST_ACCEPTED: "Interest is accepted",
+    INTEREST_REJECTED: "Interest is rejected",
+    NO_SUBSCRIPTION: "Please select a subscription plan to continue",
+    SUBSCRIPTION_EXPIRED: "Your subscription is expired, Please renew",
+    UPGRADE_SUBSCRIPTION: "To perform more actions, please upgrade your subscription"
 }

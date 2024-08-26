@@ -7,5 +7,6 @@ const intrest = require('../controllers/interest.controller')
 router.get('/:id', afterSignupAuth, intrest.sendIntrest)
 router.get('/withdraw/:id', afterSignupAuth, intrest.withdrawIntrest)
 router.get('/', afterSignupAuth, intrest.getMyIntrests)
+router.post('/update', afterSignupAuth, intrest.updateInterest)
 
 module.exports = router

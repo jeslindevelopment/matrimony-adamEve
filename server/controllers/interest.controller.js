@@ -96,11 +96,21 @@ module.exports = {
                     message: messages.REQUIRED_FIELDS_MISSING,
                 })
             }
-            let interests = await Intrest.update(req.params.id)
-            if (interests) {
+            let [interest] = await Intrest.get({ _id: req.params.id })
+            if (interest.receiveUserId == res.locals.auth.id) {
+                await Intrest.update({
+                    selector: { _id: req.params.id },
+                    data: { status: req.body.status }
+                })
+
                 res.status(200).json({
                     success: true,
-                    message: messages.INTEREST_WITHDRAWN
+                    message: messages[req.body.status.includes("accept") ? INTEREST_ACCEPTED : INTEREST_REJECTED]
+                })
+            } else {
+                res.status(400).json({
+                    success: false,
+                    message: messages.USER_UNAUTHORIZED,
                 })
             }
         } catch (err) {
