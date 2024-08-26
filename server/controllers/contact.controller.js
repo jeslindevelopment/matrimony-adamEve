@@ -1,7 +1,9 @@
 const messages = require("../global/messages");
 
-module.exports ={
+module.exports = {
     addContactMessage: async (req, res) => {
+        // #swagger.tags = ['Contact']
+        // #swagger.description = 'For sending contact us messaes to admin'
         try {
             let params = req.body;
             if (!params.name || !params.email || !params.phone || !params.message) {
@@ -23,21 +25,23 @@ module.exports ={
             })
         }
     },
-    getList: async (req, res) =>{
-        try{
+    getList: async (req, res) => {
+        // #swagger.tags = ['Contact']
+        // #swagger.description = 'Listing for contact us message'
+        try {
             let params = {
                 query: {},
                 page: req.query.page || 0,
                 size: req.query.size || 10
             }
-            
+
             const contacts = await Contact.getPages(params)
-             return res.status(200).json({
+            return res.status(200).json({
                 success: true,
                 data: contacts
             })
 
-        }catch(err){
+        } catch (err) {
             return res.status(400).json({
                 success: false,
                 message: messages.UNEXPECTED_ERROR,

@@ -27,6 +27,8 @@ module.exports = {
         ]
     },
     logout: async (req, res) => {
+        // #swagger.tags = ['Auth']
+        // #swagger.description = 'Logout a user'
         let userId = res.locals.auth.parentId ? res.locals.auth.parentId : res.locals.auth.id
         var cookie = Cookie.parse(req.headers.cookie)
         module.exports.removeAuthorization(userId, JSON.parse(cookie.user).token)
@@ -48,6 +50,8 @@ module.exports = {
         })
     },
     signin: (req, res) => {
+        // #swagger.tags = ['Auth']
+        // #swagger.description = 'Sign in a user'
         if (req.body.phone == '' || req.body.password == '') {
             return res.status(500).json({
                 success: false,
@@ -368,6 +372,8 @@ module.exports = {
         })
     },
     signup: async (req, res) => {
+        // #swagger.tags = ['Auth']
+        // #swagger.description = 'Register a user'
         try {
             if (!req.body.firstname || !req.body.surname || !req.body.dob || !req.body.gender || !req.body.maritalStatus || !req.body.phone || !req.body.denomination) {
                 return res.status(400).json({
@@ -712,8 +718,10 @@ module.exports = {
         }
     },
     getSubscriptionPlan: async (req, res) => {
+        // #swagger.tags = ['Subscription']
+        // #swagger.description = 'Get subscription plan'
         try {
-            let plans = await Subscription.getPages({});
+            let plans = await Subscription.getPages({ name: { $ne: "Free" } });
             res.status(200).json({
                 success: true,
                 data: plans,

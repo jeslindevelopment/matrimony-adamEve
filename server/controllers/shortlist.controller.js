@@ -3,6 +3,8 @@ const Shortlist = require('../models/mongodb/shortlist')
 
 module.exports = {
     doShortlistUser: async (req, res) => {
+        // #swagger.tags = ['Shortlist']
+        // #swagger.description = 'For Shortlisting user based on id sent in paramter'
         try {
             if (!req.params.id || !res.locals.auth.id) {
                 return res.status(400).json({
@@ -34,6 +36,8 @@ module.exports = {
         }
     },
     getShortlistedUser: async (req, res) => {
+        // #swagger.tags = ['Shortlist']
+        // #swagger.description = 'For getting list of shortlisted user'
         try {
             let shortlists = await Shortlist.get({ userId: res.locals.auth.id })
             res.status(200).json({

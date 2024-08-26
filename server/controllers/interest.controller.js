@@ -4,6 +4,8 @@ const mongoose = require('mongoose');
 
 module.exports = {
     sendIntrest: async (req, res) => {
+        // #swagger.tags = ['Intrest']
+        // #swagger.description = 'For sending interest to a person'
         try {
             if (!req.params.id || !res.locals.auth.id) {
                 return res.status(400).json({
@@ -35,9 +37,13 @@ module.exports = {
         }
     },
     getMyIntrests: async (req, res) => {
+        // #swagger.tags = ['Intrest']
+        // #swagger.description = 'For getting list of interest. Incase of sent interest, don't need to send any interestType for recieved, send receievd as interestType in query param'
         try {
+            let interestTypeQuery = req.query.interestType ? req.query.interestType == "recieved" ? { receiveUserId: res.locals.auth.id } : { sendUserId: res.locals.auth.id } : { sendUserId: res.locals.auth.id }
+
             let params = {
-                query: { sendUserId: res.locals.auth.id }
+                query: interestTypeQuery
             }
             let interests = await Intrest.getPages(params)
             res.status(200).json({
@@ -55,6 +61,8 @@ module.exports = {
         }
     },
     withdrawIntrest: async (req, res) => {
+        // #swagger.tags = ['Intrest']
+        // #swagger.description = 'For withdrawing interest to a person'
         try {
             if (!req.params.id || !res.locals.auth.id) {
                 return res.status(400).json({
@@ -63,6 +71,32 @@ module.exports = {
                 })
             }
             let interests = await Intrest.delete(req.params.id)
+            if (interests) {
+                res.status(200).json({
+                    success: true,
+                    message: messages.INTEREST_WITHDRAWN
+                })
+            }
+        } catch (err) {
+            console.log(err)
+            res.status(400).json({
+                success: false,
+                message: messages.UNEXPECTED_ERROR,
+                error: err
+            })
+        }
+    },
+    updateInterest: async (req, res) => {
+        // #swagger.tags = ['Intrest']
+        // #swagger.description = 'For updating status interest like accept or reject'
+        try {
+            if (!req.params.id || !res.locals.auth.id) {
+                return res.status(400).json({
+                    success: false,
+                    message: messages.REQUIRED_FIELDS_MISSING,
+                })
+            }
+            let interests = await Intrest.update(req.params.id)
             if (interests) {
                 res.status(200).json({
                     success: true,

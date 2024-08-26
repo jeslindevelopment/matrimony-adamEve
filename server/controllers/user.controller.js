@@ -3,6 +3,8 @@ const Intrest = require('../models/mongodb/interest')
 
 module.exports = {
     getUsers: async (req, res) => {
+        // #swagger.tags = ['Users']
+        // #swagger.description = 'For getting user list, auth required and based on user deried from auth the opposite genser list along with ``isShortlisted`` is shared'
         try {
             let [user] = await User.get({ _id: res.locals.auth.id })
             let params = {
@@ -66,6 +68,8 @@ module.exports = {
         }
     },
     getUserDetail: async (req, res) => {
+        // #swagger.tags = ['Users']
+        // #swagger.description = 'For user detail, based on auth token'
         try {
             const fields = {
                 _id: 1,
@@ -135,6 +139,8 @@ module.exports = {
     },
     getOtherUserDetail: async (req, res) => {
         try {
+            // #swagger.tags = ['Users']
+            // #swagger.description = 'For other users detail, based on auth token'
             const fields = {
                 _id: 1,
                 firstname: 1,
@@ -199,6 +205,8 @@ module.exports = {
         }
     },
     updateUser: async (req, res) => {
+        // #swagger.tags = ['Users']
+        // #swagger.description = 'For user updation'
         try {
             var params = { ...req.body }
             delete params.role;
