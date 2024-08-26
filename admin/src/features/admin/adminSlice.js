@@ -1,12 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { getUsers, logout, setSignupState, setSpinnerLoader } from './userActions'
+import { getSubscriptionDetail } from './adminActions';
 
 const initialState = {
-    loading: false,
-    spinnerStart: false,
-    userList: [],
-    error: null,
-    count: 0
+    subscriptionData: {}
 }
 
 const adminSlice = createSlice({
@@ -14,16 +10,14 @@ const adminSlice = createSlice({
     initialState,
     reducers: {},
     extraReducers: builder => {
-        builder.addCase(getUsers.pending, (state, action) => {
+        builder.addCase(getSubscriptionDetail.pending, (state, action) => {
             state.loading = true
             state.error = null
         })
-        builder.addCase(getUsers.fulfilled, (state, action, payload) => {
-            console.log(action.payload, "action.payload")
-            state.userList = action.payload.data
-            state.count = action.payload.count
+        builder.addCase(getSubscriptionDetail.fulfilled, (state, action, payload) => {
+            state.subscriptionData = action.payload.data
         })
-        builder.addCase(getUsers.rejected, (state, action, payload) => {
+        builder.addCase(getSubscriptionDetail.rejected, (state, action, payload) => {
             state.loading = false
             state.error = payload
         })

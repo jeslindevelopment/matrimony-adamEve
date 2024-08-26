@@ -1,10 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { getUsers, logout, setSignupState, setSpinnerLoader } from './userActions'
+import { getUsers, getOtherUserDetail } from './userActions'
 
 const initialState = {
     loading: false,
     spinnerStart: false,
     userList: [],
+    userData: {},
     error: null,
     count: 0
 }
@@ -26,6 +27,10 @@ const userSlice = createSlice({
         builder.addCase(getUsers.rejected, (state, action, payload) => {
             state.loading = false
             state.error = payload
+        })
+        builder.addCase(getOtherUserDetail.fulfilled, (state, action, payload) => {
+            console.log(action.payload, "action.payload")
+            state.userData = action.payload.data
         })
     }
 });

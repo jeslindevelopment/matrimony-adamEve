@@ -10,8 +10,8 @@ function App() {
   return (
     <HelmetProvider>
       <Provider store={store}>
-        <ReactNotifications />
         <BrowserRouter>
+          <ReactNotifications />
           <ScrollToTop />
           <Router />
         </BrowserRouter>

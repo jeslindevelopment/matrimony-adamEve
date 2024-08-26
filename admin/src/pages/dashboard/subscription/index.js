@@ -2,21 +2,22 @@ import React, { useEffect, useState } from "react";
 import MUIDataTable from "mui-datatables";
 import { Button } from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
-import { getSubscriptionPlan } from "../../features/auth/authActions";
+import { getSubscriptionPlan } from "../../../features/auth/authActions";
 import { Icon } from "@iconify/react";
+import { useNavigate } from "react-router-dom"
 
 export default function DataTable() {
     const [size, setSize] = useState(10);
     const [page, setPage] = useState(1);
     const { subscriptions } = useSelector((state) => state.auth)
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     useEffect(() => {
         dispatch(getSubscriptionPlan({}));
     }, []);
 
     useEffect(() => {
-        console.log(subscriptions, "subscriptions")
         setDataSource(subscriptions);
     }, [subscriptions]);
 
@@ -90,15 +91,15 @@ export default function DataTable() {
             },
         },
         {
-            name: "",
-            label: "",
+            name: "_id",
+            label: "Edit",
             options: {
                 filter: false,
                 sort: false,
                 customBodyRender: (value, meta) => {
                     return (
                         <>
-                            <Button onClick={() => alert("Edit")}>
+                            <Button onClick={() => navigate("/dashboard/subscription/edit?id=" + value)}>
                                 <Icon
                                     icon="ri:edit-fill"
                                     color="#21618C"

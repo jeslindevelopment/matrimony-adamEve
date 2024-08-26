@@ -1,5 +1,7 @@
 const User = require('../models/mongodb/users');
+const Subscription = require('../models/mongodb/subscription');
 // const backup = require('mongodb-backup');
+const mongoose = require('mongoose');
 const { database } = require("../config");
 const { MongoTransferer, MongoDBDuplexConnector, LocalFileSystemDuplexConnector } = require('mongodb-snapshot');
 
@@ -8,9 +10,6 @@ module.exports = {
         try {
             var id = req.body.id
             delete req.body.id;
-
-            console.log(id, req.body)
-
             await User.update({
                 selector: { _id: id },
                 data: req.body
@@ -20,6 +19,7 @@ module.exports = {
             let time2 = new Date().getTime()
             return res.json({
                 success: true,
+                message: USER_UPDATE_SUCCESS,
                 data: user
             })
 
@@ -58,6 +58,58 @@ module.exports = {
             }
         } catch (err) {
             console.log(err)
+        }
+    },
+    getSubscriptionPlan: async (req, res) => {
+        try {
+            let [subscriptionData] = await Subscription.get({ _id: new mongoose.mongo.ObjectId(req.params.id) })
+            res.status(200).json({
+                success: true,
+                data: subscriptionData,
+            })
+        } catch (error) {
+            res.status(400).json({
+                success: false,
+                error: error.message
+            })
+        }
+    },
+    updateSubscriptionPlan: async (req, res) => {
+        try {
+            let id = req.body.id
+            const reg = new RegExp('^[0-9]+$');
+            let checkKeys = ["freeContacts", "photosAllowed", "contactAllowed", "validity"]
+            let updateData = {}
+            Object.keys(formData).forEach(keys => {
+                if (checkKeys.includes(keys)) {
+                    if ((reg.test(formData[keys]) || formData[keys] === "unlimited")) {
+                        updateData[keys] = formData[keys]
+                    } else {
+                        res.status(400).json({
+                            success: true,
+                            error: SUBSCRIPTION_UPDATE_FAILED,
+                        })
+                    }
+                }
+            })
+
+            await Subscription.update({
+                selector: { _id: id },
+                data: updateData
+            })
+
+            let [subscriptionData] = await Subscription.get({ _id: id })
+            let time2 = new Date().getTime()
+            return res.json({
+                success: true,
+                message: SUBSCRIPTION_UPDATE_SUCCESS,
+                data: subscriptionData
+            })
+        } catch (error) {
+            res.status(400).json({
+                success: false,
+                error: error.message
+            })
         }
     }
 }

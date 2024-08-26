@@ -14,7 +14,7 @@ const data = [
   {
     name: "Executive",
     fee: 500,
-    validity: "1",
+    validity: "12",
     freeContacts: "5",
     profileType: "Normal",
     contactAllowed: 1,
@@ -23,7 +23,7 @@ const data = [
   {
     name: "Premium",
     fee: 1200,
-    validity: "1",
+    validity: "12",
     freeContacts: "30",
     profileType: "Premium",
     contactAllowed: 2,
@@ -32,7 +32,7 @@ const data = [
   {
     name: "Secret",
     fee: 3000,
-    validity: "1",
+    validity: "12",
     freeContacts: "unlimited",
     profileType: "Premium",
     contactAllowed: 2,

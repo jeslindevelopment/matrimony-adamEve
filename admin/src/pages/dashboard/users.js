@@ -10,13 +10,13 @@ import { updateUser } from "../../features/admin/adminActions";
 export default function DataTable() {
   const [size, setSize] = useState(10);
   const [page, setPage] = useState(1);
-  const { userList } = useSelector((state) => state.users);
+  const { userList, count } = useSelector((state) => state.users);
   const { userToken } = useSelector((state) => state.auth)
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(getUsers({ userToken, size, page }));
-  }, []);
+  }, [page, size]);
 
   useEffect(() => {
     setDataSource(userList);
@@ -238,6 +238,11 @@ export default function DataTable() {
         columns={columns}
         options={{
           selectableRows: false, // <===== will turn off checkboxes in rows
+          count: count,
+          rowsPerPage: size,
+          page: page,
+          changeRowsPerPage: (number) => setSize(number),
+          onChangePage: (number) => { console.log(number); setPage(number + 1) }
         }}
       />
     </div>

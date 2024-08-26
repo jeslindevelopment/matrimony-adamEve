@@ -72,6 +72,7 @@ module.exports = {
     getUserDetail: async (req, res) => {
         try {
             const fields = {
+                _id: 1,
                 role: 1,
                 firstname: 1,
                 surname: 1,
@@ -123,7 +124,7 @@ module.exports = {
                 selfDescription: 1,
                 partnersExpectations: 1
             }
-            let user = await User.get({ _id: res.locals.auth.id }, fields)
+            let [user] = await User.get({ _id: res.locals.auth.id }, fields)
             return res.json({
                 success: true,
                 data: user
@@ -139,6 +140,7 @@ module.exports = {
     getOtherUserDetail: async (req, res) => {
         try {
             const fields = {
+                _id: 1,
                 firstname: 1,
                 surname: 1,
                 dob: 1,
@@ -187,7 +189,7 @@ module.exports = {
                 selfDescription: 1,
                 partnersExpectations: 1
             }
-            let user = await User.get({ _id: req.params.id }, fields)
+            let [user] = await User.get({ _id: req.params.id }, fields)
             return res.json({
                 success: true,
                 data: user
