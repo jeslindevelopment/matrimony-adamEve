@@ -7,6 +7,8 @@ const { MongoTransferer, MongoDBDuplexConnector, LocalFileSystemDuplexConnector 
 
 module.exports = {
     updateUser: async (req, res) => {
+        // #swagger.tags = ['Admin']
+        // #swagger.description = 'Update a user'
         try {
             var id = req.body.id
             delete req.body.id;
@@ -33,6 +35,8 @@ module.exports = {
         }
     },
     backupDatabase: async (req, res) => {
+        // #swagger.tags = ['Admin']
+        // #swagger.description = 'Database backup'
         try {
             console.log(database["mongodb"][0].url)
             const mongo_connector = new MongoDBDuplexConnector({
@@ -61,6 +65,8 @@ module.exports = {
         }
     },
     getSubscriptionPlan: async (req, res) => {
+        // #swagger.tags = ['Admin']
+        // #swagger.description = 'Get subscription plan detail based on id'
         try {
             let [subscriptionData] = await Subscription.get({ _id: new mongoose.mongo.ObjectId(req.params.id) })
             res.status(200).json({
@@ -75,6 +81,8 @@ module.exports = {
         }
     },
     updateSubscriptionPlan: async (req, res) => {
+        // #swagger.tags = ['Admin']
+        // #swagger.description = 'Update subscription plan'
         try {
             let id = req.body.id
             const reg = new RegExp('^[0-9]+$');
@@ -109,6 +117,23 @@ module.exports = {
             res.status(400).json({
                 success: false,
                 error: error.message
+            })
+        }
+    },
+    getSubscriptionPlanList: async (req, res) => {
+        // #swagger.tags = ['Admin']
+        // #swagger.description = 'Get subscription plan'
+        try {
+            let plans = await Subscription.getPages({});
+            res.status(200).json({
+                success: true,
+                data: plans,
+            })
+        } catch (error) {
+            console.log(error, "error")
+            return res.json({
+                success: false,
+                data: error
             })
         }
     }

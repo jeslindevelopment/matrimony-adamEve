@@ -1,9 +1,12 @@
+const messages = require('../global/messages')
 const Shortlist = require('../models/mongodb/shortlist')
 
 module.exports = {
     doShortlistUser: async (req, res) => {
+        // #swagger.tags = ['Shortlist']
+        // #swagger.description = 'For Shortlisting user based on id sent in paramter'
         try {
-            if (!req.params.id || res.locals.auth.id) {
+            if (!req.params.id || !res.locals.auth.id) {
                 return res.status(400).json({
                     success: false,
                     message: 'Missing IDs',
@@ -12,27 +15,29 @@ module.exports = {
             let shortlistUserId = req.params.id
             let shortlists = await Shortlist.get({ userId: res.locals.auth.id, shortlistUserId })
             if (shortlists.length) {
+                let removeIndex = await Shortlist.delete(shortlistUserId)
                 res.status(400).json({
                     success: false,
-                    message: 'Already Shortlisted',
+                    message: messages.SHORTLIST_REMOVED
                 })
             } else {
                 await Shortlist.add({ userId: res.locals.auth.id, shortlistUserId, contacted: false })
                 res.status(200).json({
                     success: true,
-                    message: 'User shortlisted'
+                    message: messages.SHORTLIST_SUCCESS
                 })
             }
         } catch (error) {
-            console.log('error', error)
             res.status(400).json({
                 success: false,
-                message: 'Error on shortlisting',
-                error
+                message: messages.UNEXPECTED_ERROR,
+                error: error.message || error
             })
         }
     },
     getShortlistedUser: async (req, res) => {
+        // #swagger.tags = ['Shortlist']
+        // #swagger.description = 'For getting list of shortlisted user'
         try {
             let shortlists = await Shortlist.get({ userId: res.locals.auth.id })
             res.status(200).json({
@@ -40,7 +45,6 @@ module.exports = {
                 message: shortlists
             })
         } catch (error) {
-            console.log('error', error)
             res.status(400).json({
                 success: false,
                 message: 'Error on getting list',

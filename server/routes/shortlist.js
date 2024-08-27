@@ -4,7 +4,7 @@ const { afterSignupAuth } = require('../middleware/signupAuthTmp')
 const shortlist = require('../controllers/shortlist.controller')
 
 // ======= ROUTE FOR /API/AUTH/ ============
-router.post('/:id', afterSignupAuth, shortlist.doShortlistUser)
+router.get('/:id', afterSignupAuth, shortlist.doShortlistUser)
 router.get('/', afterSignupAuth, shortlist.getShortlistedUser)
 
 module.exports = router

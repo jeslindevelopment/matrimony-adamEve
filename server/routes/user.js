@@ -4,7 +4,7 @@ const { afterSignupAuth } = require('../middleware/signupAuthTmp')
 const user = require('../controllers/user.controller')
 
 // ======= ROUTE FOR /API/USER/ ============
-router.get('/list', user.getUsers)
+router.get('/list', afterSignupAuth, user.getUsers)
 
 //for logged in user details
 router.get('/one', afterSignupAuth, user.getUserDetail)

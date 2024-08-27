@@ -44,7 +44,10 @@
     },
     "/api/auth/login": {
       "post": {
-        "description": "",
+        "tags": [
+          "Auth"
+        ],
+        "description": "Sign in a user",
         "parameters": [
           {
             "name": "body",
@@ -83,7 +86,10 @@
     },
     "/api/auth/logout": {
       "post": {
-        "description": "",
+        "tags": [
+          "Auth"
+        ],
+        "description": "Logout a user",
         "parameters": [
           {
             "name": "authorization",
@@ -111,7 +117,10 @@
     },
     "/api/auth/signup": {
       "post": {
-        "description": "",
+        "tags": [
+          "Auth"
+        ],
+        "description": "Register a user",
         "parameters": [
           {
             "name": "body",
@@ -276,7 +285,10 @@
     },
     "/api/auth/subscription": {
       "get": {
-        "description": "",
+        "tags": [
+          "Subscription"
+        ],
+        "description": "Get subscription plan",
         "responses": {
           "200": {
             "description": "OK"
@@ -286,8 +298,21 @@
     },
     "/api/user/list": {
       "get": {
-        "description": "",
+        "tags": [
+          "Users"
+        ],
+        "description": "For getting user list, auth required and based on user deried from auth the opposite genser list along with ``isShortlisted`` is shared",
         "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "cookie",
+            "in": "header",
+            "type": "string"
+          },
           {
             "name": "size",
             "in": "query",
@@ -295,11 +320,6 @@
           },
           {
             "name": "page",
-            "in": "query",
-            "type": "string"
-          },
-          {
-            "name": "gender",
             "in": "query",
             "type": "string"
           },
@@ -313,6 +333,12 @@
           "200": {
             "description": "OK"
           },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
           "500": {
             "description": "Internal Server Error"
           }
@@ -321,7 +347,10 @@
     },
     "/api/user/one": {
       "get": {
-        "description": "",
+        "tags": [
+          "Users"
+        ],
+        "description": "For user detail, based on auth token",
         "parameters": [
           {
             "name": "authorization",
@@ -349,7 +378,10 @@
     },
     "/api/user/{id}": {
       "get": {
-        "description": "",
+        "tags": [
+          "Users"
+        ],
+        "description": "For other users detail, based on auth token",
         "parameters": [
           {
             "name": "id",
@@ -383,7 +415,10 @@
     },
     "/api/user/update": {
       "post": {
-        "description": "",
+        "tags": [
+          "Users"
+        ],
+        "description": "For user updation",
         "parameters": [
           {
             "name": "authorization",
@@ -410,8 +445,11 @@
       }
     },
     "/api/interest/{id}": {
-      "post": {
-        "description": "",
+      "get": {
+        "tags": [
+          "Intrest"
+        ],
+        "description": "For sending interest to a person",
         "parameters": [
           {
             "name": "id",
@@ -444,8 +482,11 @@
       }
     },
     "/api/interest/withdraw/{id}": {
-      "post": {
-        "description": "",
+      "get": {
+        "tags": [
+          "Intrest"
+        ],
+        "description": "For withdrawing interest to a person",
         "parameters": [
           {
             "name": "id",
@@ -479,7 +520,10 @@
     },
     "/api/interest/": {
       "get": {
-        "description": "",
+        "tags": [
+          "Intrest"
+        ],
+        "description": "For getting list of interest. Incase of sent interest, don",
         "parameters": [
           {
             "name": "authorization",
@@ -493,9 +537,6 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
-          },
           "400": {
             "description": "Bad Request"
           },
@@ -506,8 +547,11 @@
       }
     },
     "/api/shortlist/{id}": {
-      "post": {
-        "description": "",
+      "get": {
+        "tags": [
+          "Shortlist"
+        ],
+        "description": "For Shortlisting user based on id sent in paramter",
         "parameters": [
           {
             "name": "id",
@@ -541,7 +585,10 @@
     },
     "/api/shortlist/": {
       "get": {
-        "description": "",
+        "tags": [
+          "Shortlist"
+        ],
+        "description": "For getting list of shortlisted user",
         "parameters": [
           {
             "name": "authorization",
@@ -569,7 +616,10 @@
     },
     "/api/contact/send": {
       "post": {
-        "description": "",
+        "tags": [
+          "Contact"
+        ],
+        "description": "For sending contact us messaes to admin",
         "parameters": [
           {
             "name": "body",
@@ -605,7 +655,10 @@
     },
     "/api/contact/list": {
       "post": {
-        "description": "",
+        "tags": [
+          "Contact"
+        ],
+        "description": "Listing for contact us message",
         "parameters": [
           {
             "name": "authorization",
@@ -643,7 +696,10 @@
     },
     "/api/admin/user-update": {
       "post": {
-        "description": "",
+        "tags": [
+          "Admin"
+        ],
+        "description": "Update a user",
         "parameters": [
           {
             "name": "authorization",
@@ -683,7 +739,10 @@
     },
     "/api/admin/subscription-detail/{id}": {
       "get": {
-        "description": "",
+        "tags": [
+          "Admin"
+        ],
+        "description": "Get subscription plan detail based on id",
         "parameters": [
           {
             "name": "id",
@@ -715,9 +774,43 @@
         }
       }
     },
+    "/api/admin/subscription-list": {
+      "get": {
+        "tags": [
+          "Admin"
+        ],
+        "description": "Get subscription plan",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "cookie",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
     "/api/admin/backup": {
       "get": {
-        "description": "",
+        "tags": [
+          "Admin"
+        ],
+        "description": "Database backup",
         "responses": {
           "default": {
             "description": ""
