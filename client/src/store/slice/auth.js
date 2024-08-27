@@ -12,6 +12,7 @@ const slice = createSlice({
     message: "",
     isLoading: false,
     interestListData: [],
+    shortListData:[]
   },
   reducers: {
     getUserDetailSuccess: (state, action) => {
@@ -26,6 +27,13 @@ const slice = createSlice({
     getInterestListSuccess: (state, action) => {
       state.interestListData = action.payload;
     },
+    shortListSuccess: (state, action) => {
+      console.log("actio", action.payload);
+      // state.interestListData = action.payload;
+    },
+    getShortListSuccess: (state, action) => {
+      state.shortListData = action.payload;
+    },
   },
 });
 
@@ -35,6 +43,8 @@ const {
   getUsersListSuccess,
   getProfileDetailSuccess,
   getInterestListSuccess,
+  getShortListSuccess,
+  shortListSuccess,
 } = slice.actions;
 
 /**********************ACTIONS************************************************ */
@@ -52,7 +62,7 @@ export const userlogin =
             result
           );
           navigate("/");
-          // window.location.reload();
+          window.location.reload();
         } else {
           toast.error(response.data.message);
         }
@@ -79,7 +89,7 @@ export const signUp =
             result
           );
           navigate("/");
-          // window.location.reload();
+          window.location.reload();
         } else {
           toast.error(response.data.message);
         }
@@ -167,14 +177,16 @@ export const getProfileDetail = (id) => async (dispatch) => {
 };
 
 //  shortList
-export const shortList = (id) => async (dispatch) => {
+export const shortList = (id, type) => async (dispatch) => {
   api
-    .post(`${ADAM_EVE_API.auth.shortList}/${id}`)
+    .get(`${ADAM_EVE_API.auth.shortList}/${id}`)
     .then((response) => {
       let result = response.data;
       if (result.success) {
         console.log("dd", result);
-        // dispatch(getProfileDetailSuccess(result?.data[0]));
+        toast.success(response.data.message);
+
+        dispatch(shortListSuccess({ id: id, type: type }));
       } else {
         toast.error(response.data.message);
       }
@@ -248,9 +260,8 @@ export const getShortList = () => async (dispatch) => {
     .get(`${ADAM_EVE_API.auth.getShortList}`)
     .then((response) => {
       let result = response.data;
-      console.log('result',result)
       if (result.success) {
-        // dispatch(getShortListSuccess(result.data));
+        dispatch(getShortListSuccess(result.message));
       } else {
         toast.error(response.data.message);
       }

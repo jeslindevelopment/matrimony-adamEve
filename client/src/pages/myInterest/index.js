@@ -25,7 +25,7 @@ export default function MyInterest() {
                 <UsersCard
                   isInterestList
                   key={i}
-                  item={item}
+                  item={item?.userDetail[0]}
                 />
               );
             })

@@ -33,7 +33,7 @@ const Contact = () => {
     let request = {
       name: formData?.firstName,
       email: formData?.email,
-      phone: formData?.phone,
+      phone: formData?.phone * 1,
       message: formData?.message,
     };
     dispatch(contactUs(request));

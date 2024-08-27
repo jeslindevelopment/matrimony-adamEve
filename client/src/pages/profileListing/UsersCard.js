@@ -8,13 +8,13 @@ import { useDispatch } from "react-redux";
 import { shortList } from "../../store/slice/auth";
 export default function UsersCard(props) {
   const navigate = useNavigate();
-  const { key, item, setShowPlanDialog, onViewDeatil, isInterestList } = props;
+  const { key, item, setShowPlanDialog, onViewDeatil, type, isInterestList } =
+    props;
   const today = new Date();
   const dispatch = useDispatch();
   const handleShortList = (id) => {
-    dispatch(shortList(id));
+    dispatch(shortList(id, type));
   };
-  console.log("item", item);
   return (
     <div className="col-lg-3 col-md-6 col-sm-12 rounded-4 p-2" key={key}>
       <div className="bg-white py-2 px-1 rounded-4">
@@ -118,7 +118,7 @@ export default function UsersCard(props) {
               >
                 <Icon
                   icon="vaadin:heart"
-                  color={item?.isShortListed ? color.hightLightColor : "white"}
+                  color={item?.isShortlisted ? color.hightLightColor : "white"}
                   width={25}
                 />
               </div>

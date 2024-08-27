@@ -30,6 +30,7 @@ export default function ProfileListing() {
           ? userListData?.data?.map((item, i) => {
               return (
                 <UsersCard
+                  type={"userList"}
                   setShowPlanDialog={setShowPlanDialog}
                   onViewDeatil={() => {
                     dispatch(getProfileDetail(item?._id));

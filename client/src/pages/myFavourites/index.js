@@ -7,19 +7,19 @@ import UsersCard from "../profileListing/UsersCard.js";
 
 export default function MyFavourites() {
   const dispatch = useDispatch();
-  const { interestListData } = useSelector((state) => state.auth);
+  const { shortListData } = useSelector((state) => state.auth);
   useEffect(() => {
     dispatch(getShortList())
   }, []);
-  console.log("interestListData",interestListData)
+  console.log("interestListData",shortListData)
   return (
     <section
       className="p-4 "
       style={{ background: color.formBG, minHeight: "88vh" }}
     >
       <div class="profilesContainer row">
-        {interestListData?.length > 0
-          ? interestListData?.map((item, i) => {
+        {shortListData?.length > 0
+          ? shortListData?.map((item, i) => {
               return (
                 <UsersCard
                   isInterestList
