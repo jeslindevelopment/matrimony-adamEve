@@ -11,6 +11,7 @@ router.get('/list', afterSignupAuth, user.getUsers)
 router.get('/one', afterSignupAuth, user.getUserDetail)
 router.get('/:id', afterSignupAuth, user.getOtherUserDetail)
 router.post('/update', afterSignupAuth, checkUserPlan, user.updateUser)
+router.post('/buy-subscription/:id', afterSignupAuth, user.buySubscription)
 
 
 module.exports = router
