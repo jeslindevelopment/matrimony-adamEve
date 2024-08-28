@@ -1,6 +1,6 @@
 // authSlice.js
 import { createSlice } from '@reduxjs/toolkit'
-import { loginUser, logout, setSignupState, setSpinnerLoader, getSubscriptionPlan } from './authActions'
+import { loginUser, logout, setSignupState, setSpinnerLoader } from './authActions'
 
 const initialState = {
     loading: false,
@@ -13,7 +13,6 @@ const initialState = {
     error: null,
     success: false,
     signuprole: localStorage.getItem('signuprole'),
-    subscriptions: []
 }
 
 const authSlice = createSlice({
@@ -65,9 +64,6 @@ const authSlice = createSlice({
         builder.addCase(setSignupState.fulfilled, (state, action, payload) => {
             state.signuprole = action.payload
             localStorage.setItem('signuprole', action.payload)
-        })
-        builder.addCase(getSubscriptionPlan.fulfilled, (state, action, payload) => {
-            state.subscriptions = action.payload.data
         })
     }
 })

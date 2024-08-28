@@ -3,7 +3,6 @@ import axios from "axios";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { backendURL } from "../../config";
 import { showNotification } from "../notification/notificationSlice";
-import { handleError } from "../common";
 
 const prefix = "/user";
 

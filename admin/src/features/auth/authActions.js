@@ -94,16 +94,3 @@ export const logout = createAsyncThunk(
   }
 );
 
-export const getSubscriptionPlan = createAsyncThunk(
-  "auth/subscription",
-  async ({ }, { rejectWithValue, dispatch, getState }) => {
-    try {
-      const response = await axios.get(
-        `${backendURL}${prefix}/subscription`,
-      );
-      return response.data;
-    } catch (error) {
-      handleError({ error, rejectWithValue, dispatch, getState })
-    }
-  }
-);

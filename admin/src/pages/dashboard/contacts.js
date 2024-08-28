@@ -1,26 +1,25 @@
 import React, { useEffect, useState } from "react";
 import MUIDataTable from "mui-datatables";
 import { Button } from "@mui/material";
-import { Icon } from "@iconify/react";
 import { Helmet } from "react-helmet-async";
 import { useSelector, useDispatch } from "react-redux";
-import { getUsers } from "../../features/user/userActions";
+import { getContactList } from "../../features/admin/adminActions";
 import { updateUser } from "../../features/admin/adminActions";
 
 export default function DataTable() {
   const [size, setSize] = useState(10);
   const [page, setPage] = useState(1);
-  const { userList, count } = useSelector((state) => state.users);
+  const { contacts } = useSelector((state) => state.admin);
   const { userToken } = useSelector((state) => state.auth)
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getUsers({ userToken, size, page }));
+    dispatch(getContactList({ userToken, size, page }));
   }, [page, size]);
 
   useEffect(() => {
-    setDataSource(userList);
-  }, [userList]);
+    setDataSource(contacts);
+  }, [contacts]);
 
   const [dataSource, setDataSource] = useState([]);
 
@@ -188,9 +187,9 @@ export default function DataTable() {
                 <title> DataTable </title>
               </Helmet>
               <div style={{ display: "flex" }}>
-                {userList[meta.rowIndex] && userList[meta.rowIndex].subscriptionPlan != "Free" ? <Button onClick={() => updateFreeSubscription(userList[meta.rowIndex]._id)}>
+                {contacts[meta.rowIndex] && contacts[meta.rowIndex].subscriptionPlan != "Free" ? <Button onClick={() => updateFreeSubscription(contacts[meta.rowIndex]._id)}>
                   Free Plan
-                </Button> : <Button onClick={() => removeFreeSubscription(userList[meta.rowIndex]._id)}>
+                </Button> : <Button onClick={() => removeFreeSubscription(contacts[meta.rowIndex]._id)}>
                   Remove Free Plan
                 </Button>}
                 {/* <Button
