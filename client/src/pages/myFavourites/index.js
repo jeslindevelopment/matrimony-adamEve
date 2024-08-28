@@ -9,9 +9,9 @@ export default function MyFavourites() {
   const dispatch = useDispatch();
   const { shortListData } = useSelector((state) => state.auth);
   useEffect(() => {
-    dispatch(getShortList())
+    dispatch(getShortList());
   }, []);
-  console.log("interestListData",shortListData)
+  console.log("interestListData", shortListData);
   return (
     <section
       className="p-4 "
@@ -22,9 +22,9 @@ export default function MyFavourites() {
           ? shortListData?.map((item, i) => {
               return (
                 <UsersCard
-                  isInterestList
+                  type={"favourite"}
                   key={i}
-                  item={item}
+                  item={item?.userDetail[0]}
                 />
               );
             })

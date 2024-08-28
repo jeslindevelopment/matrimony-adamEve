@@ -1,10 +1,17 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Modal from "react-bootstrap/Modal";
 import { color } from "../../../assets/css/color/color";
 import AEButton from "../../AEButton";
 import "./index.css";
+import { useDispatch, useSelector } from "react-redux";
+import { getPlansList } from "../../../store/slice/subscription";
 export default function PlanDialog(props) {
   const { show, handleClose } = props;
+  const dispatch = useDispatch();
+  const { planListData } = useSelector((state) => state.subscription);
+  useEffect(() => {
+    dispatch(getPlansList());
+  }, []);
   return (
     <>
       <Modal size="xl" show={show} onHide={handleClose} centered>
@@ -12,38 +19,44 @@ export default function PlanDialog(props) {
           <Modal.Title>Purchase Plan</Modal.Title>
         </Modal.Header>
         <Modal.Body style={{ backgroundColor: color.modalBG }}>
-          <div className="pricing-area" style={{ marginTop: '-4rem' }}>
+          <div className="pricing-area" style={{ marginTop: "-4rem" }}>
             <div className="container">
               <div className="row">
-                <div className="col-md-4 col-sm-6" >
+                {planListData?.map((plan,i)=>{
+                  return(
+<div className=" col-sm-12 col-md-12 col-lg-4">
                   <div className="single-price">
                     <div className="price-header">
-                      <h5 className="title">Executive Plan </h5>
+                      <h5 className="title">{plan?.name} Plan </h5>
                     </div>
                     <div className="price-value">
                       <div className="value">
                         <span className="currency">₹</span>{" "}
-                        <span className="amount">500</span>{" "}
+                        <span className="amount">{plan?.fee}</span>{" "}
                         <span className="month fw-bold">/year</span>
                       </div>
                     </div>
                     <ul className="deals">
-                      <li> 5 Contact Free .</li>
-                      <li>Profile Creation.</li>
+                      <li> {plan?.freeContacts} Contact Free .</li>
+                      {/* <li>Profile Creation.</li>
                       <li>One Contact No addition.</li>
-                      <li>One Photo.</li>
+                      <li>One Photo.</li> */}
                     </ul>
                     <AEButton
                       style={{
                         position: "absolute",
                         marginLeft: "-50px",
-                        left: "50%", bottom: "5%"
+                        left: "50%",
+                        bottom: "5%",
                       }}
                       // onClick={() => navigate("/")}
                       title={"Buy Now"}
                     />
                   </div>
                 </div>
+                  )
+                })}
+{/*                 
                 <div className="col-md-4 col-sm-6">
                   <div className="single-price">
                     <div className="price-header">
@@ -69,7 +82,8 @@ export default function PlanDialog(props) {
                       style={{
                         position: "absolute",
                         marginLeft: "-50px",
-                        left: "50%", bottom: "5%"
+                        left: "50%",
+                        bottom: "5%",
                       }}
                       // onClick={() => navigate("/")}
                       title={"Buy Now"}
@@ -113,13 +127,14 @@ export default function PlanDialog(props) {
                       style={{
                         position: "absolute",
                         marginLeft: "-50px",
-                        left: "50%", bottom: "5%"
+                        left: "50%",
+                        bottom: "5%",
                       }}
                       // onClick={() => navigate("/")}
                       title={"Buy Now"}
                     />
                   </div>
-                </div>
+                </div> */}
               </div>
             </div>
           </div>

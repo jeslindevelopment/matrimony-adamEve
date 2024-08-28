@@ -8,11 +8,11 @@ const slice = createSlice({
   name: "auth",
   initialState: {
     userData: null,
-    userListData: null,
+    userListData: [],
     message: "",
     isLoading: false,
     interestListData: [],
-    shortListData:[]
+    shortListData: [],
   },
   reducers: {
     getUserDetailSuccess: (state, action) => {
@@ -28,8 +28,20 @@ const slice = createSlice({
       state.interestListData = action.payload;
     },
     shortListSuccess: (state, action) => {
-      console.log("actio", action.payload);
-      // state.interestListData = action.payload;
+      if (action.payload.type == "userList") {
+        let index = state.userListData?.data?.findIndex(
+          (item) => item._id == action.payload.id
+        );
+        state.userListData.data[index].isShortlisted =
+          !state.userListData.data[index].isShortlisted;
+      }
+      if (action.payload.type == "favourite") {
+        let index = state.shortListData?.findIndex(
+          (item) => item?.userDetail[0]?._id == action.payload.id
+        );
+        state.shortListData[index].userDetail[0].isShortlisted =
+          !state.shortListData[index].userDetail[0]?.isShortlisted;
+      }
     },
     getShortListSuccess: (state, action) => {
       state.shortListData = action.payload;
@@ -236,19 +248,21 @@ export const getInterestList = () => async (dispatch) => {
 };
 // contact Us
 
-export const contactUs = (data) => async () => {
+export const contactUs = (data, setIsLoader, setFormData) => async () => {
   api
     .post(`${ADAM_EVE_API.auth.contactUs}`, data)
     .then((response) => {
       let result = response.data;
-      console.log("result", result);
       if (result.success) {
-        console.log("ddd", result);
+        toast.success("Message send successfully");
+        setFormData({});
       } else {
         toast.error(response.data.data);
       }
+      setIsLoader(false);
     })
     .catch((e) => {
+      setIsLoader(false);
       console.log("e", e);
       toast.error(e?.response?.data?.data);
     });

@@ -25,6 +25,10 @@ const Contact = () => {
       setFormData({ ...formData, phoneErr: "Please enter valid phone number" });
       return;
     }
+    if (!formData?.email) {
+      setFormData({ ...formData, emailErr: "Please enter email" });
+      return;
+    }
     if (!formData?.message) {
       setFormData({ ...formData, messageErr: "Please enter message" });
       return;
@@ -36,9 +40,9 @@ const Contact = () => {
       phone: formData?.phone * 1,
       message: formData?.message,
     };
-    dispatch(contactUs(request));
+    dispatch(contactUs(request,setIsLoader,setFormData));
   };
-
+console.log("fr",formData)
   return (
     <div id="contact-us">
       {/* contact-info-section */}
@@ -140,7 +144,7 @@ const Contact = () => {
                   <div className="col-lg-6 col-md-6 col-sm-12 form-group">
                     <AEInput
                       formErr={formData?.firstNameErr}
-                      value={formData?.firstName}
+                      value={formData?.firstName||''}
                       onChange={(e) => {
                         setFormData({
                           ...formData,
@@ -156,7 +160,7 @@ const Contact = () => {
                       height="60px"
                       type="number"
                       formErr={formData?.phoneErr}
-                      value={formData?.phone}
+                      value={formData?.phone||''}
                       onChange={(e) => {
                         setFormData({
                           ...formData,
@@ -170,11 +174,13 @@ const Contact = () => {
 
                   <div className="col-lg-12 col-md-12 col-sm-12 form-group">
                     <AEInput
-                      value={formData?.email}
+                      value={formData?.email||''}
+                      formErr={formData?.emailErr}
                       onChange={(e) => {
                         setFormData({
                           ...formData,
                           email: e.target.value,
+                          emailErr:''
                         });
                       }}
                       placeholder="Your email"
@@ -187,10 +193,10 @@ const Contact = () => {
                       name="message"
                       placeholder="Type message"
                       style={{ borderRadius: 5 }}
-                      value={formData?.message}
+                      value={formData?.message||''}
                       required
                       onChange={(e) =>
-                        setFormData({ ...formData, message: e.target.value })
+                        setFormData({ ...formData, message: e.target.value,messageErr:'' })
                       }
                     ></textarea>
                     <p

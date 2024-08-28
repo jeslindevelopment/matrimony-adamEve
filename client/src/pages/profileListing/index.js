@@ -9,7 +9,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 export default function ProfileListing() {
-  const [showPlanDialog, setShowPlanDialog] = useState("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { userListData } = useSelector((state) => state.auth);
@@ -21,25 +20,14 @@ export default function ProfileListing() {
       className="p-4 "
       style={{ background: color.formBG, minHeight: "88vh" }}
     >
-      <PlanDialog
-        show={showPlanDialog}
-        handleClose={() => setShowPlanDialog(false)}
-      />
+     
       <div class="profilesContainer row">
         {userListData?.data?.length > 0
           ? userListData?.data?.map((item, i) => {
               return (
                 <UsersCard
                   type={"userList"}
-                  setShowPlanDialog={setShowPlanDialog}
-                  onViewDeatil={() => {
-                    dispatch(getProfileDetail(item?._id));
-                    navigate("/profile-detail", {
-                      state: {
-                        id: item._id,
-                      },
-                    });
-                  }}
+                  
                   key={i}
                   item={item}
                 />
