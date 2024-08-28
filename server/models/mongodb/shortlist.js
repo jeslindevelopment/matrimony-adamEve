@@ -62,16 +62,37 @@ module.exports = {
         let page = params.page ? parseInt(params.page) : 1
         let query = params.query ? params.query : params
         return new Promise((resolve, reject) => {
-            Shortlist.find(query, fields).populate('parentId', 'email').sort(params && params.sort ? params.sort : { 'createdAt': -1 })
-                .limit(size)
-                .skip(size * (page - 1))
-                .exec((err, result) => {
-                    if (err) {
-                        reject(err)
-                        return
+            Shortlist.aggregate([
+                {
+                    "$lookup": {
+                        "from": "users",
+                        "localField": "shortlistUserId",
+                        "foreignField": "_id",
+                        "as": "userDetail"
                     }
-                    resolve(result)
-                })
+                },
+                {
+                    "$project": {
+                        "_id": 1,
+                        "shortlistUserId": 1,
+                        "userId": 1,
+                        "userDetail._id": 1,
+                        "userDetail.firstname": 1,
+                        "userDetail.surname": 1,
+                        "userDetail.maritalStatus": 1,
+                        "userDetail.denomination": 1,
+                        "userDetail.status": 1
+                    }
+                },
+                { "$skip": size * (page - 1) },
+                { "$limit": size }
+            ]).exec((err, result) => {
+                if (err) {
+                    reject(err)
+                    return
+                }
+                resolve(result)
+            })
         })
     },
 

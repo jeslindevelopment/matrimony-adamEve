@@ -1,5 +1,5 @@
 const User = require('../models/mongodb/users')
-const Intrest = require('../models/mongodb/interest')
+const Subscription = require('../models/mongodb/subscription')
 
 module.exports = {
     getUsers: async (req, res) => {
@@ -238,7 +238,25 @@ module.exports = {
     },
     buySubscription: async (req, res) => {
         try {
-
+            // #swagger.tags = ['Users']
+            // #swagger.description = 'For buying subscription'
+            if (!req.params.id || !res.locals.auth.id) {
+                return res.status(400).json({
+                    success: false,
+                    message: 'Missing IDs',
+                })
+            }
+            let subscriptionID = req.params.id
+            let [subscription] = Subscription.get({ _id: subscriptionID });
+            let params = {
+                subscriptionID: subscription._id,
+                subscriptionPlan: subscription.name,
+                subscriptionDate: new Date(),
+            }
+            await User.update({
+                selector: { _id: res.locals.auth.id },
+                data: params
+            })
         } catch (error) {
 
         }

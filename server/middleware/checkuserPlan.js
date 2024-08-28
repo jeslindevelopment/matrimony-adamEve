@@ -30,12 +30,21 @@ const checkUserPlan = (req, res, next) => {
                                 })
                             }
                         } else if (urlPath.includes("interest")) {
+                            if (subscription.freeContacts > user_result.freeContactsCount) {
+                                res.status(400).json({
+                                    success: false,
+                                    c: messages.UPGRADE_SUBSCRIPTION
+                                })
+                            }
+                        } else if (urlPath.includes("/user/update")) {
                             if (subscription.contactAllowed > user_result.contactCount) {
                                 res.status(400).json({
                                     success: false,
                                     c: messages.UPGRADE_SUBSCRIPTION
                                 })
                             }
+                        } else {
+                            next()
                         }
                     }
                     next()

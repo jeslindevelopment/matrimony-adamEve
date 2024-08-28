@@ -1,4 +1,5 @@
 const messages = require("../global/messages");
+const Contact = require("../models/mongodb/contact")
 
 module.exports = {
     addContactMessage: async (req, res) => {
@@ -12,7 +13,7 @@ module.exports = {
                     data: messages.REQUIRED_FIELDS_MISSING
                 })
             }
-            await contact.add(params)
+            await Contact.add(params)
             return res.status(200).json({
                 success: true,
                 message: messages.MESSAGE_RECIEVED
@@ -21,7 +22,7 @@ module.exports = {
             return res.status(400).json({
                 success: false,
                 message: messages.UNEXPECTED_ERROR,
-                error: err
+                error: err.message || err
             })
         }
     },

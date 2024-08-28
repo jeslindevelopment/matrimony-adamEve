@@ -15,9 +15,9 @@ module.exports = {
             let shortlistUserId = req.params.id
             let shortlists = await Shortlist.get({ userId: res.locals.auth.id, shortlistUserId })
             if (shortlists.length) {
-                let removeIndex = await Shortlist.delete(shortlistUserId)
-                res.status(400).json({
-                    success: false,
+                await Shortlist.delete(shortlists[0]._id)
+                res.status(200).json({
+                    success: true,
                     message: messages.SHORTLIST_REMOVED
                 })
             } else {
@@ -39,7 +39,7 @@ module.exports = {
         // #swagger.tags = ['Shortlist']
         // #swagger.description = 'For getting list of shortlisted user'
         try {
-            let shortlists = await Shortlist.get({ userId: res.locals.auth.id })
+            let shortlists = await Shortlist.getPages({ userId: res.locals.auth.id })
             res.status(200).json({
                 success: true,
                 message: shortlists
