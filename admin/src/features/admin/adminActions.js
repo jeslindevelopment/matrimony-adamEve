@@ -4,6 +4,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import { backendURL } from "../../config";
 import { showNotification } from "../notification/notificationSlice";
 import { getUsers } from "../user/userActions";
+import { handleError } from "../common";
 
 const prefix = "/admin";
 
@@ -105,6 +106,42 @@ export const getSubscriptionDetail = createAsyncThunk(
                 );
                 return rejectWithValue(error.message);
             }
+        }
+    }
+);
+
+export const getSubscriptionPlan = createAsyncThunk(
+    "admin/subscription-list",
+    async ({ userToken }, { rejectWithValue, dispatch, getState }) => {
+        try {
+            const config = {
+                headers: { Authorization: `${userToken}` },
+            };
+            const response = await axios.get(
+                `${backendURL}${prefix}/subscription-list`,
+                config
+            );
+            return response.data;
+        } catch (error) {
+            handleError({ error, rejectWithValue, dispatch, getState })
+        }
+    }
+);
+
+export const getContactList = createAsyncThunk(
+    "admin/contact-list",
+    async ({ userToken }, { rejectWithValue, dispatch, getState }) => {
+        try {
+            const config = {
+                headers: { Authorization: `${userToken}` },
+            };
+            const response = await axios.get(
+                `${backendURL}/contact/list`,
+                config
+            );
+            return response.data;
+        } catch (error) {
+            handleError({ error, rejectWithValue, dispatch, getState })
         }
     }
 );

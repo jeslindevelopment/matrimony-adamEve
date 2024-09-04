@@ -2,19 +2,20 @@ import React, { useEffect, useState } from "react";
 import MUIDataTable from "mui-datatables";
 import { Button } from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
-import { getSubscriptionPlan } from "../../../features/auth/authActions";
+import { getSubscriptionPlan } from "../../../features/admin/adminActions";
 import { Icon } from "@iconify/react";
 import { useNavigate } from "react-router-dom"
 
 export default function DataTable() {
     const [size, setSize] = useState(10);
     const [page, setPage] = useState(1);
-    const { subscriptions } = useSelector((state) => state.auth)
+    const { userToken } = useSelector((state) => state.auth)
+    const { subscriptions } = useSelector((state) => state.admin)
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
     useEffect(() => {
-        dispatch(getSubscriptionPlan({}));
+        dispatch(getSubscriptionPlan({ userToken }));
     }, []);
 
     useEffect(() => {

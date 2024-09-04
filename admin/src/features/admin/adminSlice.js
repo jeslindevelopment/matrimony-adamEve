@@ -1,8 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { getSubscriptionDetail } from './adminActions';
+import { getSubscriptionDetail, getSubscriptionPlan, getContactList } from './adminActions';
 
 const initialState = {
-    subscriptionData: {}
+    subscriptionData: {},
+    subscriptions: [],
+    contacts: [],
 }
 
 const adminSlice = createSlice({
@@ -20,6 +22,12 @@ const adminSlice = createSlice({
         builder.addCase(getSubscriptionDetail.rejected, (state, action, payload) => {
             state.loading = false
             state.error = payload
+        })
+        builder.addCase(getSubscriptionPlan.fulfilled, (state, action, payload) => {
+            state.subscriptions = action.payload.data
+        })
+        builder.addCase(getContactList.fulfilled, (state, action, payload) => {
+            state.contacts = action.payload.data
         })
     }
 });
