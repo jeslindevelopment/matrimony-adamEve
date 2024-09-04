@@ -22,19 +22,35 @@ const { getPlansListSuccess } = slice.actions;
 /**********************ACTIONS************************************************ */
 //  get PlansList
 export const getPlansList = () => async (dispatch) => {
-    api
-      .get(`${ADAM_EVE_API.auth.getPlansList}`)
-      .then((response) => {
-        let result = response.data;
-        if (result.success) {
+  api
+    .get(`${ADAM_EVE_API.subscription.getPlansList}`)
+    .then((response) => {
+      let result = response.data;
+      if (result.success) {
+        dispatch(getPlansListSuccess(result.data));
+      } else {
+        toast.error(response.data.message);
+      }
+    })
+    .catch((e) => {
+      console.log("e", e);
+    });
+};
 
-          dispatch(getPlansListSuccess(result.data));
-        } else {
-          toast.error(response.data.message);
-        }
-      })
-      .catch((e) => {
-        console.log("e", e);
-      });
-  };
-  
+//  buy Plan
+export const buyPlan = (id) => async (dispatch) => {
+  api
+    .post(`${ADAM_EVE_API.subscription.buyPlan}/${id}`)
+    .then((response) => {
+      let result = response.data;
+      console.log("result", result);
+      if (result.success) {
+        dispatch(getPlansListSuccess(result.data));
+      } else {
+        toast.error(response.data.message);
+      }
+    })
+    .catch((e) => {
+      console.log("e", e);
+    });
+};

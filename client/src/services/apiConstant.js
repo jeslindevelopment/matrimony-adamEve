@@ -11,8 +11,11 @@ export const ADAM_EVE_API = {
     sendInterest: "/api/interest",
     getInterestList: "api/interest",
     contactUs: "/api/contact/send",
-    getShortList:'/api/shortlist',
-    getPlansList:'/api/auth/subscription'
+    getShortList: "/api/shortlist",
+  },
+  subscription: {
+    getPlansList: "/api/auth/subscription",
+    buyPlan: "api/user/buy-subscription",
   },
 };
 

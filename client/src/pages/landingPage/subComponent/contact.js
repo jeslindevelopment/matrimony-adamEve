@@ -40,9 +40,9 @@ const Contact = () => {
       phone: formData?.phone * 1,
       message: formData?.message,
     };
-    dispatch(contactUs(request,setIsLoader,setFormData));
+    dispatch(contactUs(request, setIsLoader, setFormData));
   };
-console.log("fr",formData)
+  console.log("fr", formData);
   return (
     <div id="contact-us">
       {/* contact-info-section */}
@@ -69,40 +69,44 @@ console.log("fr",formData)
               </div>
             </div>
             <div className="col-lg-4 col-md-6 col-sm-12 info-column">
-              <div
-                className="info-block-one wow fadeInUp animated"
-                data-wow-delay="300ms"
-                data-wow-duration="1500ms"
-              >
-                <div className="inner-box" style={{ background: color.formBG }}>
-                  <div className="icon-box">
-                    <i className="icon-43"></i>
+              <Link to="mailto:adamnevematrimony@gmail.com">
+                <div
+                  className="info-block-one wow fadeInUp animated"
+                  data-wow-delay="300ms"
+                  data-wow-duration="1500ms"
+                >
+                  <div
+                    className="inner-box"
+                    style={{ background: color.formBG }}
+                  >
+                    <div className="icon-box">
+                      <i className="icon-43"></i>
+                    </div>
+                    <h3>Email Address</h3>
+                    <p>adamnevematrimony@gmail.com </p>
                   </div>
-                  <h3>Email Address</h3>
-                  <p>
-                    <Link href="mailto:developerspoint72@gmail.com">
-                      abc@gmail.com
-                    </Link>
-                  </p>
                 </div>
-              </div>
+              </Link>
             </div>
             <div className="col-lg-4 col-md-6 col-sm-12 info-column">
-              <div
-                className="info-block-one wow fadeInUp animated"
-                data-wow-delay="600ms"
-                data-wow-duration="1500ms"
-              >
-                <div className="inner-box" style={{ background: color.formBG }}>
-                  <div className="icon-box">
-                    <i className="icon-44"></i>
+              <Link to="https://wa.me/8889332222" target="_blank">
+                <div
+                  className="info-block-one wow fadeInUp animated"
+                  data-wow-delay="600ms"
+                  data-wow-duration="1500ms"
+                >
+                  <div
+                    className="inner-box"
+                    style={{ background: color.formBG }}
+                  >
+                    <div className="icon-box">
+                      <i className="icon-44"></i>
+                    </div>
+                    <h3>Whatsapp Number</h3>
+                    <p>+(91)8889332222</p>
                   </div>
-                  <h3>Phone Number</h3>
-                  <p>
-                    <Link href="tel:11111111111">+(91) 11111111111</Link>
-                  </p>
                 </div>
-              </div>
+              </Link>
             </div>
           </div>
         </div>
@@ -144,7 +148,7 @@ console.log("fr",formData)
                   <div className="col-lg-6 col-md-6 col-sm-12 form-group">
                     <AEInput
                       formErr={formData?.firstNameErr}
-                      value={formData?.firstName||''}
+                      value={formData?.firstName || ""}
                       onChange={(e) => {
                         setFormData({
                           ...formData,
@@ -160,7 +164,7 @@ console.log("fr",formData)
                       height="60px"
                       type="number"
                       formErr={formData?.phoneErr}
-                      value={formData?.phone||''}
+                      value={formData?.phone || ""}
                       onChange={(e) => {
                         setFormData({
                           ...formData,
@@ -174,13 +178,13 @@ console.log("fr",formData)
 
                   <div className="col-lg-12 col-md-12 col-sm-12 form-group">
                     <AEInput
-                      value={formData?.email||''}
+                      value={formData?.email || ""}
                       formErr={formData?.emailErr}
                       onChange={(e) => {
                         setFormData({
                           ...formData,
                           email: e.target.value,
-                          emailErr:''
+                          emailErr: "",
                         });
                       }}
                       placeholder="Your email"
@@ -193,10 +197,14 @@ console.log("fr",formData)
                       name="message"
                       placeholder="Type message"
                       style={{ borderRadius: 5 }}
-                      value={formData?.message||''}
+                      value={formData?.message || ""}
                       required
                       onChange={(e) =>
-                        setFormData({ ...formData, message: e.target.value,messageErr:'' })
+                        setFormData({
+                          ...formData,
+                          message: e.target.value,
+                          messageErr: "",
+                        })
                       }
                     ></textarea>
                     <p

@@ -133,9 +133,7 @@ export default function UsersCard(props) {
                   <Icon
                     icon="vaadin:heart"
                     color={
-                      item?.isShortlisted || type == "favourite"
-                        ? color.hightLightColor
-                        : "white"
+                      item?.isShortlisted ? color.hightLightColor : "white"
                     }
                     width={25}
                   />
