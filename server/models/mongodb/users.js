@@ -11,7 +11,7 @@ module.exports = {
         let userResp = [];
         let userkeys = Object.keys(User.schema.paths)
         return new Promise((resolve, reject) => {
-            User.find(params, fields).sort({ 'createdAt': -1 })
+            User.find(params, fields).populate('subscriptionID').sort({ 'createdAt': -1 })
                 .exec(async (err, result) => {
                     if (fields && fields != null) {
                         userkeys = Object.keys(fields)
@@ -61,9 +61,12 @@ module.exports = {
         let size = params.size ? parseInt(params.size) : 10000
         let page = params.page ? parseInt(params.page) : 1
         let query = params.query ? params.query : {}
-        console.log(size, page, query)
+        console.log(query, "query")
         return new Promise((resolve, reject) => {
             User.aggregate([
+                {
+                    $match: query
+                },
                 {
                     $lookup: {
                         from: "shortlists",

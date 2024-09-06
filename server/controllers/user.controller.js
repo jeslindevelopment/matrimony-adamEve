@@ -1,5 +1,6 @@
 const User = require('../models/mongodb/users')
 const Subscription = require('../models/mongodb/subscription')
+const mongoose = require('mongoose')
 
 module.exports = {
     getUsers: async (req, res) => {
@@ -12,13 +13,15 @@ module.exports = {
                 page: req.query.page ? req.query.page : 1,
             }
             params["query"] = {
-                $and: []
+                $and: [{
+                    _id: { $ne: res.locals.auth.id }
+                }]
             }
-
-            if (user.gender == "female") {
-                params["query"]["$and"].push({ gender: "male" })
+            console.log(user)
+            if (user.gender == "Female") {
+                params["query"]["$and"].push({ gender: "Male" })
             } else {
-                params["query"]["$and"].push({ gender: "female" })
+                params["query"]["$and"].push({ gender: "Female" })
             }
 
             if (req.query.search) {
@@ -122,7 +125,11 @@ module.exports = {
                 ministry: 1,
 
                 selfDescription: 1,
-                partnersExpectations: 1
+                partnersExpectations: 1,
+
+                subscriptionID: 1,
+                subscriptionPlan: 1,
+                subscriptionDate: 1
             }
             let [user] = await User.get({ _id: res.locals.auth.id }, fields)
             return res.json({
@@ -240,6 +247,7 @@ module.exports = {
         try {
             // #swagger.tags = ['Users']
             // #swagger.description = 'For buying subscription'
+            console.log(req.params.id , res.locals.auth.id)
             if (!req.params.id || !res.locals.auth.id) {
                 return res.status(400).json({
                     success: false,
@@ -247,18 +255,45 @@ module.exports = {
                 })
             }
             let subscriptionID = req.params.id
-            let [subscription] = Subscription.get({ _id: subscriptionID });
+            let [subscription] = await Subscription.get({ _id:  new mongoose.mongo.ObjectId(subscriptionID) });
+            console.log(subscription)
+            if (!subscription) {
+                return res.status(400).json({
+                    success: false,
+                    message: 'Subscription not found',
+                })
+            }
+            if (subscription.name == "Free") {
+                return res.status(400).json({
+                    success: false,
+                    message: 'Subscription not found',
+                })
+            }
             let params = {
                 subscriptionID: subscription._id,
                 subscriptionPlan: subscription.name,
                 subscriptionDate: new Date(),
             }
+            console.log(params, "params")
             await User.update({
-                selector: { _id: res.locals.auth.id },
+                selector: { _id: new mongoose.mongo.ObjectId(res.locals.auth.id) },
                 data: params
             })
-        } catch (error) {
 
+            let [user] = await User.get({ _id: new mongoose.mongo.ObjectId(res.locals.auth.id) })
+            let time2 = new Date().getTime()
+            return res.json({
+                success: true,
+                message: 'Subscription purchased successfully',
+                data: user
+            })
+        } catch (error) {
+            console.log(error)
+            res.status(400).json({
+                success: false,
+                message: 'Error on update user',
+                error
+            })
         }
     }
 }

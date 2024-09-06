@@ -9,7 +9,7 @@ const User = new Schema({
     gender: String,
     maritalStatus: String,
     unmarriedReason: String,
-    subscriptionID: { type: Schema.Types.ObjectId },
+    subscriptionID: { type: Schema.Types.ObjectId, ref: 'Subscription' },
     subscriptionPlan: { type: String },
     subscriptionDate: { type: String },
     phone: { type: String, unique: true, required: true, dropDups: true },

@@ -111,7 +111,11 @@ module.exports = {
 
             selfDescription: 1,
             partnersExpectations: 1,
-            role: 1
+            role: 1,
+            
+            subscriptionID: 1,
+            subscriptionPlan: 1,
+            subscriptionDate: 1
         }).then(result => {
             if (!result) {
                 res.status(400).json({
@@ -222,6 +226,10 @@ module.exports = {
 
                                     selfDescription: result[0]?.selfDescription,
                                     partnersExpectations: result[0]?.partnersExpectations,
+
+                                    subscriptionID: result[0]?.subscriptionID,
+                                    subscriptionPlan: result[0]?.subscriptionPlan,
+                                    subscriptionDate: result[0]?.subscriptionDate,
                                     token,
                                     success: true
                                 })
