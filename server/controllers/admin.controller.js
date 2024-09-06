@@ -26,7 +26,6 @@ module.exports = {
             })
 
         } catch (error) {
-            console.log('error', error)
             res.status(400).json({
                 success: false,
                 message: 'Error on update user',
@@ -61,7 +60,10 @@ module.exports = {
                 console.log(`remaining bytes to write: ${total - write}`);
             }
         } catch (err) {
-            console.log(err)
+            res.status(400).json({
+                success: false,
+                message: err
+            })
         }
     },
     getSubscriptionPlan: async (req, res) => {
@@ -130,7 +132,6 @@ module.exports = {
                 data: plans,
             })
         } catch (error) {
-            console.log(error, "error")
             return res.json({
                 success: false,
                 data: error

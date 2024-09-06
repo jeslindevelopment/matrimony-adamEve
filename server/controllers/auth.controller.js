@@ -476,7 +476,11 @@ module.exports = {
                 })
             })
         } catch (error) {
-            console.log('error', error)
+            res.status(400).json({
+                success: false,
+                message: 'Error on signup',
+                error
+            })
         }
     },
     sendRecoveryEmail: async (req, res) => {
@@ -735,7 +739,6 @@ module.exports = {
                 data: plans,
             })
         } catch (error) {
-            console.log(error, "error")
             return res.json({
                 success: false,
                 data: error

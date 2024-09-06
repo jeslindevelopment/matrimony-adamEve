@@ -21,7 +21,6 @@ module.exports = {
                     message: messages.INTEREST_ALREADY_SENT
                 })
             } else {
-                console.log({ sendUserId: res.locals.auth.id, receiveUserId, receivedDate: new Date() })
                 await Intrest.add({ sendUserId: new mongoose.mongo.ObjectId(res.locals.auth.id), receiveUserId, receivedDate: new Date() })
                 res.status(200).json({
                     success: true,
@@ -52,7 +51,6 @@ module.exports = {
             })
 
         } catch (err) {
-            console.log(err)
             res.status(400).json({
                 success: false,
                 message: messages.UNEXPECTED_ERROR,
@@ -78,7 +76,6 @@ module.exports = {
                 })
             }
         } catch (err) {
-            console.log(err)
             res.status(400).json({
                 success: false,
                 message: messages.UNEXPECTED_ERROR,
@@ -114,7 +111,6 @@ module.exports = {
                 })
             }
         } catch (err) {
-            console.log(err)
             res.status(400).json({
                 success: false,
                 message: messages.UNEXPECTED_ERROR,

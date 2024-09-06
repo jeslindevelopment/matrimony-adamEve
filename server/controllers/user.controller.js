@@ -17,7 +17,6 @@ module.exports = {
                     _id: { $ne: res.locals.auth.id }
                 }]
             }
-            console.log(user)
             if (user.gender == "Female") {
                 params["query"]["$and"].push({ gender: "Male" })
             } else {
@@ -63,7 +62,6 @@ module.exports = {
                 count
             })
         } catch (error) {
-            console.log(error)
             res.status(500).json({
                 success: false,
                 error
@@ -247,7 +245,6 @@ module.exports = {
         try {
             // #swagger.tags = ['Users']
             // #swagger.description = 'For buying subscription'
-            console.log(req.params.id , res.locals.auth.id)
             if (!req.params.id || !res.locals.auth.id) {
                 return res.status(400).json({
                     success: false,
@@ -256,7 +253,6 @@ module.exports = {
             }
             let subscriptionID = req.params.id
             let [subscription] = await Subscription.get({ _id:  new mongoose.mongo.ObjectId(subscriptionID) });
-            console.log(subscription)
             if (!subscription) {
                 return res.status(400).json({
                     success: false,
@@ -274,7 +270,6 @@ module.exports = {
                 subscriptionPlan: subscription.name,
                 subscriptionDate: new Date(),
             }
-            console.log(params, "params")
             await User.update({
                 selector: { _id: new mongoose.mongo.ObjectId(res.locals.auth.id) },
                 data: params
@@ -288,7 +283,6 @@ module.exports = {
                 data: user
             })
         } catch (error) {
-            console.log(error)
             res.status(400).json({
                 success: false,
                 message: 'Error on update user',
