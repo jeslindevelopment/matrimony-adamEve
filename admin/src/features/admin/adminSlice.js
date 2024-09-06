@@ -5,6 +5,7 @@ const initialState = {
     subscriptionData: {},
     subscriptions: [],
     contacts: [],
+    contactCount: 0,
 }
 
 const adminSlice = createSlice({
@@ -28,6 +29,7 @@ const adminSlice = createSlice({
         })
         builder.addCase(getContactList.fulfilled, (state, action, payload) => {
             state.contacts = action.payload.data
+            state.contactCount = action.payload.count
         })
     }
 });

@@ -22,6 +22,11 @@ const navConfig = [
     path: "/dashboard/subscription",
     icon: <Icon icon="majesticons:data-line" width={20} />,
   },
+  {
+    title: "Messages",
+    path: "/dashboard/messages",
+    icon: <Icon icon="majesticons:data-line" width={20} />,
+  },
 ];
 
 export default navConfig;

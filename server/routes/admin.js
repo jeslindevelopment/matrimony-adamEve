@@ -7,6 +7,7 @@ const admin = require('../controllers/admin.controller')
 router.post('/user-update', afterAdminAuth, admin.updateUser)
 router.get('/subscription-detail/:id', afterAdminAuth, admin.getSubscriptionPlan)
 router.get('/subscription-list', afterAdminAuth, admin.getSubscriptionPlanList)
+router.post('/subscription-update', afterAdminAuth, admin.updateSubscriptionPlan)
 router.get('/backup', admin.backupDatabase)
 
 module.exports = router

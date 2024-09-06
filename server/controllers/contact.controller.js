@@ -37,9 +37,12 @@ module.exports = {
             }
 
             const contacts = await Contact.getPages(params)
+            let count = await Contact.getCount({});
+
             return res.status(200).json({
                 success: true,
-                data: contacts
+                data: contacts,
+                count
             })
 
         } catch (err) {

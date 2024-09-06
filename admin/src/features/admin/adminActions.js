@@ -145,3 +145,41 @@ export const getContactList = createAsyncThunk(
         }
     }
 );
+
+export const updateSubscription = createAsyncThunk(
+    "admin/updateSubscription",
+    async ({ userToken, payload }, { rejectWithValue, dispatch }) => {
+        try {
+            const config = {
+                headers: { Authorization: `${userToken}` },
+            };
+            console.log(userToken, payload)
+            const response = await axios.post(`${backendURL}${prefix}/subscription-update`, payload, config);
+            dispatch(getSubscriptionDetail({ userToken, id: payload.id }))
+            dispatch(showNotification({
+                message: response.data.message,
+                type: "success"
+            }))
+            return response.data;
+        } catch (error) {
+            // return custom error message from backend if present
+            if (error.response && error.response.data.detail) {
+                dispatch(
+                    showNotification({
+                        message: error.response.data.detail,
+                        type: "danger",
+                    })
+                );
+                return rejectWithValue(error.response.data.detail);
+            } else {
+                dispatch(
+                    showNotification({
+                        message: error.message,
+                        type: "danger",
+                    })
+                );
+                return rejectWithValue(error.message);
+            }
+        }
+    }
+);

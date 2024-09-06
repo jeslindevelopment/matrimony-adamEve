@@ -1,12 +1,13 @@
 
 import React, { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom"
-import { getSubscriptionDetail } from "../../../features/admin/adminActions"
+import { getSubscriptionDetail, updateSubscription } from "../../../features/admin/adminActions"
 import { useSelector, useDispatch } from "react-redux";
 import AEInput from "../../../components/AEInput";
 import AEButton from "../../../components/AEButton";
 import { color } from "../../../assets/css/color/color";
 import { showNotification } from "../../../features/notification/notificationSlice";
+
 
 const SubscriptionEdit = () => {
     const { userToken } = useSelector((state) => state.auth)
@@ -45,8 +46,8 @@ const SubscriptionEdit = () => {
                 }
             }
         })
-
-        dispatch()
+        console.log(userToken, "userToken")
+        dispatch(updateSubscription({ userToken, payload: {...formData, id} }));
     }
 
     return (

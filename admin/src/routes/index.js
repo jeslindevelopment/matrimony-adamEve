@@ -13,6 +13,7 @@ import DashboardLayout from "../layout/dashboard";
 import DashboardApp from "../pages/dashboard/dashboard";
 import DataTable from "../pages/dashboard/datatable";
 import Login from "../pages/auth/login";
+import Contact from "../pages/dashboard/contacts";
 export default function Router() {
   const isLoggedIn = secureLocalStorage.getItem("authenticated");
   const routes = useRoutes([
@@ -27,6 +28,7 @@ export default function Router() {
         { path: "users/profile", element: <ProfileSetting /> },
         { path: "subscription", element: <Subscription /> },
         { path: "subscription/edit", element: <SubscriptionEdit /> },
+        { path: "messages", element: <Contact /> },
         { path: "datatable", element: <DataTable /> },
         // { path: 'setting', element: <SettingPage/> },
         // { path: '*', element: <Page404/> },
