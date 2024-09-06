@@ -5,15 +5,21 @@ import AEButton from "../../AEButton";
 import "./index.css";
 import { useDispatch, useSelector } from "react-redux";
 import { buyPlan, getPlansList } from "../../../store/slice/subscription";
+import { getUserDetail } from "../../../store/slice/auth";
 export default function PlanDialog(props) {
   const { show, handleClose } = props;
   const dispatch = useDispatch();
   const { planListData } = useSelector((state) => state.subscription);
   useEffect(() => {
-    dispatch(getPlansList());
+    if (planListData?.length == 0) {
+      dispatch(getPlansList());
+    }
   }, []);
+  const handleFetchDetails = () => {
+    dispatch(getUserDetail());
+  };
   const handlePurchasePlan = (id) => {
-    dispatch(buyPlan(id));
+    dispatch(buyPlan(id, handleClose, handleFetchDetails));
   };
   return (
     <>

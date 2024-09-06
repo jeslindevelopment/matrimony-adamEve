@@ -17,6 +17,7 @@ export default function ProfileDetails() {
   const { state } = useLocation();
   useEffect(() => {
     dispatch(getProfileDetail(state?.id));
+
   }, []);
   return (
     <>

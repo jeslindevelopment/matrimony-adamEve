@@ -29,8 +29,6 @@ export default function Header({
   const handleShow = () => setShow(true);
   const handleCloseLogoutDialog = () => {
     setShowLogoutDialog(false);
-    secureLocalStorage.clear();
-    window.location.reload();
   };
   const handleChangePassword = () => {
     if (!formData?.oldPassword) {
@@ -277,7 +275,11 @@ export default function Header({
               <AEButton
                 title="Logout"
                 fullWidth
-                onClick={handleCloseLogoutDialog}
+                onClick={() => {
+                  secureLocalStorage.clear();
+                  navigate("/");
+                  window.location.reload();
+                }}
               />
             </div>
           </div>

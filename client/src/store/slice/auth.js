@@ -121,7 +121,7 @@ export const getUserDetail = (requestParams) => async (dispatch) => {
     .then((response) => {
       let result = response.data;
       if (result.success) {
-        dispatch(getUserDetailSuccess(result?.data[0]));
+        dispatch(getUserDetailSuccess(result?.data));
       } else {
         toast.error(response.data.message);
       }
@@ -177,7 +177,7 @@ export const getProfileDetail = (id) => async (dispatch) => {
       let result = response.data;
       if (result.success) {
         console.log("dd", result);
-        dispatch(getProfileDetailSuccess(result?.data[0]));
+        dispatch(getProfileDetailSuccess(result?.data));
       } else {
         toast.error(response.data.message);
       }

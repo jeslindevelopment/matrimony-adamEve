@@ -1,17 +1,17 @@
 import React, { useEffect } from "react";
 import { color } from "../../assets/css/color/color.js";
-import { getInterestList, getShortList } from "../../store/slice/auth.js";
+import { getInterestList, getShortList, getUserDetail } from "../../store/slice/auth.js";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import UsersCard from "../profileListing/UsersCard.js";
 
 export default function MyFavourites() {
   const dispatch = useDispatch();
-  const { shortListData } = useSelector((state) => state.auth);
+  const { shortListData, userData } = useSelector((state) => state.auth);
   useEffect(() => {
     dispatch(getShortList());
+    dispatch(getUserDetail());
   }, []);
-  console.log("interestListData", shortListData);
   return (
     <section
       className="p-4 "
@@ -22,6 +22,7 @@ export default function MyFavourites() {
           ? shortListData?.map((item, i) => {
               return (
                 <UsersCard
+                  userData={userData}
                   type={"favourite"}
                   key={i}
                   item={item?.userDetail[0]}

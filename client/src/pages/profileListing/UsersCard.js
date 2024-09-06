@@ -7,21 +7,33 @@ import { differenceInYears } from "date-fns";
 import { useDispatch } from "react-redux";
 import { getProfileDetail, shortList } from "../../store/slice/auth";
 import PlanDialog from "../../component/dialog/planDialog.js";
+import moment from "moment";
+import SendInterestDialog from "./sendInterest/index.js";
+
 export default function UsersCard(props) {
   const navigate = useNavigate();
   const [showPlanDialog, setShowPlanDialog] = useState(false);
-
-  const { key, item, onViewDeatil, type, isInterestList } = props;
+  const [showInterestDialog, setShowInterestDialog] = useState(false);
+  const { key, item, userData, type, isInterestList } = props;
   const today = new Date();
   const dispatch = useDispatch();
   const handleShortList = (id) => {
     dispatch(shortList(id, type));
   };
+
+  const planExpirationDate = moment(userData?.subscriptionDate);
+  const currentDate = moment();
+
   return (
     <>
       <PlanDialog
         show={showPlanDialog}
         handleClose={() => setShowPlanDialog(false)}
+      />
+      <SendInterestDialog
+        id={item?.id}
+        showDialog={showInterestDialog}
+        handleCloseDialog={() => setShowInterestDialog(false)}
       />
       <div className="col-lg-3 col-md-6 col-sm-12 rounded-4 p-2" key={key}>
         <div className="bg-white py-2 px-1 rounded-4">
@@ -88,12 +100,18 @@ export default function UsersCard(props) {
                   type="button"
                   class="btn btn-sm"
                   onClick={() => {
-                    dispatch(getProfileDetail(item?._id));
-                    navigate("/profile-detail", {
-                      state: {
-                        id: item._id,
-                      },
-                    });
+                    if (userData?.subscriptionID) {
+                      // if (!currentDate.isAfter(planExpirationDate)) {
+                      dispatch(getProfileDetail(item?._id));
+                      navigate("/profile-detail", {
+                        state: {
+                          id: item._id,
+                        },
+                      });
+                      // }
+                    } else {
+                      setShowPlanDialog(true);
+                    }
                   }}
                   style={{
                     background: color.hightLightColor,
@@ -103,12 +121,20 @@ export default function UsersCard(props) {
                     fontWeight: 600,
                   }}
                 >
-                  View Details{" "}
+                  View Details
                 </button>
                 <button
                   type="button"
                   class="btn btn-sm"
-                  onClick={() => setShowPlanDialog(true)}
+                  onClick={() => {
+                    if (userData?.subscriptionID) {
+                      // if (!currentDate.isAfter(planExpirationDate)) {
+                      setShowInterestDialog(true);
+                      // }
+                    } else {
+                      setShowPlanDialog(true);
+                    }
+                  }}
                   style={{
                     background: color.hightLightColor,
                     borderRadius: 10,
