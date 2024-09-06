@@ -12,6 +12,14 @@ if (!config.port) {
 const app = global.app = express()
 const server = require("http").Server(app);
 
+/*
+app.use('/a',express.static('/b'));
+Above line would serve all files/folders inside of the 'b' directory
+And make them accessible through http://localhost:3000/a.
+*/
+app.use(express.static(__dirname + '/public'));
+app.use('/uploads', express.static('uploads'));
+
 app.use(function (req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "*");

@@ -345,6 +345,37 @@
         }
       }
     },
+    "/api/user/profile-upload-multiple": {
+      "post": {
+        "tags": [
+          "Users"
+        ],
+        "description": "For uploading profile images",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "cookie",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
     "/api/user/one": {
       "get": {
         "tags": [
@@ -469,6 +500,9 @@
           }
         ],
         "responses": {
+          "200": {
+            "description": "OK"
+          },
           "400": {
             "description": "Bad Request"
           },
@@ -889,8 +923,8 @@
         ],
         "description": "Database backup",
         "responses": {
-          "default": {
-            "description": ""
+          "400": {
+            "description": "Bad Request"
           }
         }
       }

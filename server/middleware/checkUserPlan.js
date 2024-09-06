@@ -1,18 +1,17 @@
-const config = require('../config')
-const Cookie = require('cookie')
-const jwt = require('jsonwebtoken')
 const User = require('../models/mongodb/users')
 const Subscription = require('../models/mongodb/subscription')
 const messages = require('../global/messages')
 const common = require('../helpers/common')
+const mongoose = require('mongoose')
 
 const checkUserPlan = (req, res, next) => {
-    User.get({ _id: req.userId }).then((user_result) => {
-        if (user_result && user_result.length > 0 && user_result[0]._id) {
+    User.get({ _id: req.userId }).then(async (result) => {
+        let user_result = result[0];
+        if (user_result  && user_result._id) {
             if (user_result.subscriptionPlan == "Free") {
                 next()
             } else {
-                let [subscription] = Subscription.get({ _id: user_result.subscriptionID })
+                let [subscription] = await Subscription.get({ _id: new mongoose.mongo.ObjectId(user_result.subscriptionID) })
                 if (subscription) {
                     let monthsSincePlan = common.monthDiff(new Date, user_result.subscriptionDate)
                     if (+monthsSincePlan > +subscription.validity) {
@@ -62,6 +61,7 @@ const checkUserPlan = (req, res, next) => {
             })
         }
     }).catch(err => {
+        console.log(err)
         res.status(400).json({
             success: false,
             c: messages.UNEXPECTED_ERROR

@@ -280,7 +280,7 @@ module.exports = {
             return res.json({
                 success: true,
                 message: 'Subscription purchased successfully',
-                data: user
+                data: {...user, subscription}
             })
         } catch (error) {
             res.status(400).json({
@@ -289,5 +289,45 @@ module.exports = {
                 error
             })
         }
+    },
+    uploadImages: async (req, res) => {
+        try {
+            // #swagger.tags = ['Users']
+            // #swagger.description = 'For uploading profile images'
+            console.log(req, req.files, req.body);
+            
+            if(req.files.length == 0){
+                return res.status(400).json({
+                    success: false,
+                    message: 'No files found',
+                })
+            }
+            if (!req.params.id) {
+                return res.status(400).json({
+                    success: false,
+                    message: 'Missing ID',
+                })
+            }
+            let [user] = await User.get({ _id: new mongoose.mongo.ObjectId(req.params.id) })
+            if (!user) {        
+                await User.update({
+                    selector: { _id: new mongoose.mongo.ObjectId(req.params.id) },
+                    data: { profileImages: req.files }
+                })
+                let [user] = await User.get({ _id: new mongoose.mongo.ObjectId(req.params.id) })
+                return res.json({
+                    success: true,
+                    message: 'Profile images uploaded successfully',
+                    data: user
+                })
+            }
+        } catch (error) {
+            console.log(error)
+            res.status(400).json({
+                success: false,
+                message: 'Error on update user',
+                error
+            })
+        }   
     }
 }

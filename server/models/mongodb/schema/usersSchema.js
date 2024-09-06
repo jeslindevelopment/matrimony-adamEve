@@ -38,6 +38,7 @@ const User = new Schema({
     language: String,
     disability: String,
     preferredProfilesState: String,
+    profileImages: [String],
 
     fatherName: String,
     fatherOccupation: String,

@@ -13,6 +13,7 @@ const mongoose = require('mongoose');
 const EmailModule = require('./email.controller');
 const contact = require('../models/mongodb/contact')
 const messages = require('../global/messages')
+const subscription = require('../models/mongodb/subscription')
 
 module.exports = {
     validate: () => {
@@ -164,15 +165,8 @@ module.exports = {
                             }
                             User.update(params).then(async login_saved => {
                                 module.exports.addAuthorization(result[0]._id, result[0].email, req, token)
-                                if (result[0].lastmileRole == 'account') {
-                                    let params = {
-                                        user_id: result[0]._id,
-                                        title: 'Login',
-                                        start: new Date(),
-                                        type: 'login',
-                                        branch: result[0].branch,
-                                    }
-                                }
+
+                                let subscription = await Subscription.get({ _id: result[0].subscriptionID })
 
                                 res.json({
                                     id: result[0]._id,
@@ -230,6 +224,8 @@ module.exports = {
                                     subscriptionID: result[0]?.subscriptionID,
                                     subscriptionPlan: result[0]?.subscriptionPlan,
                                     subscriptionDate: result[0]?.subscriptionDate,
+
+                                    subscription,
                                     token,
                                     success: true
                                 })
