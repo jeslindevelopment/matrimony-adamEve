@@ -4,12 +4,11 @@ import { Button } from "@mui/material";
 import { Helmet } from "react-helmet-async";
 import { useSelector, useDispatch } from "react-redux";
 import { getContactList } from "../../features/admin/adminActions";
-import { updateUser } from "../../features/admin/adminActions";
 
 export default function DataTable() {
   const [size, setSize] = useState(10);
   const [page, setPage] = useState(1);
-  const { contacts } = useSelector((state) => state.admin);
+  const { contacts, contactCount } = useSelector((state) => state.admin);
   const { userToken } = useSelector((state) => state.auth)
   const dispatch = useDispatch();
 
@@ -25,8 +24,8 @@ export default function DataTable() {
 
   const columns = [
     {
-      name: "firstname",
-      label: "Firstname",
+      name: "name",
+      label: "Name",
       options: {
         filter: true,
         sort: true,
@@ -36,8 +35,8 @@ export default function DataTable() {
       },
     },
     {
-      name: "surname",
-      label: "Surname",
+      name: "email",
+      label: "Email",
 
       options: {
         filter: true,
@@ -59,8 +58,8 @@ export default function DataTable() {
       },
     },
     {
-      name: "education",
-      label: "Education",
+      name: "subject",
+      label: "Subject",
 
       options: {
         filter: true,
@@ -71,8 +70,8 @@ export default function DataTable() {
       },
     },
     {
-      name: "city",
-      label: "City",
+      name: "message",
+      label: "Message",
 
       options: {
         filter: true,
@@ -81,153 +80,8 @@ export default function DataTable() {
           return !value ? "-" : value
         },
       },
-    },
-    {
-      name: "state",
-      label: "State",
-
-      options: {
-        filter: true,
-        sort: false,
-        customBodyRender: (value) => {
-          return !value ? "-" : value
-        },
-      },
-    },
-    {
-      name: "country",
-      label: "Country",
-
-      options: {
-        filter: true,
-        sort: false,
-        customBodyRender: (value) => {
-          return !value ? "-" : value
-        },
-      },
-    },
-    {
-      name: "phone",
-      label: "Phone",
-
-      options: {
-        filter: true,
-        sort: false,
-        customBodyRender: (value) => {
-          return !value ? "-" : value
-        },
-      },
-    },
-    {
-      name: "denomination",
-      label: "Denomination",
-
-      options: {
-        filter: true,
-        sort: false,
-        customBodyRender: (value) => {
-          return !value ? "-" : value
-        },
-      },
-    },
-    {
-      name: "dob",
-      label: "DOB",
-      options: {
-        filter: true,
-        sort: false,
-        customBodyRender: (value) => {
-          return !value ? "-" : value
-        },
-      },
-    },
-    // {
-    //   name: "maritalStatus",
-    //   label: "Marital Status",
-    //   options: {
-    //     filter: true,
-    //     sort: false,
-    //   },
-    //   customBodyRender: (value) => {
-    //     return !value ? "-" : value
-    //   },
-    // },
-    {
-      name: "maritalStatus",
-      label: "Marital Status",
-      options: {
-        filter: true,
-        sort: false,
-        customBodyRender: (value) => {
-          return !value ? "-" : value
-        },
-      },
-    },
-    {
-      name: "subscriptionPlan",
-      label: "Subscription Plan",
-      options: {
-        filter: true,
-        sort: false,
-        customBodyRender: (value) => {
-          return !value ? "-" : value
-        },
-      },
-    },
-    {
-      name: "",
-      label: "",
-      options: {
-        filter: false,
-        sort: false,
-        customBodyRender: (value, meta) => {
-          return (
-            <>
-              <Helmet>
-                <title> DataTable </title>
-              </Helmet>
-              <div style={{ display: "flex" }}>
-                {contacts[meta.rowIndex] && contacts[meta.rowIndex].subscriptionPlan != "Free" ? <Button onClick={() => updateFreeSubscription(contacts[meta.rowIndex]._id)}>
-                  Free Plan
-                </Button> : <Button onClick={() => removeFreeSubscription(contacts[meta.rowIndex]._id)}>
-                  Remove Free Plan
-                </Button>}
-                {/* <Button
-                  onClick={() => alert("Delete")}
-                  style={{ marginLeft: "-1rem" }}
-                >
-                  <Icon
-                    icon="ic:baseline-delete"
-                    color="red"
-                    width="25"
-                    height="25"
-                  />
-                </Button> */}
-              </div>
-            </>
-          );
-        },
-      },
-    },
+    }
   ];
-
-  const updateFreeSubscription = (id) => {
-    const payload = {
-      subscriptionPlan: "Free",
-      subscriptionDate: new Date(),
-      id
-    }
-    dispatch(updateUser({ userToken, payload }))
-  }
-
-  const removeFreeSubscription = (id) => {
-    const payload = {
-      subscriptionPlan: null,
-      subscriptionDate: null,
-      id
-    }
-    dispatch(updateUser({ userToken, payload }))
-  }
 
   return (
     <div className="App wrapper">
@@ -237,7 +91,7 @@ export default function DataTable() {
         columns={columns}
         options={{
           selectableRows: false, // <===== will turn off checkboxes in rows
-          count: count,
+          count: contactCount,
           rowsPerPage: size,
           page: page,
           changeRowsPerPage: (number) => setSize(number),

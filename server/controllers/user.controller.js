@@ -1,6 +1,7 @@
 const User = require('../models/mongodb/users')
 const Subscription = require('../models/mongodb/subscription')
 const mongoose = require('mongoose')
+const moment = require('moment')
 
 module.exports = {
     getUsers: async (req, res) => {
@@ -265,10 +266,12 @@ module.exports = {
                     message: 'Subscription not found',
                 })
             }
+            let date = new Date()
             let params = {
                 subscriptionID: subscription._id,
                 subscriptionPlan: subscription.name,
-                subscriptionDate: new Date(),
+                subscriptionDate: date,
+                subscriptionEndDate: subscription.validity == "unlimited" ? null : moment(date).add(+subscription.validity, 'month').toDate()
             }
             await User.update({
                 selector: { _id: new mongoose.mongo.ObjectId(res.locals.auth.id) },
@@ -283,10 +286,11 @@ module.exports = {
                 data: {...user, subscription}
             })
         } catch (error) {
+            console.log(error)
             res.status(400).json({
                 success: false,
                 message: 'Error on update user',
-                error
+                error: error.message || error
             })
         }
     },

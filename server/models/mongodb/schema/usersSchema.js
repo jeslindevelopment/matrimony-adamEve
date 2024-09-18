@@ -12,6 +12,7 @@ const User = new Schema({
     subscriptionID: { type: Schema.Types.ObjectId, ref: 'Subscription' },
     subscriptionPlan: { type: String },
     subscriptionDate: { type: String },
+    subscriptionEndDate: { type: String },
     phone: { type: String, unique: true, required: true, dropDups: true },
     otp: String,
     status: { type: String },

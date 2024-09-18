@@ -72,10 +72,16 @@ module.exports = {
                     }
                 },
                 {
+                    $addFields: {
+                        isShortlisted: true
+                    }
+                },
+                {
                     "$project": {
                         "_id": 1,
                         "shortlistUserId": 1,
                         "userId": 1,
+                        "isShortlisted":1,
                         "userDetail._id": 1,
                         "userDetail.firstname": 1,
                         "userDetail.surname": 1,

@@ -1,6 +1,7 @@
 const User = require('../models/mongodb/users');
 const Subscription = require('../models/mongodb/subscription');
 // const backup = require('mongodb-backup');
+const messages= require('../global/messages');
 const mongoose = require('mongoose');
 const { database } = require("../config");
 const { MongoTransferer, MongoDBDuplexConnector, LocalFileSystemDuplexConnector } = require('mongodb-snapshot');
@@ -21,7 +22,7 @@ module.exports = {
             let time2 = new Date().getTime()
             return res.json({
                 success: true,
-                message: USER_UPDATE_SUCCESS,
+                message: messages.USER_UPDATE_SUCCESS,
                 data: user
             })
 
@@ -62,7 +63,7 @@ module.exports = {
         } catch (err) {
             res.status(400).json({
                 success: false,
-                message: err
+                message: err.message || err
             })
         }
     },
@@ -78,7 +79,7 @@ module.exports = {
         } catch (error) {
             res.status(400).json({
                 success: false,
-                error: error.message
+                error: error.message || error
             })
         }
     },
@@ -87,6 +88,7 @@ module.exports = {
         // #swagger.description = 'Update subscription plan'
         try {
             let id = req.body.id
+            let formData = req.body
             const reg = new RegExp('^[0-9]+$');
             let checkKeys = ["freeContacts", "photosAllowed", "contactAllowed", "validity"]
             let updateData = {}
@@ -97,7 +99,7 @@ module.exports = {
                     } else {
                         res.status(400).json({
                             success: true,
-                            error: SUBSCRIPTION_UPDATE_FAILED,
+                            error: messages.SUBSCRIPTION_UPDATE_FAILED,
                         })
                     }
                 }
@@ -112,13 +114,13 @@ module.exports = {
             let time2 = new Date().getTime()
             return res.json({
                 success: true,
-                message: SUBSCRIPTION_UPDATE_SUCCESS,
+                message: messages.SUBSCRIPTION_UPDATE_SUCCESS,
                 data: subscriptionData
             })
         } catch (error) {
             res.status(400).json({
                 success: false,
-                error: error.message
+                error: error.message || error
             })
         }
     },
@@ -134,7 +136,7 @@ module.exports = {
         } catch (error) {
             return res.json({
                 success: false,
-                data: error
+                data: error.message || error
             })
         }
     }
