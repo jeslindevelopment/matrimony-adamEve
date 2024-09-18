@@ -4,6 +4,7 @@ import { getInterestList } from "../../store/slice/auth.js";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import UsersCard from "../profileListing/UsersCard.js";
+import NoDataFound from "../noDataFound.js";
 
 export default function MyInterest() {
   const dispatch = useDispatch();
@@ -29,7 +30,7 @@ export default function MyInterest() {
                 />
               );
             })
-          : "NO Data found"}
+          : <NoDataFound/>}
       </div>
     </section>
   );

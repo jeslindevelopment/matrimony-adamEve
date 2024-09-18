@@ -30,6 +30,9 @@ export default function ProfilePopover({
               <li>
                 <Link to="/my-favourite">My Favourites</Link>
               </li>
+              <li>
+                <Link to="/message">Messages</Link>
+              </li>
               <li onClick={onChangePasswordClick}>
                 <Link> Change Password</Link>
               </li>

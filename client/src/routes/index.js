@@ -12,6 +12,7 @@ import { loginData } from "../constant";
 import ProfileDetails from "../pages/profileListing/profileDetails";
 import MyInterest from "../pages/myInterest";
 import MyFavourites from "../pages/myFavourites";
+import Messages from "../pages/messages";
 
 export default function Router() {
 
@@ -27,6 +28,7 @@ export default function Router() {
         { path: "/profile-detail", element: <ProfileDetails /> },
         { path: "/my-interest", element: <MyInterest /> },
         { path: "/my-favourite", element: <MyFavourites /> },
+        { path: "/message", element: <Messages /> },
 
         
 

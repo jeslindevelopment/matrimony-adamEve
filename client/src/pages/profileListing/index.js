@@ -4,12 +4,10 @@ import "./index.css";
 
 import UsersCard from "./UsersCard";
 import PlanDialog from "../../component/dialog/planDialog.js";
-import {
-  getUserDetail,
-  getUsersList,
-} from "../../store/slice/auth.js";
+import { getUserDetail, getUsersList } from "../../store/slice/auth.js";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import NoDataFound from "../noDataFound.js";
 
 export default function ProfileListing() {
   const dispatch = useDispatch();
@@ -26,18 +24,20 @@ export default function ProfileListing() {
       style={{ background: color.formBG, minHeight: "88vh" }}
     >
       <div class="profilesContainer row">
-        {userListData?.data?.length > 0
-          ? userListData?.data?.map((item, i) => {
-              return (
-                <UsersCard
-                  userData={userData}
-                  type={"userList"}
-                  key={i}
-                  item={item}
-                />
-              );
-            })
-          : "NO Data found"}
+        {userListData?.data?.length > 0 ? (
+          userListData?.data?.map((item, i) => {
+            return (
+              <UsersCard
+                userData={userData}
+                type={"userList"}
+                key={i}
+                item={item}
+              />
+            );
+          })
+        ) : (
+          <NoDataFound />
+        )}
       </div>
     </section>
   );

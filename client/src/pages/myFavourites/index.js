@@ -4,6 +4,7 @@ import { getInterestList, getShortList, getUserDetail } from "../../store/slice/
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import UsersCard from "../profileListing/UsersCard.js";
+import NoDataFound from "../noDataFound.js";
 
 export default function MyFavourites() {
   const dispatch = useDispatch();
@@ -29,7 +30,7 @@ export default function MyFavourites() {
                 />
               );
             })
-          : "NO Data found"}
+          : <NoDataFound/>}
       </div>
     </section>
   );

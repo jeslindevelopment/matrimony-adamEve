@@ -11,7 +11,7 @@ export default function AEInput(props) {
     background,
     endText,
     max,
-    height
+    height,
   } = props;
   return (
     <>
@@ -21,7 +21,11 @@ export default function AEInput(props) {
           className="form-control"
           placeholder={placeholder}
           max={max}
-          style={{ background: background ? background : "", fontWeight: 500,height:height?height:'' }}
+          style={{
+            background: background ? background : "",
+            fontWeight: 500,
+            height: height ? height : "",
+          }}
           maxLength={maxLength}
           value={value}
           onChange={onChange}

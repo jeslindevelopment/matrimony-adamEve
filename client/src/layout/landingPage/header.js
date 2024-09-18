@@ -70,10 +70,16 @@ export default function Header({
               <div className="logo-box">
                 <figure className="logo">
                   <Link to="/">
-                    <img src={logo} alt="" width="150px" />
+                    <img
+                      src={logo}
+                      alt=""
+                      width="150px"
+                      style={{ cursor: "pointer" }}
+                    />
                   </Link>
                 </figure>
               </div>
+
               <div className="menu-area">
                 {/* Mobile Navigation Toggler */}
 
@@ -82,6 +88,7 @@ export default function Header({
                   <i className="icon-bar"></i>
                   <i className="icon-bar"></i>
                 </div>
+
                 <nav className="main-menu navbar-expand-md navbar-light clearfix">
                   <div
                     className="collapse navbar-collapse show clearfix"
@@ -117,7 +124,12 @@ export default function Header({
               <div className="logo-box">
                 <figure className="logo">
                   <Link to="/">
-                    <img src={logo} alt="" width="150px" />
+                    <img
+                      src={logo}
+                      alt=""
+                      width="150px"
+                      style={{ cursor: "pointer" }}
+                    />
                   </Link>
                 </figure>
               </div>
