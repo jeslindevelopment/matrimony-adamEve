@@ -130,7 +130,6 @@ module.exports = {
                     "$sort": { "_id.user1": 1, "_id.user2": 1 }  // Optionally sort by user1 and user2 IDs
                 }
               ]
-            console.log(payloadQuery, "------------")
             Message.aggregate(payloadQuery)
             .exec((err, result) => {
                 if (err) {
