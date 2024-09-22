@@ -53,44 +53,92 @@ module.exports = {
                 })
         })
     },
-    getPages: (params, fields = null) => {
+    getPages: (params, id, fields = null) => {
         let size = params.size ? parseInt(params.size) : 10000
         let page = params.page ? parseInt(params.page) : 1
         let query = params.query ? params.query : params
         return new Promise((resolve, reject) => {
-            Message.aggregate([
+            let payloadQuery = [
+                query,
+                {
+                    "$lookup": {
+                        "from": "users",
+                        "localField": "sendUserId",
+                        "foreignField": "_id",
+                        "as": "senderDetails"
+                    }
+                },
                 {
                     "$lookup": {
                         "from": "users",
                         "localField": "receiveUserId",
                         "foreignField": "_id",
-                        "as": "userDetail"
+                        "as": "receiverDetails"
                     }
                 },
                 {
-                    "$project": {
-                        "_id": 1,
-                        "receiveUserId": 1,
-                        "sendUserId": 1,
-                        "messages":1,
-                        "userDetail._id": 1,
-                        "userDetail.firstname": 1,
-                        "userDetail.surname": 1,
-                        "userDetail.maritalStatus": 1,
-                        "userDetail.denomination": 1,
-                        "userDetail.status": 1
+                    "$unwind": "$senderDetails"   // Flatten the sender details array
+                },
+                {
+                    "$unwind": "$receiverDetails"  // Flatten the receiver details array
+                },
+                {
+                    "$addFields": {
+                        "messageText": "$message",  // The actual message text
+                        "sentBy": {
+                            "name": { "$concat": ["$senderDetails.firstname", " ", "$senderDetails.surname"] },
+                            "profile": "$senderDetails.profile"
+                        },
+                        "receiver": {
+                            "name": { "$concat": ["$receiverDetails.firstname", " ", "$receiverDetails.surname"] },
+                            "profile": "$receiverDetails.profile"
+                        },
+                        // Create a composite key with the lower of sendUserId or receiveUserId as user1
+                        "user1": {
+                            "$cond": {
+                                "if": { "$lt": ["$sendUserId", "$receiveUserId"] },
+                                "then": "$sendUserId",
+                                "else": "$receiveUserId"
+                            }
+                        },
+                        "user2": {
+                            "$cond": {
+                                "if": { "$gt": ["$sendUserId", "$receiveUserId"] },
+                                "then": "$sendUserId",
+                                "else": "$receiveUserId"
+                            }
+                        }
                     }
                 },
-                { "group": { "_id": "$receiveUserId", "total": { "$sum": 1 } } },
-                { "$skip": size * (page - 1) },
-                { "$limit": size }
-            ]).exec((err, result) => {
-                if (err) {
-                    reject(err)
-                    return
+                {
+                    "$group": {
+                        "_id": { "user1": "$user1", "user2": "$user2" },   // Group by user1 and user2
+                        "senderName": { "$first": "$sentBy.name" },         // Group-level sender name
+                        "senderProfile": { "$first": "$sentBy.profile" },   // Group-level sender profile
+                        "receiverName": { "$first": "$receiver.name" },     // Group-level receiver name
+                        "receiverProfile": { "$first": "$receiver.profile" }, // Group-level receiver profile
+                        "messages": {
+                            "$push": {
+                                "messageText": "$messageText",  // Push all messages into an array
+                                "sentBy": "$sentBy",
+                                "createdAt": "$createdAt"
+                            }
+                        }
+                    }
+                },
+                {
+                    "$sort": { "_id.user1": 1, "_id.user2": 1 }  // Optionally sort by user1 and user2 IDs
                 }
-                resolve(result)
-            })
+              ]
+            Message.aggregate(payloadQuery)
+            .exec((err, result) => {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(result);
+                }
+            });                                 
+                       
         })
     },
 
