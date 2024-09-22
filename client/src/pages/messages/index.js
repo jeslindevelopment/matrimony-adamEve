@@ -1,9 +1,23 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./index.css";
 import AEInput from "../../component/AEInput";
 import { Icon } from "@iconify/react";
+import { useDispatch } from "react-redux";
+import { getMessageList, sendMessage } from "../../store/slice/message";
 
 export default function Messages() {
+  const dispatch = useDispatch();
+  const [message, setMessage] = useState();
+  useEffect(() => {
+    dispatch(getMessageList());
+  }, []);
+  const handleSendMessage = () => {
+    let request = {
+      receiveUserId: "any",
+      message: message,
+    };
+    dispatch(sendMessage(request));
+  };
   return (
     <div class="mt-2 container ">
       <div class="row clearfix">
@@ -151,8 +165,13 @@ export default function Messages() {
                 <div style={{ border: "1px solid grey" }}>
                   <AEInput
                     placeholder="Type here..."
+                    onChange={(event) => {
+                      setMessage(event.target.value);
+                    }}
                     endText={
                       <Icon
+                        onClick={handleSendMessage}
+                        style={{ cursor: "pointer" }}
                         icon="fluent-mdl2:send"
                         color="#21618C"
                         width="25"

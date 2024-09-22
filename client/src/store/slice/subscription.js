@@ -1,6 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
 import api from "../../services";
-import secureLocalStorage from "react-secure-storage";
 import { ADAM_EVE_API } from "../../services/apiConstant";
 import { toast } from "react-hot-toast";
 

@@ -7,7 +7,7 @@ import AboutUs from "./subComponent/AbousUs.js";
 import Process from "./subComponent/process.js";
 import LookingFor from "./subComponent/lookingFor.js";
 import OurTeam from "./subComponent/ourTeam.js";
-
+import PayUCheckout from "../payment/paymentSetup.js"
 export default function LandingPage() {
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -19,7 +19,8 @@ export default function LandingPage() {
       <WhyUs />
       <Process />
       <AboutUs />
-      <OurTeam/>
+      <OurTeam />
+      <PayUCheckout  />
       <Contact />
     </>
   );
