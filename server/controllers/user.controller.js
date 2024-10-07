@@ -128,7 +128,9 @@ module.exports = {
 
                 subscriptionID: 1,
                 subscriptionPlan: 1,
-                subscriptionDate: 1
+                subscriptionDate: 1,
+                subscriptionEndDate: 1,
+                freeContactsCount: 1
             }
             let [user] = await User.get({ _id: res.locals.auth.id }, fields)
             return res.json({
@@ -220,6 +222,7 @@ module.exports = {
             delete params.subscriptionID;
             delete params.subscriptionPlan;
             delete params.subscriptionDate;
+            delete params.subscriptionEndDate;
 
             await User.update({
                 selector: { _id: res.locals.auth.id },
