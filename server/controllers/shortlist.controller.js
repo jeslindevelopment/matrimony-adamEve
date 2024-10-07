@@ -40,6 +40,9 @@ module.exports = {
         // #swagger.description = 'For getting list of shortlisted user'
         try {
             let shortlists = await Shortlist.getPages({ userId: res.locals.auth.id })
+            await Promise.all(shortlists.map(e=>{
+                e.isShortlisted = true;
+            }))
             res.status(200).json({
                 success: true,
                 message: shortlists
