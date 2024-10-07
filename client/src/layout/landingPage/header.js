@@ -83,7 +83,10 @@ export default function Header({
               <div className="menu-area">
                 {/* Mobile Navigation Toggler */}
 
-                <div className="mobile-nav-toggler" onClick={handleMobileMenu}>
+                <div
+                  className="mobile-nav-toggler"
+                  onClick={() => handleMobileMenu(true)}
+                >
                   <i className="icon-bar"></i>
                   <i className="icon-bar"></i>
                   <i className="icon-bar"></i>
@@ -167,6 +170,9 @@ export default function Header({
         handleMobileMenu={handleMobileMenu}
         isSidebar={isSidebar}
         handleSidebar={handleSidebar}
+        loginData={loginData}
+        onChangePasswordClick={handleShow}
+        onLogoutClick={() => setShowLogoutDialog(true)}
       />
 
       {/* change password */}

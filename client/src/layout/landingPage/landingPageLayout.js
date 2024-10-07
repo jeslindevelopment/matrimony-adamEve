@@ -9,9 +9,9 @@ export default function LandingPageLayout({ Children, wrapperCls }) {
   const [scroll, setScroll] = useState(0);
   // Mobile Menu
   const [isMobileMenu, setMobileMenu] = useState(false);
-  const handleMobileMenu = () => {
-    setMobileMenu(!isMobileMenu);
-    !isMobileMenu
+  const handleMobileMenu = (status) => {
+    setMobileMenu(status);
+    status
       ? document.body.classList.add("mobile-menu-visible")
       : document.body.classList.remove("mobile-menu-visible");
   };

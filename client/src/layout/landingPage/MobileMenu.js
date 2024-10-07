@@ -2,20 +2,40 @@ import { Link } from "react-scroll";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
-export const MobileMenu = ({ isSidebar, handleMobileMenu, handleSidebar }) => {
+export const MobileMenu = ({
+  isSidebar,
+  handleMobileMenu,
+  handleSidebar,
+  loginData,
+  onChangePasswordClick,
+  onLogoutClick,
+}) => {
   const navigate = useNavigate();
   return (
     <>
       <div className="mobile-menu">
-        <div className="menu-backdrop" onClick={handleMobileMenu} />
-        <div className="close-btn" onClick={handleMobileMenu}>
+        <div
+          className="menu-backdrop"
+          onClick={() => handleMobileMenu(false)}
+        />
+        <div className="close-btn" onClick={() => handleMobileMenu(false)}>
           <i className="fas fa-times"></i>
         </div>
         <nav className="menu-box">
-          <div className="nav-logo">
-            <Link to="/">
-              <img src="assets/images/logo.jpeg" alt="" />
-            </Link>
+          <div className="nav-logo" style={{display:'flex',justifyContent:'center',marginBottom:'-3rem'}}>
+            {loginData ? (
+              <img
+                src="https://wallpapers.com/images/hd/cool-profile-pictures-hoodie-cat-6dkl56hixhnq590g.jpg"
+                alt=""
+                style={{ borderRadius: 50, border: "3px solid white" }}
+                height={100}
+                width={100}
+              />
+            ) : (
+              <Link to="/">
+                <img src="assets/images/logo.jpeg" alt="" />
+              </Link>
+            )}
           </div>
 
           {/*menu-outer*/}
@@ -24,79 +44,176 @@ export const MobileMenu = ({ isSidebar, handleMobileMenu, handleSidebar }) => {
               className="collapse navbar-collapse show clearfix"
               id="navbarSupportedContent"
             >
-              <ul className="navigation clearfix">
-                <li>
-                  <Link
-                    smooth={true}
-                    duration={500}
-                    onClick={() => navigate("/auth/login")}
-                  >
-                    Login
-                  </Link>
-                </li>
-                <li>
-                  <Link to="/" smooth={true} duration={500}>
-                    <button
+              {loginData ? (
+                <ul className="navigation clearfix">
+                  <li>
+                    <Link
+                      smooth={true}
+                      duration={500}
                       onClick={() => {
-                        window.scrollTo(0, 0);
-                        handleMobileMenu();
+                        navigate("/");
+                        handleMobileMenu(false);
                       }}
-                      style={{ color: "white" }}
+                      style={{ cursor: "pointer" }}
                     >
                       Home
-                    </button>
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    to="whyUs"
-                    smooth={true}
-                    duration={100}
-                    onClick={() => {
-                      handleMobileMenu();
-                    }}
-                    style={{ cursor: "pointer" }}
-                  >
-                    Why Us
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    to="about"
-                    smooth={true}
-                    duration={500}
-                    onClick={() => {
-                      handleMobileMenu();
-                    }}
-                  >
-                    About Us
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    to="process"
-                    smooth={true}
-                    duration={500}
-                    onClick={() => {
-                      handleMobileMenu();
-                    }}
-                  >
-                    Our Process
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    to="contact-us"
-                    smooth={true}
-                    duration={500}
-                    onClick={() => {
-                      handleMobileMenu();
-                    }}
-                  >
-                    Contact Us
-                  </Link>
-                </li>
-              </ul>
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      smooth={true}
+                      duration={500}
+                      onClick={() => {
+                        navigate("/profile-setting");
+                        handleMobileMenu(false);
+                      }}
+                      style={{ cursor: "pointer" }}
+                    >
+                      Profile Setting
+                    </Link>
+                  </li>{" "}
+                  <li>
+                    <Link
+                      smooth={true}
+                      duration={500}
+                      onClick={() => {
+                        navigate("/my-interest");
+                        handleMobileMenu(false);
+                      }}
+                      style={{ cursor: "pointer" }}
+                    >
+                      My Interest
+                    </Link>
+                  </li>{" "}
+                  <li>
+                    <Link
+                      smooth={true}
+                      duration={500}
+                      onClick={() => {
+                        navigate("/my-favourite");
+                        handleMobileMenu(false);
+                      }}
+                      style={{ cursor: "pointer" }}
+                    >
+                      My Favourites
+                    </Link>
+                  </li>{" "}
+                  <li>
+                    <Link
+                      smooth={true}
+                      duration={500}
+                      onClick={() => {
+                        navigate("/message");
+                        handleMobileMenu(false);
+                      }}
+                      style={{ cursor: "pointer" }}
+                    >
+                      Messages
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      smooth={true}
+                      duration={500}
+                      onClick={() => {
+                        onChangePasswordClick();
+                        handleMobileMenu(false);
+                      }}
+                      style={{ cursor: "pointer" }}
+                    >
+                      Change Password
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      smooth={true}
+                      duration={500}
+                      onClick={() => {
+                        onLogoutClick();
+                        handleMobileMenu(false);
+                      }}
+                      style={{ cursor: "pointer" }}
+                    >
+                      Logout
+                    </Link>
+                  </li>
+                </ul>
+              ) : (
+                <ul className="navigation clearfix">
+                  <li>
+                    <Link
+                      smooth={true}
+                      duration={500}
+                      onClick={() => navigate("/auth/login")}
+                    >
+                      Login
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to="/" smooth={true} duration={500}>
+                      <button
+                        onClick={() => {
+                          window.scrollTo(0, 0);
+                          handleMobileMenu(false);
+                        }}
+                        style={{ color: "white" }}
+                      >
+                        Home
+                      </button>
+                    </Link>
+                  </li>
+
+                  <li>
+                    <Link
+                      to="whyUs"
+                      smooth={true}
+                      duration={100}
+                      onClick={() => {
+                        handleMobileMenu(false);
+                      }}
+                      style={{ cursor: "pointer" }}
+                    >
+                      Why Us
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      to="about"
+                      smooth={true}
+                      duration={500}
+                      onClick={() => {
+                        handleMobileMenu(false);
+                      }}
+                    >
+                      About Us
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      to="process"
+                      smooth={true}
+                      duration={500}
+                      onClick={() => {
+                        handleMobileMenu(false);
+                      }}
+                    >
+                      Our Process
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      to="contact-us"
+                      smooth={true}
+                      duration={500}
+                      onClick={() => {
+                        handleMobileMenu(false);
+                      }}
+                    >
+                      Contact Us
+                    </Link>
+                  </li>
+                </ul>
+              )}
             </div>
           </div>
           {/*menu-outer end*/}
