@@ -283,6 +283,45 @@
         }
       }
     },
+    "/api/auth/generate-hash": {
+      "post": {
+        "tags": [
+          "Payment"
+        ],
+        "description": "Generate hash for payment",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "txnid": {
+                  "example": "any"
+                },
+                "amount": {
+                  "example": "any"
+                },
+                "productinfo": {
+                  "example": "any"
+                },
+                "firstname": {
+                  "example": "any"
+                },
+                "email": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/auth/subscription": {
       "get": {
         "tags": [
@@ -959,15 +998,64 @@
         }
       }
     },
-    "/api/admin/backup": {
+    "/api/admin/backup-database": {
       "get": {
         "tags": [
           "Admin"
         ],
         "description": "Database backup",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "cookie",
+            "in": "header",
+            "type": "string"
+          }
+        ],
         "responses": {
           "400": {
             "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/admin/dashboard-data": {
+      "get": {
+        "tags": [
+          "Admin"
+        ],
+        "description": "Get dashboard data",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "cookie",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
           }
         }
       }

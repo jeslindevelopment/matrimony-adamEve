@@ -8,6 +8,7 @@ router.post('/user-update', afterAdminAuth, admin.updateUser)
 router.get('/subscription-detail/:id', afterAdminAuth, admin.getSubscriptionPlan)
 router.get('/subscription-list', afterAdminAuth, admin.getSubscriptionPlanList)
 router.post('/subscription-update', afterAdminAuth, admin.updateSubscriptionPlan)
-router.get('/backup', admin.backupDatabase)
+router.get('/backup-database', afterAdminAuth, admin.backupDatabase)
+router.get('/dashboard-data', afterAdminAuth, admin.dashboardData)
 
 module.exports = router

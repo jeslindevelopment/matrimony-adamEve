@@ -39,19 +39,6 @@ app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
 app.use(bodyParser.json({ limit: "50mb" })); // support json encoded bodies
 app.use("/api", require("./routes/")); // routes
 
-// generate payment haskey
-const merchantKey = "pZrgMw";
-const salt = "YOUR_SALT";
-
-app.post("/generate-hash", (req, res) => {
-  const { txnid, amount, productinfo, firstname, email } = req.body;
-
-  const hashString = `${merchantKey}|${txnid}|${amount}|${productinfo}|${firstname}|${email}|||||||||||${salt}`;
-  const hash = crypto.createHash("sha512").update(hashString).digest("hex");
-
-  res.json({ hash });
-});
-
 app.get("/", (req, res) => {
   res.send("Hello, Apis are running!");
 });

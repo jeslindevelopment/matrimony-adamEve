@@ -5,6 +5,8 @@ const messages= require('../global/messages');
 const mongoose = require('mongoose');
 const { database } = require("../config");
 const { MongoTransferer, MongoDBDuplexConnector, LocalFileSystemDuplexConnector } = require('mongodb-snapshot');
+const fs = require('fs');
+const path = require('path');
 
 module.exports = {
     updateUser: async (req, res) => {
@@ -38,7 +40,12 @@ module.exports = {
         // #swagger.tags = ['Admin']
         // #swagger.description = 'Database backup'
         try {
-            console.log(database["mongodb"][0].url)
+            console.log(database["mongodb"][0].url);
+
+            // Generate a unique filename using a timestamp
+            const timestamp = new Date().toISOString().replace(/[:.]/g, '-'); // Replaces colon and dot with dash
+            const backupFilePath = `./backup-${timestamp}.tar`;
+
             const mongo_connector = new MongoDBDuplexConnector({
                 connection: {
                     uri: `mongodb://127.0.0.1:27017`,
@@ -48,7 +55,7 @@ module.exports = {
 
             const localfile_connector = new LocalFileSystemDuplexConnector({
                 connection: {
-                    path: './backup.tar',
+                    path: backupFilePath,
                 },
             });
 
@@ -60,13 +67,34 @@ module.exports = {
             for await (const { total, write } of transferer) {
                 console.log(`remaining bytes to write: ${total - write}`);
             }
+
+            // Send the file to the user after backup is done
+            res.download(backupFilePath, `backup-${timestamp}.tar`, (err) => {
+                if (err) {
+                    console.error("Error sending the file:", err);
+                    return res.status(500).json({
+                        success: false,
+                        message: "Failed to send the backup file.",
+                    });
+                }
+
+                // After the file is sent, delete the file
+                fs.unlink(backupFilePath, (unlinkErr) => {
+                    if (unlinkErr) {
+                        console.error("Failed to delete backup file:", unlinkErr);
+                    } else {
+                        console.log("Backup file deleted successfully.");
+                    }
+                });
+            });
         } catch (err) {
             res.status(400).json({
                 success: false,
-                message: err.message || err
-            })
+                message: err.message || err,
+            });
         }
     },
+
     getSubscriptionPlan: async (req, res) => {
         // #swagger.tags = ['Admin']
         // #swagger.description = 'Get subscription plan detail based on id'
@@ -137,6 +165,27 @@ module.exports = {
             return res.json({
                 success: false,
                 data: error.message || error
+            })
+        }
+    },
+    dashboardData: async (req, res) => {
+        // #swagger.tags = ['Admin']
+        // #swagger.description = 'Get dashboard data'
+        try {
+            let userCount = await User.count({});
+            let messageCount = await Message.count({});
+            let dashboardData = {
+                userCount,
+                messageCount
+            }
+            res.status(200).json({
+                success: true,
+                data: dashboardData
+            })
+        } catch (error) {
+            res.status(400).json({
+                success: false,
+                error: error.message || error
             })
         }
     }

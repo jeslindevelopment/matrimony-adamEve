@@ -65,5 +65,35 @@ module.exports = {
                 error: err
             })
         }
+    },
+    sendOtp: async (req, res) => {
+        // #swagger.tags = ['Message']
+        // #swagger.description = 'For sending OTP to user'
+        try {
+            let params = req.body;
+            if (!params.receiveUserId || !params.message || !res.locals.auth.id) {
+                return res.status(400).json({
+                    success: false,
+                    data: messages.REQUIRED_FIELDS_MISSING
+                })
+            }
+            let payload = {
+                receiveUserId: params.receiveUserId,
+                message: params.message,
+                sendUserId: res.locals.auth.id,
+                receivedDate: new Date()
+            }
+            await Message.add(payload)
+            return res.status(200).json({
+                success: true,
+                message: messages.OTP_SENT
+            })
+        } catch (err) {
+            return res.status(400).json({
+                success: false,
+                message: messages.UNEXPECTED_ERROR,
+                error: err.message || err
+            })
+        }
     }
 }

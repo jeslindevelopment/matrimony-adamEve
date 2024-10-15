@@ -183,3 +183,39 @@ export const updateSubscription = createAsyncThunk(
         }
     }
 );
+
+export const getDashboardData = createAsyncThunk(
+    "admin/dashboard-data",
+    async ({ userToken }, { rejectWithValue, dispatch, getState }) => {
+        try {
+            const config = {
+                headers: { Authorization: `${userToken}` },
+            };
+            const response = await axios.get(
+                `${backendURL}${prefix}/dashboard-data`,
+                config
+            );
+            return response.data;
+        } catch (error) {
+            handleError({ error, rejectWithValue, dispatch, getState })
+        }
+    }   
+)
+
+export const getBackupDatabase = createAsyncThunk(
+    "admin/backup-database",
+    async ({ userToken }, { rejectWithValue, dispatch, getState }) => {
+        try {
+            const config = {
+                headers: { Authorization: `${userToken}` },
+            };
+            const response = await axios.get(
+                `${backendURL}${prefix}/backup-database`,
+                config
+            );
+            return response.data;
+        } catch (error) {
+            handleError({ error, rejectWithValue, dispatch, getState })
+        }
+    }   
+)   

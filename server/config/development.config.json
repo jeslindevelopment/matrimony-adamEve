@@ -12,5 +12,7 @@
             }
         ]
     },
-    "jwtKey": "ABCDEFGH"
+    "jwtKey": "ABCDEFGH",
+    "merchantKey" : "pZrgMw",
+    "salt" : "MatrimonyEve123$%%%"
 }

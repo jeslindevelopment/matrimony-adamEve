@@ -740,5 +740,28 @@ module.exports = {
                 data: error
             })
         }
+    },
+    // generate payment haskey
+    generateHash: async (req, res) => {
+        // #swagger.tags = ['Payment']
+        // #swagger.description = 'Generate hash for payment'
+        try {
+            const {merchantKey, salt} = config
+            const { txnid, amount, productinfo, firstname, email } = req.body;
+
+            const hashString = `${merchantKey}|${txnid}|${amount}|${productinfo}|${firstname}|${email}|||||||||||${salt}`;
+            const hash = crypto.createHash("sha512").update(hashString).digest("hex");
+
+            res.json({ hash });
+            res.status(200).json({
+                success: true,
+                data: hash
+            })
+        } catch (error) {
+            return res.json({
+                success: false,
+                data: error
+            })
+        }
     }
 }
