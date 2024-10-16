@@ -46,7 +46,7 @@ const Contact = () => {
   return (
     <div id="contact-us">
       {/* contact-info-section */}
-      <section className="contact-info-section centred pt_120 pb_90">
+      <section className="contact-info-section centred pt_50 pb_90">
         <div className="auto-container">
           <div className="sec-title mb_70">
             <h6>Contact US</h6>

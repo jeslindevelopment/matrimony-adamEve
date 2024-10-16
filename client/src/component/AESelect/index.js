@@ -7,6 +7,7 @@ export default function AESelect({
   background,
   onChange,
   formErr,
+  style
 }) {
   return (
     <>
@@ -18,6 +19,7 @@ export default function AESelect({
           background: background ? background : "",
           fontWeight: 500,
           color: value ? "black" : "#808080",
+          ...style
         }}
       >
         <option selected={!value} disabled>

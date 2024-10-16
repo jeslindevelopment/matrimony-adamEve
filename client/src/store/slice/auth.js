@@ -212,7 +212,7 @@ export const shortList = (id, type) => async (dispatch) => {
 //  send Interest
 export const sendInterest = (id, handleCloseDialog) => async (dispatch) => {
   api
-    .post(`${ADAM_EVE_API.auth.sendInterest}/${id}`)
+    .get(`${ADAM_EVE_API.auth.sendInterest}/${id}`)
     .then((response) => {
       let result = response.data;
       if (result.success) {
@@ -230,9 +230,13 @@ export const sendInterest = (id, handleCloseDialog) => async (dispatch) => {
 };
 
 // get Interest List
-export const getInterestList = () => async (dispatch) => {
+export const getInterestList = (isReceived) => async (dispatch) => {
   api
-    .get(`${ADAM_EVE_API.auth.getInterestList}`)
+    .get(
+      isReceived
+        ? `${ADAM_EVE_API.auth.getInterestList}?interestType=recieved`
+        : `${ADAM_EVE_API.auth.getInterestList}`
+    )
     .then((response) => {
       let result = response.data;
       if (result.success) {

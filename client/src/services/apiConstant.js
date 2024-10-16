@@ -16,11 +16,14 @@ export const ADAM_EVE_API = {
   subscription: {
     getPlansList: "/api/auth/subscription",
     buyPlan: "api/user/buy-subscription",
+    
   },
-  message:{
-    getMessageList:'/api/message/list',
-    sendMessage:'/api/message/send'
-  }
+  message: {
+    getMessageList: "/api/message/list",
+    sendMessage: "/api/message/send",
+    uploadImage: "api/user/profile-upload-multiple",
+
+  },
 };
 
 export const API_RESPONSE = {

@@ -38,14 +38,36 @@ export const getMessageList = () => async (dispatch) => {
 };
 
 //  send message
-export const sendMessage = (data) => async (dispatch) => {
+export const sendMessage =
+  (data, handleSendMessageSuccess) => async (dispatch) => {
+    api
+      .post(`${ADAM_EVE_API.message.sendMessage}`, data)
+      .then((response) => {
+        let result = response.data;
+        if (result.success) {
+          if (handleSendMessageSuccess) {
+            handleSendMessageSuccess();
+          }
+        } else {
+          toast.error(response.data.message);
+        }
+      })
+      .catch((e) => {
+        console.log("e", e);
+      });
+  };
+
+// upload profile
+export const uploadImage = (data, handleImageSuccess) => async (dispatch) => {
+  const formdata = new FormData();
+  console.log("data", data);
+  formdata.append("file", data);
   api
-    .post(`${ADAM_EVE_API.message.sendMessage}`, data)
+    .post(`${ADAM_EVE_API.message.uploadImage}`, data)
     .then((response) => {
       let result = response.data;
-      console.log("result", result);
       if (result.success) {
-        // dispatch(getMessageListSuccess(result.data));
+        console.log("success", response?.data);
       } else {
         toast.error(response.data.message);
       }

@@ -1,6 +1,8 @@
 import secureLocalStorage from "react-secure-storage";
 
 export const GENDER_TYPE = ["Male", "Female"];
+export const INTEREST_TYPES = ["Send Interest", "Received Interest"];
+
 export const MARITAL_STATUS = [
   "Never Married",
   "Married",
@@ -104,11 +106,11 @@ export const HIGHEST_EDUCATION = [
   "Doctorate",
   "PhD",
   "M. Phil",
-  "Other"
+  "Other",
 ];
 
 // OCCUPATION
-export  const OCCUPATION = [
+export const OCCUPATION = [
   "Unemployed",
   "Student",
   "Govt. Servant",
@@ -119,7 +121,7 @@ export  const OCCUPATION = [
   "Business",
   "Full Time Minister",
   "Looking for a Job",
-  "Other"
+  "Other",
 ];
 
 // ANNUAL INCOME
@@ -148,7 +150,7 @@ export const ANNUAL_INCOME = [
   "Rs. 46 – 50 Lacs",
   "Rs. 51 – 75 Lacs",
   "Rs. 76 – 99 Lacs",
-  "Rs. 99 Lacs Plus"
+  "Rs. 99 Lacs Plus",
 ];
 
 //
@@ -195,7 +197,7 @@ export const LANGUAGES = [
   "Manipuri",
   "Mizo",
   "Nepali",
-  "Other"
+  "Other",
 ];
 export const BLOOD_GROUP = [
   "A+ve",
@@ -235,11 +237,11 @@ export const MINISTRY = [
   "Translator",
   "Sunday School Teacher",
   "Other",
-  "No Any"
+  "No Any",
 ];
 
 // Father’s Occupation
-export const  FATHER_OCCUPATION = [
+export const FATHER_OCCUPATION = [
   "Business Owner",
   "Commission Agent",
   "Daily Wages Labour",
@@ -254,11 +256,11 @@ export const  FATHER_OCCUPATION = [
   "Property Broker",
   "Retired",
   "Self Employed",
-  "Other"
+  "Other",
 ];
 
 // Mother’s Occupation
-export const  MOTHER_OCCUPATION = [
+export const MOTHER_OCCUPATION = [
   "Business Owner",
   "Commission Agent",
   "Daily Wages Labour",
@@ -273,7 +275,14 @@ export const  MOTHER_OCCUPATION = [
   "Property Broker",
   "Retired",
   "Self Employed",
-  "Other"
+  "Other",
 ];
 
-export const loginData= secureLocalStorage.getItem(process.env.REACT_APP_TOKEN_STORAGE_KEY)
+export const INTEREST_STATUS = {
+  PENDING: "Pending",
+  ACCEPTED: "Accepted",
+  REJECTED: "Rejected",
+};
+export const loginData = secureLocalStorage.getItem(
+  process.env.REACT_APP_TOKEN_STORAGE_KEY
+);

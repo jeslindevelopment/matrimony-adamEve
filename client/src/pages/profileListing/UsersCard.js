@@ -9,21 +9,20 @@ import { getProfileDetail, shortList } from "../../store/slice/auth";
 import PlanDialog from "../../component/dialog/planDialog.js";
 import moment from "moment";
 import SendInterestDialog from "./sendInterest/index.js";
+import { INTEREST_STATUS, loginData } from "../../constant/index.js";
+import SendMessageDialog from "../../component/dialog/sendMessageDialog/index.js";
 
 export default function UsersCard(props) {
   const navigate = useNavigate();
   const [showPlanDialog, setShowPlanDialog] = useState(false);
   const [showInterestDialog, setShowInterestDialog] = useState(false);
-  const { key, item, userData, type, isInterestList } = props;
+  const [showMessageDialog, setShowMessageDialog] = useState(false);
+  const { key, item, userData, type, isInterestList, status, senderId } = props;
   const today = new Date();
   const dispatch = useDispatch();
   const handleShortList = (id) => {
     dispatch(shortList(id, type));
   };
-
-  const planExpirationDate = moment(userData?.subscriptionDate);
-  const currentDate = moment();
-
   return (
     <>
       <PlanDialog
@@ -31,9 +30,13 @@ export default function UsersCard(props) {
         handleClose={() => setShowPlanDialog(false)}
       />
       <SendInterestDialog
-        id={item?.id}
+        id={item?._id}
         showDialog={showInterestDialog}
         handleCloseDialog={() => setShowInterestDialog(false)}
+      />
+      <SendMessageDialog
+        showDialog={showMessageDialog}
+        handleCloseDialog={() => setShowMessageDialog(false)}
       />
       <div className="col-lg-3 col-md-6 col-sm-12 rounded-4 p-2" key={key}>
         <div className="bg-white py-2 px-1 rounded-4">
@@ -76,39 +79,19 @@ export default function UsersCard(props) {
             </div>
           </div>
           <div className="px-4">
-            {/* <div className="d-flex justify-content-between align-items-center">
-            <div className="fs-6 fw-bold">Ajay</div>
-            <div
-              className="d-flex justify-content-center align-items-center"
-              style={{
-                height: 40,
-                width: 40,
-                borderRadius: 50,
-                background: "#000000bf",
-              }}
-            >
-              <Icon
-                icon="vaadin:heart"
-                color={color.hightLightColor}
-                width={25}
-              />
-            </div>
-          </div> */}
-            {!isInterestList && (
+            {!isInterestList ? (
               <div className="d-flex justify-content-evenly mb-3">
                 <button
                   type="button"
                   class="btn btn-sm"
                   onClick={() => {
                     if (userData?.subscriptionID) {
-                      // if (!currentDate.isAfter(planExpirationDate)) {
                       dispatch(getProfileDetail(item?._id));
                       navigate("/profile-detail", {
                         state: {
                           id: item._id,
                         },
                       });
-                      // }
                     } else {
                       setShowPlanDialog(true);
                     }
@@ -164,6 +147,110 @@ export default function UsersCard(props) {
                     width={25}
                   />
                 </div>
+              </div>
+            ) : (
+              <div className="d-flex justify-content-evenly mb-3">
+                <button
+                  type="button"
+                  class="btn btn-lg"
+                  onClick={() => {
+                    if (userData?.subscriptionID) {
+                      dispatch(getProfileDetail(item?._id));
+                      navigate("/profile-detail", {
+                        state: {
+                          id: item._id,
+                        },
+                      });
+                    } else {
+                      setShowPlanDialog(true);
+                    }
+                  }}
+                  style={{
+                    background: color.hightLightColor,
+                    borderRadius: 10,
+                    color: "white",
+                    fontSize: 12,
+                    fontWeight: 600,
+                  }}
+                >
+                  View Details
+                </button>
+                {status === INTEREST_STATUS?.PENDING ? (
+                  <>
+                    {loginData?.id == senderId ? (
+                      <button
+                      onClick={() => setShowMessageDialog(true)}
+
+                        type="button"
+                        class="btn btn-lg btn-primary"
+                        style={{
+                          borderRadius: 10,
+                          color: "white",
+                          fontSize: 12,
+                          fontWeight: 600,
+                        }}
+                      >
+                        Pending
+                      </button>
+                    ) : (
+                      <>
+                        <button
+                          type="button"
+                          class="btn btn-lg btn btn-success"
+                          style={{
+                            borderRadius: 10,
+                            color: "white",
+                            fontSize: 12,
+                            fontWeight: 600,
+                          }}
+                        >
+                          Accept
+                        </button>
+                        <button
+                          type="button"
+                          class="btn btn-lg btn-danger"
+                          style={{
+                            borderRadius: 10,
+                            color: "white",
+                            fontSize: 12,
+                            fontWeight: 600,
+                          }}
+                        >
+                          Reject
+                        </button>
+                      </>
+                    )}
+                  </>
+                ) : status === INTEREST_STATUS?.ACCEPTED ? (
+                  <button
+                    type="button"
+                    onClick={() => setShowMessageDialog(true)}
+                    class="btn btn-lg"
+                    style={{
+                      background: color.hightLightColor,
+                      borderRadius: 10,
+                      color: "white",
+                      fontSize: 12,
+                      fontWeight: 600,
+                    }}
+                  >
+                    Message
+                  </button>
+                ) : (
+                  <button
+                    type="button"
+                    class="btn btn-lg btm-danger"
+                    style={{
+                      background: "#4699cd",
+                      borderRadius: 10,
+                      color: "white",
+                      fontSize: 12,
+                      fontWeight: 600,
+                    }}
+                  >
+                    Rejected
+                  </button>
+                )}
               </div>
             )}
           </div>

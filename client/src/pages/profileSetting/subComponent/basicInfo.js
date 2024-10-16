@@ -1,7 +1,9 @@
-import React, { useContext } from "react";
+import React, { useContext, useRef } from "react";
 import { UserContext } from "../../../component/userContext";
 import AEInput from "../../../component/AEInput";
 import AESelect from "../../../component/AESelect";
+import uploadPicture from "../../../assets/images/upload-image.jpg";
+
 import {
   DENOMINATION_TYPES,
   GENDER_TYPE,
@@ -9,13 +11,41 @@ import {
   MARITAL_STATUS,
 } from "../../../constant";
 import AEButton from "../../../component/AEButton";
+import { useDispatch } from "react-redux";
+import { uploadImage } from "../../../store/slice/message";
 
 export default function BasicInfo() {
   const { setFormData, formData, handleNext } = useContext(UserContext);
-
+  const profileRef = useRef();
+  const dispatch = useDispatch();
+  const handleUploadImage = (event) => {
+    let file = event.target.files[0];
+    dispatch(uploadImage(file));
+  };
   return (
     <>
       <div className="row">
+        <div className="col-12 mb-4">
+          <img
+            src={uploadPicture}
+            alt=""
+            height={"250px"}
+            onClick={() => profileRef.current.click()}
+            width={"250px"}
+            style={{
+              cursor: "pointer",
+              border: "1px solid black",
+              borderRadius: 10,
+            }}
+          />
+          <input
+            onChange={handleUploadImage}
+            accept="image/*"
+            ref={profileRef}
+            type="file"
+            style={{ display: "none" }}
+          />
+        </div>
         <div className="col-lg-6 col-md-6 col-sm-12">
           <AEInput
             value={formData?.firstname}
@@ -48,7 +78,7 @@ export default function BasicInfo() {
             type="date"
             value={formData?.dob || ""}
             onChange={(e) => {
-              console.log("e.targte",e.target.value)
+              console.log("e.targte", e.target.value);
               setFormData({
                 ...formData,
                 dob: e.target.value,

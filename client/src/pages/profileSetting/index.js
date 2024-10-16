@@ -50,7 +50,6 @@ const ProfileSetting = () => {
   const handleSave = () => {
     dispatch(updateUserDeatils(formData));
   };
-  console.log("formdata", formData);
   return (
     <section
       className="py-4 "

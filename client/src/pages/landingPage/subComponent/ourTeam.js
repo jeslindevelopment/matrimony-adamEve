@@ -1,9 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import directorImage from "../../../assets/images/team-2.jpg";
+import directorImage from "../../../assets/images/team-1.JPG";
+import directorImageOne from "../../../assets/images/team-3.jpg"
 export default function OurTeam() {
   return (
-    <section className="team-section pt_120 pb_75">
+    <section className="team-section pt_75">
       <div className="auto-container">
         <div className="sec-title mb_70 centred">
           <h6>Our Team</h6>
@@ -19,14 +20,9 @@ export default function OurTeam() {
                 >
                   <div className="inner-box">
                     <div className="image-box">
-                      <figure className="image">
-                        <img src={directorImage} alt="" width={"20%"} />
+                      <figure className="image" style={{height:"500px"}}>
+                        <img src={directorImage} alt=""  />
                       </figure>
-                      {/* <ul className="social-links clearfix">
-                                            <li><Link href="/team"><i className="fab fa-facebook-f"></i></Link></li>
-                                            <li><Link href="/team"><i className="fab fa-twitter"></i></Link></li>
-                                            <li><Link href="/team"><i className="fab fa-instagram"></i></Link></li>
-                                        </ul> */}
                     </div>
                     <div className="lower-content">
                       <h3>
@@ -44,22 +40,17 @@ export default function OurTeam() {
 
           <div className="col-lg-6 col-md-6 col-sm-12 team-block">
             <div className="row d-flex justify-content-center">
-            <div className="col-lg-8 col-md-8 col-sm-12 team-block">
-            <div
+              <div className="col-lg-8 col-md-8 col-sm-12 team-block">
+                <div
                   className="team-block-one wow fadeInUp animated"
                   data-wow-delay="200ms"
                   data-wow-duration="1500ms"
                 >
                   <div className="inner-box">
                     <div className="image-box">
-                      <figure className="image">
-                        <img src={directorImage} alt="" width={"20%"} />
+                      <figure className="image" style={{height:"500px"}}>
+                        <img src={directorImageOne} alt=""   />
                       </figure>
-                      {/* <ul className="social-links clearfix">
-                                            <li><Link href="/team"><i className="fab fa-facebook-f"></i></Link></li>
-                                            <li><Link href="/team"><i className="fab fa-twitter"></i></Link></li>
-                                            <li><Link href="/team"><i className="fab fa-instagram"></i></Link></li>
-                                        </ul> */}
                     </div>
                     <div className="lower-content">
                       <h3>
