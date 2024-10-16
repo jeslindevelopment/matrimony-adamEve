@@ -76,6 +76,8 @@ module.exports = {
                         "_id": 1,
                         "receiveUserId": 1,
                         "sendUserId": 1,
+                        "receivedDate": 1,
+                        "status": 1,
                         "userDetail._id": 1,
                         "userDetail.firstname": 1,
                         "userDetail.surname": 1,
