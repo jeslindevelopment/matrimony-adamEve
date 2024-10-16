@@ -59,9 +59,9 @@ const User = new Schema({
     selfDescription: String,
     partnersExpectations: String,
 
-    freeContactsCount: Number,
-    contactCount: Number,
-    photosCount: Number,
+    freeContactsCount: {type: Number, default: 0},
+    contactCount: {type: Number, default: 0},
+    photosCount: {type: Number, default: 0},
 }, {
     collection: 'users',
     timestamps: true
