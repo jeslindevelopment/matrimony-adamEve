@@ -18,7 +18,7 @@ export default function SendMessageDialog(props) {
   };
   const handleSendMessage = () => {
     let request = {
-      receiveUserId: "any",
+      receiveUserId: id,
       message: message,
     };
     dispatch(sendMessage(request, handleSendMessageSuccess));

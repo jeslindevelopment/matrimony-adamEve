@@ -2,15 +2,16 @@ import React from "react";
 import Modal from "react-bootstrap/Modal";
 import AEButton from "../../../component/AEButton";
 import { color } from "../../../assets/css/color/color";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { sendInterest } from "../../../store/slice/auth";
 
 export default function SendInterestDialog(props) {
-  const { showDialog, handleCloseDialog,id } = props;
-  const dispatch=useDispatch()
-  const handleSend=()=>{
-    dispatch(sendInterest(id,handleCloseDialog))
-  }
+  const { showDialog, handleCloseDialog, id } = props;
+  const dispatch = useDispatch();
+  const { userData } = useSelector((state) => state.auth);
+  const handleSend = () => {
+    dispatch(sendInterest(id, handleCloseDialog));
+  };
   return (
     <Modal show={showDialog} onHide={handleCloseDialog} centered>
       <Modal.Header closeButton style={{ backgroundColor: color.modalBG }}>
@@ -23,8 +24,9 @@ export default function SendInterestDialog(props) {
         <div className="row pt-5">
           <div className="col-12">
             <AEButton
-              title="Send (5/5)"
+              title={`Send (${userData?.freeContactsCount})`}
               fullWidth
+              // disabled={userData?.freeContactsCount < 0 ? false : true}
               onClick={handleSend}
             />
           </div>

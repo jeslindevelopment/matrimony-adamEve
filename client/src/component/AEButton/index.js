@@ -3,7 +3,8 @@ import { FaSpinner } from "react-icons/fa";
 import "./index.css";
 import { color } from "../../assets/css/color/color";
 export default function AEButton(props) {
-  const { title, isLoader, fullWidth, onClick, style, height } = props;
+  const { title, isLoader, disabled, fullWidth, onClick, style, height } =
+    props;
   return (
     <button
       className="btn-one block"
@@ -23,7 +24,7 @@ export default function AEButton(props) {
         color: "white",
         padding: "10px 25px 10px 25px",
       }}
-      disabled={isLoader}
+      disabled={disabled || isLoader}
     >
       {isLoader ? (
         <div class="lds-ellipsis">

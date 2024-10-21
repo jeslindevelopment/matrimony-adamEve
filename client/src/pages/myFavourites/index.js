@@ -8,7 +8,7 @@ import NoDataFound from "../noDataFound.js";
 
 export default function MyFavourites() {
   const dispatch = useDispatch();
-  const { shortListData, userData } = useSelector((state) => state.auth);
+  const { shortListData, } = useSelector((state) => state.auth);
   useEffect(() => {
     dispatch(getShortList());
     dispatch(getUserDetail());
@@ -23,7 +23,6 @@ export default function MyFavourites() {
           ? shortListData?.map((item, i) => {
               return (
                 <UsersCard
-                  userData={userData}
                   type={"favourite"}
                   key={i}
                   item={item?.userDetail[0]}

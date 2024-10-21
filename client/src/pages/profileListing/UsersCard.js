@@ -4,8 +4,12 @@ import { Icon } from "@iconify/react";
 import { useNavigate } from "react-router-dom";
 import noImage from "../../assets/images/no-image.jpg";
 import { differenceInYears } from "date-fns";
-import { useDispatch } from "react-redux";
-import { getProfileDetail, shortList } from "../../store/slice/auth";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  changeInerestStatus,
+  getProfileDetail,
+  shortList,
+} from "../../store/slice/auth";
 import PlanDialog from "../../component/dialog/planDialog.js";
 import moment from "moment";
 import SendInterestDialog from "./sendInterest/index.js";
@@ -17,11 +21,19 @@ export default function UsersCard(props) {
   const [showPlanDialog, setShowPlanDialog] = useState(false);
   const [showInterestDialog, setShowInterestDialog] = useState(false);
   const [showMessageDialog, setShowMessageDialog] = useState(false);
-  const { key, item, userData, type, isInterestList, status, senderId } = props;
+  const { key, item, type, isInterestList, status, senderId, ReceiverId } =
+    props;
   const today = new Date();
+  const { userData } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const handleShortList = (id) => {
     dispatch(shortList(id, type));
+  };
+  const handleUpdateInterestStatus = (status) => {
+    let request = {
+      status: status,
+    };
+    dispatch(changeInerestStatus(request));
   };
   return (
     <>
@@ -35,6 +47,7 @@ export default function UsersCard(props) {
         handleCloseDialog={() => setShowInterestDialog(false)}
       />
       <SendMessageDialog
+        id={userData?._id === senderId ? ReceiverId : senderId}
         showDialog={showMessageDialog}
         handleCloseDialog={() => setShowMessageDialog(false)}
       />
@@ -179,8 +192,6 @@ export default function UsersCard(props) {
                   <>
                     {loginData?.id == senderId ? (
                       <button
-                      onClick={() => setShowMessageDialog(true)}
-
                         type="button"
                         class="btn btn-lg btn-primary"
                         style={{
@@ -197,6 +208,12 @@ export default function UsersCard(props) {
                         <button
                           type="button"
                           class="btn btn-lg btn btn-success"
+                          // onClick={() =>
+                          //   handleUpdateInterestStatus(
+                          //     INTEREST_STATUS?.ACCEPTED
+                          //   )
+                          // }
+                          onClick={() => setShowMessageDialog(true)}
                           style={{
                             borderRadius: 10,
                             color: "white",
@@ -209,6 +226,11 @@ export default function UsersCard(props) {
                         <button
                           type="button"
                           class="btn btn-lg btn-danger"
+                          onClick={() =>
+                            handleUpdateInterestStatus(
+                              INTEREST_STATUS?.REJECTED
+                            )
+                          }
                           style={{
                             borderRadius: 10,
                             color: "white",

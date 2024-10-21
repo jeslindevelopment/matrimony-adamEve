@@ -28,7 +28,6 @@ export default function ProfileListing() {
           userListData?.data?.map((item, i) => {
             return (
               <UsersCard
-                userData={userData}
                 type={"userList"}
                 key={i}
                 item={item}

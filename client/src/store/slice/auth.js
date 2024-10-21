@@ -128,7 +128,6 @@ export const getUserDetail = (requestParams) => async (dispatch) => {
     })
     .catch((e) => {
       console.log("e", e);
-      toast.error(e?.response?.data?.c);
     });
 };
 
@@ -160,12 +159,12 @@ export const getUsersList = (requestParams) => async (dispatch) => {
       if (result.success) {
         dispatch(getUsersListSuccess(result));
       } else {
-        toast.error(response.data.message);
+        // toast.error(response.data.message);
       }
     })
     .catch((e) => {
       console.log("e", e);
-      toast.error(e?.response?.data?.c);
+      // toast.error(e?.response?.data?.c);
     });
 };
 // get Profile Detail
@@ -225,7 +224,7 @@ export const sendInterest = (id, handleCloseDialog) => async (dispatch) => {
     .catch((e) => {
       console.log("e", e);
       handleCloseDialog();
-      toast.error(e?.response?.data?.message);
+      toast.error(e?.response?.data?.c);
     });
 };
 
@@ -242,7 +241,7 @@ export const getInterestList = (isReceived) => async (dispatch) => {
       if (result.success) {
         dispatch(getInterestListSuccess(result.data));
       } else {
-        toast.error(response.data.message);
+        // toast.error(response.data.message);
       }
     })
     .catch((e) => {
@@ -280,6 +279,26 @@ export const getShortList = () => async (dispatch) => {
       let result = response.data;
       if (result.success) {
         dispatch(getShortListSuccess(result.message));
+      } else {
+        toast.error(response.data.message);
+      }
+    })
+    .catch((e) => {
+      console.log("e", e);
+      toast.error(e?.response?.data?.message);
+    });
+};
+
+// update interest status
+
+export const changeInerestStatus = (request) => async (dispatch) => {
+  api
+    .post(`${ADAM_EVE_API.auth.changeInerestStatus}`, request)
+    .then((response) => {
+      let result = response.data;
+      if (result.success) {
+        toast.success(response?.data?.message);
+        // dispatch(getShortListSuccess(result.message));
       } else {
         toast.error(response.data.message);
       }

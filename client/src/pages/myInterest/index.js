@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { color } from "../../assets/css/color/color";
-import { getInterestList } from "../../store/slice/auth.js";
+import { getInterestList, getUserDetail } from "../../store/slice/auth.js";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import UsersCard from "../profileListing/UsersCard.js";
@@ -13,6 +13,7 @@ export default function MyInterest() {
   const navigate = useNavigate();
   const { interestListData } = useSelector((state) => state.auth);
   useEffect(() => {
+    dispatch(getUserDetail());
     dispatch(getInterestList());
   }, []);
   return (
@@ -44,6 +45,7 @@ export default function MyInterest() {
               <UsersCard
                 isInterestList
                 status={item?.status}
+                ReceiverId={item?.receiveUserId}
                 senderId={item?.sendUserId}
                 key={i}
                 item={item?.userDetail[0]}
